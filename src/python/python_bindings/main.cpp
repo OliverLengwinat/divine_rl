@@ -1,4 +1,4 @@
-"""
+/*
  * MIT License
  *
  * Copyright (c) 2018 Patrick Hart
@@ -19,9 +19,14 @@
  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
  * AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-"""
+ */
 
-from divine_rl.world import World
+#include "pybind11/pybind11.h"
+#include "bind_world.h"
 
-w = World()
-print("hello world")
+PYBIND11_MODULE(divine_rl, m) {
+    m.doc() = "Wrapper for divine_rl library";
+    
+    world_binding(m.def_submodule("world","..."));
+
+}
