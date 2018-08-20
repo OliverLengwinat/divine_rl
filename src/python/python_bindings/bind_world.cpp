@@ -21,16 +21,17 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "bind_agent.h"
-#include "src/simulation/agent/agent.h"
-
+#include "bind_world.h"
+#include "src/simulation/world/world.h"
 
 namespace py = pybind11;
 
 
-void python_agent(py::module m)
+void world_binding(py::module m)
 {
 
-    py::class_<Agent, std::shared_ptr<Agent>>(m, "Agent")
-                .def(py::init<>());
+    py::class_<World, std::shared_ptr<World>>(m, "World")
+            .def(py::init<>());
+
 }
+

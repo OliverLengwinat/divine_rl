@@ -24,13 +24,17 @@ cc_binary(
                "python_bindings/*.h"]),
   deps = ["@python_linux//:python-lib",
           "@pybind11//:pybind11",
+          "//src/simulation:world",
+          "//src/simulation:agent"
          ],
-  linkshared = 1
+  linkshared = 1,
+  linkstatic = 1,
 )
 
 py_binary(
     name = "simulation",
     srcs = ["simulation.py"],
-    deps = [
-    ],
+    data = [':divine_rl.so'],
+    imports = ['.'],
+    deps = [],
 )
