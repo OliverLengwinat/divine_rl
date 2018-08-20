@@ -13,7 +13,7 @@ new_http_archive(
     name = "pybind11",
     strip_prefix = "pybind11-2.2.3",
     urls = ["https://github.com/pybind/pybind11/archive/v2.2.3.zip"],
-    build_file = "third_party/pybind11/pybind.BUILD",
+    build_file = "src/python/BUILD",
 )
 
 http_archive(
@@ -32,17 +32,6 @@ http_archive(
     strip_prefix = "glog-3106945d8d3322e5cbd5658d482c9ffed2d892c0",
     urls = [
         "https://github.com/drigz/glog/archive/3106945d8d3322e5cbd5658d482c9ffed2d892c0.tar.gz",
-    ],
-)
-
-# External dependency: Eigen; has no Bazel build.
-new_http_archive(
-    name = "com_github_eigen_eigen",
-    build_file = "third_party/eigen/eigen_archive.BUILD",
-    sha256 = "dd254beb0bafc695d0f62ae1a222ff85b52dbaa3a16f76e781dce22d0d20a4a6",
-    strip_prefix = "eigen-eigen-5a0156e40feb",
-    urls = [
-        "http://bitbucket.org/eigen/eigen/get/3.3.4.tar.bz2",
     ],
 )
 
@@ -78,3 +67,17 @@ pip_import(
 # repositories.
 load("@my_deps//:requirements.bzl", "pip_install")
 pip_install()
+
+new_local_repository(
+    name = "python_linux",
+    path = "./venv/",
+    build_file_content = """
+cc_library(
+    name = "python-lib",
+    srcs = glob(["lib/libpython3.*", "libs/python3.lib", "libs/python36.lib"]),
+    hdrs = glob(["include/**/*.h", "include/*.h"]),
+    includes = ["include/python3.6m", "include", "include/python3.7m", "include/python3.5m"], 
+    visibility = ["//visibility:public"],
+)
+    """
+)

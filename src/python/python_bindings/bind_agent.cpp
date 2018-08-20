@@ -21,18 +21,14 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef _PYTHON_AGENT_H_
-#define _PYTHON_AGENT_H_
+#include "bind_agent.h"
 
-#include "pybind11/pybind11.h"
-#include "pybind11/stl.h"
-#include "pybind11/complex.h"
-#include "pybind11/stl_bind.h"
-
-PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
 
 namespace py = pybind11;
 
-void python_agent(py::module m);
 
-#endif 
+void python_agent(py::module m)
+{
+
+
+}
