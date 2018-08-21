@@ -21,6 +21,9 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+namespace simulation {
+namespace world {
+
 class World {
 public:
     World(){};
@@ -28,3 +31,7 @@ public:
 private:
     int internal_;
 };
+
+} // simulation
+} // world
+

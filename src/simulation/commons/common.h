@@ -21,18 +21,13 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef _PYTHON_AGENT_H_
-#define _PYTHON_AGENT_H_
+#include <boost/geometry.hpp>
+#include <boost/geometry/geometries/point.hpp>
+#include <boost/geometry/geometries/box.hpp>
+#include <boost/geometry/index/rtree.hpp>
+#include <vector>
+#include <iostream>
+#include <boost/foreach.hpp>
 
-#include "pybind11/pybind11.h"
-#include "pybind11/stl.h"
-#include "pybind11/complex.h"
-#include "pybind11/stl_bind.h"
-
-PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
-
-namespace py = pybind11;
-
-void python_agent(py::module m);
-
-#endif 
+namespace bg = boost::geometry;
+namespace bgi = boost::geometry::index;

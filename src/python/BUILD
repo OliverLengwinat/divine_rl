@@ -24,8 +24,7 @@ cc_binary(
                "python_bindings/*.h"]),
   deps = ["@python_linux//:python-lib",
           "@pybind11//:pybind11",
-          "//src/simulation:world",
-          "//src/simulation:agent"
+          "//src/simulation:world"
          ],
   linkshared = 1,
   linkstatic = 1,
