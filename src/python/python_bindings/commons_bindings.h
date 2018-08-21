@@ -29,6 +29,8 @@
 #include "pybind11/stl.h"
 #include "pybind11/complex.h"
 #include "pybind11/stl_bind.h"
+#include "pybind11/eigen.h"
+
 
 namespace py = pybind11;
 

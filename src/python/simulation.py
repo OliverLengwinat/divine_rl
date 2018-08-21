@@ -22,6 +22,11 @@
 """
 
 from divine_rl.world import World
+from divine_rl.commons import Point2d, Point3d
 
 w = World()
+p = Point2d(0.0, 4.0)
+p2 = Point3d(0.0, 4.0, 5.0)
+
+
 print("hello world")
