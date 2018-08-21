@@ -10,6 +10,6 @@ In order to activate it, run `source dev_into.sh`.
 This library is completely built using the bazel build system. So all tests, python scripts as well as c++ code can be ran using bazel commands.
 Here is an overview of the most important ones:
 
-⋅⋅* Build everything: `bazel build //...`
-⋅⋅* Run the Python simulation: `bazel run //src/python:simulation`
-⋅⋅* Run the GTests for cpp: `bazel test //src/simulation/tests:geometry_tests`
+* Build everything: `bazel build //...`
+* Run the Python simulation: `bazel run //src/python:simulation`
+* Run the GTests for cpp: `bazel test //src/simulation/tests:geometry_tests`
