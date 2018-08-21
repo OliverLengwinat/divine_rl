@@ -31,14 +31,13 @@ void commons_bindings(py::module m)
 {
     using namespace simulation::commons;
     
+
     py::class_<PointNd_t<double, 2>>(m, "Point2d")
         .def(py::init<double, double>());
 
-    //m.def("to_numpy", [](PointNd_t<double, 3> p) { return get_matrix<double,3>(p); } );
 
     py::class_<PointNd_t<double, 3>>(m, "Point3d")
         .def(py::init<double, double, double>())
-        
         .def("__repr__", [](const PointNd_t<double, 3>& p)
         {
             return "content";

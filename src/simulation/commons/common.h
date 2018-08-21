@@ -27,7 +27,6 @@
 #include <boost/geometry/index/rtree.hpp>
 #include <vector>
 #include <iostream>
-#include <boost/foreach.hpp>
 
 namespace simulation {
 namespace commons {
@@ -54,6 +53,8 @@ using State_t = Eigen::Matrix<T, 1, N>;
 //! Trajectory
 template<typename T>
 using Matrix_t = Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>; 
+
+
 
 //! distance: line to point
 template<typename T, int N>
@@ -118,7 +119,7 @@ Polygon_t<T, N> translate(const Polygon_t<T, N>& poly, const PointNd_t<T, N>& p)
 //! Point to Eigen
 template<typename T, int N>
 Matrix_t<T> get_matrix(const PointNd_t<T, N>& p){
-	Eigen::Matrix<T, 1, N> ret;
+	Matrix_t<T> ret(1, N);
 	if (N == 2){
 		ret.row(0) << bg::get<0>(p), bg::get<1>(p);
 	} else if (N == 3){
@@ -198,6 +199,7 @@ Polygon_t<T, N> rotate(const Polygon_t<T, N>& poly, T angle){
 		State_t<T, 3> res = (rot_mat*points.block(i, 0, 1, 3).transpose()).transpose();
 		bg::append(poly_new, create_point<T, N>(res));
 	}
+
 	return poly_new;
 }
 

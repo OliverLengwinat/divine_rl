@@ -22,11 +22,15 @@
 """
 
 from divine_rl.world import World
-from divine_rl.commons import Point2d, Point3d
+from divine_rl.commons import Point2d, Point3d, Point
 
 w = World()
 p = Point2d(0.0, 4.0)
 p2 = Point3d(0.0, 4.0, 5.0)
+p3 = Point()
 
+# TODO: simplify
+# line = Line([[0,0], [1,0]])
+# shape = Shape([[0,0], [1,0]])
 
 print("hello world")
