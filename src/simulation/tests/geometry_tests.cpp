@@ -24,17 +24,80 @@
 #include "gtest/gtest.h"
 #include "src/simulation/commons/common.h"
 
+
+//! test point method and numpy conversion
 TEST(geometry, point) {
 	using namespace simulation::commons;
-	Point2d_t<float, 3> p(1.0, 2.0, 3.0);
+	PointNd_t<double, 3> p(1.0, 2.0, 3.0);
+
+	State_t<double, 3> p_eigen;
+	p_eigen << 1.0, 2.0, 3.0;
+	
+	State_t<double, 3> p_eigen2;
+	p_eigen2 = get_matrix<double, 3>(p);
+
+	EXPECT_EQ(p_eigen2, p_eigen) << "Points did not match";
+
+	PointNd_t<double, 3> p_from_eigen = create_point<double, 3>(p_eigen2);
+	p_eigen2 = get_matrix<double, 3>(p_from_eigen);
+
+
+	EXPECT_EQ(p_eigen2, p_eigen) << "Points did not match";
+
 }
+
 
 TEST(geometry, line) {
 	using namespace simulation::commons;
-	Point2d_t<float, 3> p(1.0, 2.0, 3.0);
+	PointNd_t<double, 3> p0(0.0, 0.0, 3.0);
+	PointNd_t<double, 3> p1(5.0, 0.0, 3.0);
+	PointNd_t<double, 3> p2(3.0, 4.0, 3.0);
+
+	Linestring_t<double, 3> line;
+	bg::append(line, p0);
+	bg::append(line, p1);
+
+	double d = distance<double, 3>(line, p2);
+
+	EXPECT_NEAR(d, 4.0, 0.1);
+
+	Matrix_t<double> eigen_ref_line(2,3);
+	eigen_ref_line << 0,0,0,5,0,0;
+
+	Linestring_t<double, 3> line_from_eigen = create_line<double, 3>(eigen_ref_line);
+
+	Matrix_t<double> linestring_from_eigen_converted_back = get_matrix<double, 3>(line_from_eigen);
+
+	EXPECT_EQ(linestring_from_eigen_converted_back, eigen_ref_line) << "Linestrings did not match";
+
 }
+
 
 TEST(geometry, shape) {
 	using namespace simulation::commons;
-	Point2d_t<float, 3> p(1.0, 2.0, 3.0);
+
+	PointNd_t<double, 3> p0(1.0, 2.0, 3.0);
+	PointNd_t<double, 3> p1(1.0, 2.0, 3.0);
+	PointNd_t<double, 3> p2(3.0, 4.0, 3.0);
+
+	Polygon_t<double, 3> poly;
+	bg::append(poly, p0);
+	bg::append(poly, p1);
+	bg::append(poly, p2);
+
+	//! translation and rotation
+	poly = translate<double, 3>(poly, p0);
+	std::cout << get_matrix<double, 3>(poly) << std::endl;
+
+	
+	poly = rotate<double, 3>(poly, p0);
+	std::cout << get_matrix<double, 3>(poly) << std::endl;
+
+	//! distance: shape to shape, point to shape, shape to line
+
+	//! collision: shape to shape, shape to point
+
+	EXPECT_TRUE(false);
+
+
 }

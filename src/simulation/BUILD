@@ -3,6 +3,8 @@ cc_library(
     srcs = glob(["world/*.cpp"]),
     hdrs = glob(["world/*.h"]),
     deps = [
+        "@com_github_eigen_eigen//:eigen",
+        "@boost//:geometry",
 
     ],
     visibility = ["//visibility:public"],
@@ -13,7 +15,8 @@ cc_library(
     srcs = glob(["commons/*.cpp"]),
     hdrs = glob(["commons/*.h"]),
     deps = [
-
+        "@com_github_eigen_eigen//:eigen",
+        "@boost//:geometry",
     ],
     visibility = ["//visibility:public"],
 )

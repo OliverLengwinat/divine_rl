@@ -20,3 +20,17 @@
  * AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+#include "src/simulation/commons/common.h"
+
+namespace simulation {
+namespace kinematics {
+
+using namespace simulation::commons;
+
+template<typename T, int N>
+State_t step(const State_t<T,N>& s_in, const State_t<T,N>& u){
+	return s_in;
+}
+
+}
+}

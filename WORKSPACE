@@ -14,6 +14,18 @@ new_http_archive(
     build_file = "src/python/BUILD",
 )
 
+
+new_http_archive(
+    name = "com_github_eigen_eigen",
+    build_file = "build-rules/eigen.BUILD",
+    sha256 = "dd254beb0bafc695d0f62ae1a222ff85b52dbaa3a16f76e781dce22d0d20a4a6",
+    strip_prefix = "eigen-eigen-5a0156e40feb",
+    urls = [
+        "http://bitbucket.org/eigen/eigen/get/3.3.4.tar.bz2",
+    ],
+)
+
+
 http_archive(
     name = "com_github_gflags_gflags",
     sha256 = "6e16c8bc91b1310a44f3965e616383dbda48f83e8c1eaa2370a215057b00cabe",
