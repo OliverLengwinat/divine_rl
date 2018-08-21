@@ -29,5 +29,16 @@
 #include <iostream>
 #include <boost/foreach.hpp>
 
+namespace simulation {
+namespace commons {
+
 namespace bg = boost::geometry;
 namespace bgi = boost::geometry::index;
+
+//! points
+template<typename T, int N>
+using Point2d_t = bg::model::point<T, N, bg::cs::cartesian>;
+
+
+} // simulation
+} // commons

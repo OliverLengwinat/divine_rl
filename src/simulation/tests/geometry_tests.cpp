@@ -21,21 +21,20 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-namespace simulation {
-namespace world {
+#include "gtest/gtest.h"
+#include "src/simulation/commons/common.h"
 
-class Agent {
-public:
-    Agent(){};
-    
-private:
-    int pose_;
-    int state_;
-    int shape_;
-    int timestamp_;
-    int id_;
-    int kinematic_model_;
-};
+TEST(geometry, point) {
+	using namespace simulation::commons;
+	Point2d_t<float, 3> p(1.0, 2.0, 3.0);
+}
 
-} // simulation
-} // world
+TEST(geometry, line) {
+	using namespace simulation::commons;
+	Point2d_t<float, 3> p(1.0, 2.0, 3.0);
+}
+
+TEST(geometry, shape) {
+	using namespace simulation::commons;
+	Point2d_t<float, 3> p(1.0, 2.0, 3.0);
+}

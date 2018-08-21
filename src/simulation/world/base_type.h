@@ -21,17 +21,17 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "bind_world.h"
-#include "src/simulation/world/world.h"
+namespace simulation {
+namespace world {
 
-namespace py = pybind11;
+class BaseType {
+public:
+    BaseType(){};
+    
+private:
+    int shape_;
+    int id_;
+};
 
-
-void world_binding(py::module m)
-{
-
-    py::class_<World, std::shared_ptr<World>>(m, "World")
-            .def(py::init<>());
-
-}
-
+} // simulation
+} // world

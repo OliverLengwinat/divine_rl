@@ -21,16 +21,18 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef _WORLD_BINDING_H_
-#define _WORLD_BINDING_H_
-
-#include "pybind11/pybind11.h"
-#include "pybind11/stl.h"
-#include "pybind11/complex.h"
-#include "pybind11/stl_bind.h"
+#include "world_bindings.h"
+#include "src/simulation/world/world.h"
 
 namespace py = pybind11;
 
-void world_binding(py::module m);
 
-#endif //_WORLD_BINDING_H_
+void world_bindings(py::module m)
+{
+    using namespace simulation::world;
+
+    py::class_<World, std::shared_ptr<World>>(m, "World")
+            .def(py::init<>());
+
+}
+

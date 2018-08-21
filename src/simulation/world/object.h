@@ -21,8 +21,18 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#include "src/simulation/base_type.h"
+
 namespace simulation {
 namespace world {
+
+class Object : public BaseType() {
+public:
+    Object(){};
     
+private:
+		int type_; // goal, obstacle, reward, etc.
+};
+
 } // simulation
 } // world

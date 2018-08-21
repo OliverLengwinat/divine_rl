@@ -29,7 +29,7 @@ public:
     World(){};
     
 private:
-    int internal_;
+    int objects_; // list of base objects
 };
 
 } // simulation

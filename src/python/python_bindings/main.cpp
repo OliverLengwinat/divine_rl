@@ -22,11 +22,14 @@
  */
 
 #include "pybind11/pybind11.h"
-#include "bind_world.h"
+#include "world_bindings.h"
+#include "commons_bindings.h"
+
 
 PYBIND11_MODULE(divine_rl, m) {
     m.doc() = "Wrapper for divine_rl library";
     
-    world_binding(m.def_submodule("world","..."));
+    world_bindings(m.def_submodule("world","World containing agents, objects and more."));
+    commons_bindings(m.def_submodule("commons","geometry functions and more."));
 
 }

@@ -21,10 +21,17 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "gtest/gtest.h"
+#include "commons_bindings.h"
 #include "src/simulation/commons/common.h"
 
-TEST(geometry, point) {
+namespace py = pybind11;
+
+
+void commons_bindings(py::module m)
+{
+    using namespace simulation::commons;
+    
 
 
 }
+

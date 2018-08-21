@@ -8,3 +8,13 @@ cc_library(
     visibility = ["//visibility:public"],
 )
 
+cc_library(
+    name = "commons",
+    srcs = glob(["commons/*.cpp"]),
+    hdrs = glob(["commons/*.h"]),
+    deps = [
+
+    ],
+    visibility = ["//visibility:public"],
+)
+

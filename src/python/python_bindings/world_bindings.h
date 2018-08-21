@@ -21,21 +21,16 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-namespace simulation {
-namespace world {
+#ifndef _WORLD_BINDING_H_
+#define _WORLD_BINDING_H_
 
-class Agent {
-public:
-    Agent(){};
-    
-private:
-    int pose_;
-    int state_;
-    int shape_;
-    int timestamp_;
-    int id_;
-    int kinematic_model_;
-};
+#include "pybind11/pybind11.h"
+#include "pybind11/stl.h"
+#include "pybind11/complex.h"
+#include "pybind11/stl_bind.h"
 
-} // simulation
-} // world
+namespace py = pybind11;
+
+void world_bindings(py::module m);
+
+#endif //_WORLD_BINDING_H_

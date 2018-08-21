@@ -1,4 +1,3 @@
-# include boost (used for geometry purposes)
 git_repository(
     name = "com_github_nelhage_rules_boost",
     commit = "c1975a9a45c97823ae9e68fbccb821418099168f",
@@ -8,7 +7,6 @@ git_repository(
 load("@com_github_nelhage_rules_boost//:boost/boost.bzl", "boost_deps")
 boost_deps()
 
-# python binding
 new_http_archive(
     name = "pybind11",
     strip_prefix = "pybind11-2.2.3",
@@ -43,28 +41,22 @@ new_http_archive(
     strip_prefix = "googletest-release-1.7.0",
 )
 
-
 git_repository(
     name = "io_bazel_rules_python",
     remote = "https://github.com/bazelbuild/rules_python.git",
     commit = "8b5d0683a7d878b28fffe464779c8a53659fc645",
 )
 
-# Only needed for PIP support:
 load("@io_bazel_rules_python//python:pip.bzl", "pip_repositories")
 pip_repositories()
 
 load("@io_bazel_rules_python//python:pip.bzl", "pip_import")
 
-# This rule translates the specified requirements.txt into
-# @my_deps//:requirements.bzl, which itself exposes a pip_install method.
 pip_import(
    name = "my_deps",
    requirements = "//src/python:requirements.txt",
 )
 
-# Load the pip_install symbol for my_deps, and create the dependencies'
-# repositories.
 load("@my_deps//:requirements.bzl", "pip_install")
 pip_install()
 
