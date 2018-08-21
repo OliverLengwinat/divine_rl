@@ -26,7 +26,9 @@ namespace world {
 
 class BaseType {
 public:
-    BaseType(){};
+    BaseType(int id) : id_(id) {};
+
+    void set_shape(){};
     
 private:
     int shape_;

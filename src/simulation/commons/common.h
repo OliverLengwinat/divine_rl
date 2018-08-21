@@ -110,22 +110,14 @@ Polygon_t<T, N> translate(const Polygon_t<T, N>& poly, const PointNd_t<T, N>& p)
 	return poly_new;
 }
 
-//! rotate polygon
-// TODO: cannot handle 3d rotations yet. Use quaternions?
-template<typename T, int N>
-Polygon_t<T, N> rotate(const Polygon_t<T, N>& poly, const PointNd_t<T, N>& p){
-	Polygon_t<T, N> poly_new;
 
-
-	return poly;
-}
 
 
 //! Conversion functions to Eigen
 
 //! Point to Eigen
 template<typename T, int N>
-Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> get_matrix(const PointNd_t<T, N>& p){
+Matrix_t<T> get_matrix(const PointNd_t<T, N>& p){
 	Eigen::Matrix<T, 1, N> ret;
 	if (N == 2){
 		ret.row(0) << bg::get<0>(p), bg::get<1>(p);
@@ -137,8 +129,8 @@ Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> get_matrix(const PointNd_t<T, N
 
 //! Line to Eigen
 template<typename T, int N>
-Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> get_matrix(const Linestring_t<T, N>& l){
-	Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> ret(l.size(), N);
+Matrix_t<T> get_matrix(const Linestring_t<T, N>& l){
+	Matrix_t<T> ret(l.size(), N);
 
 	for(uint32_t i = 0; i < l.size(); i++){
 		ret.row(i) << get_matrix<T, N>(l[i]);
@@ -149,8 +141,8 @@ Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> get_matrix(const Linestring_t<T
 
 //! Shape to Eigen
 template<typename T, int N>
-Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> get_matrix(const Polygon_t<T, N>& p){
-	Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> ret(bg::num_points(p), N);
+Matrix_t<T> get_matrix(const Polygon_t<T, N>& p){
+	Matrix_t<T> ret(bg::num_points(p), N);
 	int i = 0;
 	for(auto it = boost::begin(boost::geometry::exterior_ring(p)); it != boost::end(boost::geometry::exterior_ring(p)); ++it)
 	{
@@ -159,6 +151,7 @@ Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> get_matrix(const Polygon_t<T, N
 	}
 	return ret;
 }
+
 
 //! Conversion functions from Eigen
 
@@ -191,6 +184,23 @@ Polygon_t<T,N> create_polygon(const Matrix_t<T>& poly_eigen){
 		bg::append(poly_ret, create_point<T, N>(poly_eigen.row(i)));
 	return poly_ret;
 }
+
+//! rotate polygon
+// TODO: cannot handle 3d rotations yet. Use quaternions?
+template<typename T, int N>
+Polygon_t<T, N> rotate(const Polygon_t<T, N>& poly, T angle){
+	Polygon_t<T, N> poly_new;
+	Matrix_t<T> rot_mat(3,3);
+	rot_mat << -sin(angle), cos(angle), 0, sin(angle), cos(angle), 0, 0, 0, 1;
+	Matrix_t<T> points = get_matrix<T, N>(poly);
+
+	for (int i = 0; i < points.rows(); i++){
+		State_t<T, 3> res = (rot_mat*points.block(i, 0, 1, 3).transpose()).transpose();
+		bg::append(poly_new, create_point<T, N>(res));
+	}
+	return poly_new;
+}
+
 
 } // simulation
 } // commons

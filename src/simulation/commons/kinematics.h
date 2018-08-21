@@ -27,8 +27,8 @@ namespace kinematics {
 
 using namespace simulation::commons;
 
-template<typename T, int N>
-State_t step(const State_t<T,N>& s_in, const State_t<T,N>& u){
+template<typename T>
+State_t step(const Matrix_t<T>& s_in, const Matrix_t<T>& u){
 	return s_in;
 }
 
