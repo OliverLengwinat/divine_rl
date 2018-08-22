@@ -84,6 +84,8 @@
         "typeindex": "cpp",
         "__locale": "cpp",
         "locale": "cpp",
-        "__bit_reference": "cpp"
+        "__bit_reference": "cpp",
+        "queue": "cpp",
+        "stack": "cpp"
     }
 }

@@ -2,7 +2,7 @@ import unittest
 import numpy as np
 #import matplotlib.pyplot as plt
 from divine_rl.commons import Point, Pose, Line, Polygon, SingleTrackModel
-from divine_rl.world import World, Agent
+from divine_rl.world import World, Agent, Object
 
 
 class WorldTests(unittest.TestCase):
@@ -29,15 +29,29 @@ class WorldTests(unittest.TestCase):
 		a.set_shape(poly)
 		a.set_kinematic_model(model)
 
-		"""
-		for i in range(0,10):
+		self.__class__.agent = a
+		self.__class__.polygon = poly
+
+		
+		for i in range(0, 10):
 			a.step(u, 0.25)
 			pts = a.get_transformed_shape().to_numpy()
+		
+		"""
 			plt.plot(pts[:,0], pts[:,1])
 
 		plt.axis('equal')
 		plt.show()
 		"""
+
+	def test_objects(self):
+		obj = Object(0)
+		obj.set_shape(self.__class__.polygon)
+		print(obj.get_shape().to_numpy())
+		self.__class__.object = obj
+	
+	def test_world(self):
+		pass
 
 	
 if __name__ == '__main__':

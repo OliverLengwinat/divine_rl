@@ -22,6 +22,7 @@
  */
 
 #include "world_bindings.h"
+#include "src/simulation/world/object.h"
 #include "src/simulation/world/agent.h"
 #include "src/simulation/world/world.h"
 
@@ -45,5 +46,10 @@ void world_bindings(py::module m)
         .def("step", &simulation::world::Agent::step)
         .def("get_transformed_shape", &simulation::world::Agent::get_transformed_shape)
         .def("set_kinematic_model", &simulation::world::Agent::set_kinematic_model);
+
+    py::class_<Object, std::shared_ptr<Object>>(m, "Object")
+        .def(py::init<int>())
+        .def("set_shape", &simulation::world::Object::set_shape)
+        .def("get_shape", &simulation::world::Object::get_shape);
 }
 

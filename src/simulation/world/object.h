@@ -23,17 +23,17 @@
 #ifndef _WORLD_OBJECT_H_
 #define _WORLD_OBJECT_H_
 
-#include "src/simulation/base_type.h"
+#include "src/simulation/world/base_type.h"
 
 namespace simulation {
 namespace world {
 
-class Object : public BaseType() {
+class Object : public BaseType {
 public:
-    Object(){};
+    Object(int id) : BaseType(id){};
     
 private:
-		int type_; // goal, obstacle, reward, etc.
+	int type_; // goal, obstacle, reward, etc.
 };
 
 } // simulation

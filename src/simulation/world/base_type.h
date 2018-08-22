@@ -24,6 +24,8 @@
 #ifndef _WORLD_BASE_TYPE_H_
 #define _WORLD_BASE_TYPE_H_
 
+#include "src/simulation/commons/common.h"
+
 namespace simulation {
 namespace world {
 

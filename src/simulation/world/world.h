@@ -22,7 +22,9 @@
  */
 #ifndef _WORLD_H_
 #define _WORLD_H_
-#include "src/simulation/world/base_type.h"
+#include <vector>
+#include "src/simulation/world/agent.h"
+#include "src/simulation/world/object.h"
 
 namespace simulation {
 namespace world {
@@ -30,6 +32,14 @@ namespace world {
 class World {
 public:
     World(){};
+
+    void add_object(const Object& obj){
+        Object * oj = new Object(0);
+        Agent * ag = new Agent(0);
+        objects_.push_back(oj);
+        objects_.push_back(ag);
+        //objects_.push_back(obj);
+    }
     
 private:
     std::vector<BaseType*> objects_; // list of base objects
