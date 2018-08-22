@@ -31,13 +31,28 @@ using namespace simulation::kinematics;
 
 class Agent {
 public:
-    Agent(){};
+    Agent(int id) : id_(id){};
+
+    //! setter
+    void set_shape();
     
+    void set_pose();
+
+    void set_state();
+
+    void set_kinematic_model(KinematicModel<double> * model){
+        kinematic_model_ = model;
+    };
+
+    //! getter
+    PointNd_t<double, 3> get_pose() const { return pose_; }
+    Matrix_t<double> get_state() const { return state_; }
+    Polygon_t<double, 2> get_transformed_shape() const { return shape_; }
+
 private:
     PointNd_t<double, 3> pose_;
     Matrix_t<double> state_;
-    Polygon_t<double, 3> shape_;
-    int timestamp_;
+    Polygon_t<double, 2> shape_;
     int id_;
     KinematicModel<double> * kinematic_model_;
 };

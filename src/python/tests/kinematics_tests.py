@@ -6,7 +6,7 @@ from divine_rl.commons import Point, Line, Polygon, SingleTrackModel
 
 class KinematicTests(unittest.TestCase):
 
-	def test_create_points(self):
+	def test_single_track_model(self):
 		state = np.array([[0,0,0,5]])
 		u = np.array([[0.5,0.5]])
 		model = SingleTrackModel()

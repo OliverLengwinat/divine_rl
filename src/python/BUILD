@@ -54,3 +54,12 @@ py_test(
   imports = ['.'],
   deps = [],
 )
+
+
+py_test(
+  name = "world_tests",
+  srcs = ["tests/world_tests.py"],
+  data = [':divine_rl.so'],
+  imports = ['.'],
+  deps = [],
+)
