@@ -31,46 +31,50 @@ TEST(geometry, point) {
 	PointNd_t<double, 3> p(1.0, 2.0, 3.0);
 
 	
-	State_t<double, 3> p_eigen;
-	p_eigen.row(0) << 1.0, 2.0, 3.0;
+	Matrix_t<double> p_eigen(1,3);
+	p_eigen << 1.0, 2.0, 3.0;
+	/*
+	Matrix_t<double> p_eigen2(1,3);
+
 	
-	
-	State_t<double, 3> p_eigen2;
 	p_eigen2 = get_matrix<double, 3>(p);
 
 	EXPECT_EQ(p_eigen2, p_eigen) << "Points did not match";
-
+	
+	
 	PointNd_t<double, 3> p_from_eigen = create_point<double, 3>(p_eigen2);
 
-	State_t<double, 3> p_converted_back_from_eigen = get_matrix<double, 3>(p_from_eigen);
+	Matrix_t<double, 3> p_converted_back_from_eigen = get_matrix<double, 3>(p_from_eigen);
 
 
 	EXPECT_EQ(p_converted_back_from_eigen, p_eigen) << "Eigen conversion did fail.";
-	
+	*/
 }
 
 
 TEST(geometry, line) {
 	using namespace simulation::commons;
-	PointNd_t<double, 3> p0(0.0, 0.0, 3.0);
-	PointNd_t<double, 3> p1(5.0, 0.0, 3.0);
-	PointNd_t<double, 3> p2(3.0, 4.0, 3.0);
+	PointNd_t<double, 2> p0(0.0, 0.0);
+	PointNd_t<double, 2> p1(5.0, 0.0);
+	PointNd_t<double, 2> p2(3.0, 4.0);
 
-	Linestring_t<double, 3> line;
+	Linestring_t<double, 2> line;
 	bg::append(line, p0);
 	bg::append(line, p1);
 
-	double d = distance<double, 3>(line, p2);
+	double d = distance<double, 2>(line, p2);
 
 	EXPECT_NEAR(d, 4.0, 0.1);
 
 	
-	Matrix_t<double> eigen_ref_line(2,3);
-	eigen_ref_line << 0,0,0,5,0,0;
+	Matrix_t<double> eigen_ref_line(2,2);
+	eigen_ref_line << 0,0,5,0;
+	
+	Linestring_t<double, 2> line_from_eigen = create_line<double, 2>(eigen_ref_line);
 
-	Linestring_t<double, 3> line_from_eigen = create_line<double, 3>(eigen_ref_line);
-
-	Matrix_t<double> linestring_from_eigen_converted_back = get_matrix<double, 3>(line_from_eigen);
+	Matrix_t<double> linestring_from_eigen_converted_back(2,2);
+	
+	linestring_from_eigen_converted_back = get_matrix<double, 2>(line_from_eigen);
 
 	EXPECT_EQ(linestring_from_eigen_converted_back, eigen_ref_line) << "Linestrings did not match";
 	
@@ -80,39 +84,40 @@ TEST(geometry, line) {
 TEST(geometry, shape) {
 	using namespace simulation::commons;
 
-	PointNd_t<double, 3> p0(0.0, 0.0, 0.0);
-	PointNd_t<double, 3> p1(1.0, 0.0, 0.0);
-	PointNd_t<double, 3> p2(1.0, 1.0, 0.0);
-	PointNd_t<double, 3> p3(0.0, 1.0, 0.0);
+	PointNd_t<double, 3> p0(0.0, 0.0);
+	PointNd_t<double, 3> p1(1.0, 0.0);
+	PointNd_t<double, 3> p2(1.0, 1.0);
+	PointNd_t<double, 3> p3(0.0, 1.0);
 
 
-	PointNd_t<double, 3> translation_vector(1.0, 1.0, 0.0);
+	PointNd_t<double, 2> translation_vector(1.0, 1.0);
 
 
-	Polygon_t<double, 3> poly;
+	Polygon_t<double, 2> poly;
 	bg::append(poly, p0);
 	bg::append(poly, p1);
 	bg::append(poly, p2);
 	bg::append(poly, p3);
 
-	Matrix_t<double> ref_matrix(4, 3);
-	ref_matrix << 1.0, 1.0, 0.0, 2.0, 1.0, 0.0, 2.0, 2.0, 0.0, 1.0, 2.0, 0.0;
+	Matrix_t<double> ref_matrix(4, 2);
+	ref_matrix << 1.0, 1.0, 2.0, 1.0, 2.0, 2.0, 1.0, 2.0;
 
+	
 	//! translation and rotation
-	poly = translate<double, 3>(poly, translation_vector);
-	Matrix_t<double> poly_translated = get_matrix<double, 3>(poly);
+	poly = translate<double, 2>(poly, translation_vector);
+	Matrix_t<double> poly_translated = get_matrix<double, 2>(poly);
 
 	EXPECT_EQ(ref_matrix, poly_translated) << "Translation of polygon failed.";
 
 
 	// TODO: finish test
 
-	poly = rotate<double, 3>(poly, 0.78);
-	std::cout << get_matrix<double, 3>(poly) << std::endl;
+	poly = rotate<double, 2>(poly, 0.78);
+	std::cout << get_matrix<double, 2>(poly) << std::endl;
 
 	//! distance: shape to shape, point to shape, shape to line
 
 	//! collision: shape to shape, shape to point
-
+	
 
 }

@@ -33,6 +33,13 @@ void commons_bindings(py::module m)
     using namespace simulation::commons;
     using namespace simulation::kinematics;
     
+    py::class_<PointNd_t<double, 3>>(m, "Point3d")
+        .def(py::init<double, double, double>())
+        .def("__repr__", [](const PointNd_t<double, 3>& p)
+        {
+            return "Point3d";
+        });
+
     py::class_<PointNd_t<double, 2>>(m, "Point")
         .def(py::init<double, double>())
         .def("to_numpy", [](const PointNd_t<double, 2>& p)
@@ -118,6 +125,7 @@ void commons_bindings(py::module m)
     py::class_<SingleTrackModel<double>>(m, "SingleTrackModel")
         .def(py::init<>())
         .def("step", &SingleTrackModel<double>::step)
+        .def("get_pose", &SingleTrackModel<double>::get_pose)
         .def("__repr__", [](const SingleTrackModel<double>& k)
         {
             return "SingleTrackModel";

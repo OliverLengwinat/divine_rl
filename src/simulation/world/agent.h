@@ -21,20 +21,25 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#include "src/simulation/commons/common.h"
+#include "src/simulation/commons/kinematics.h"
+
 namespace simulation {
 namespace world {
+
+using namespace simulation::kinematics;
 
 class Agent {
 public:
     Agent(){};
     
 private:
-    int pose_;
-    int state_;
-    int shape_;
+    PointNd_t<double, 3> pose_;
+    Matrix_t<double> state_;
+    Polygon_t<double, 3> shape_;
     int timestamp_;
     int id_;
-    int kinematic_model_;
+    KinematicModel<double> * kinematic_model_;
 };
 
 } // simulation
