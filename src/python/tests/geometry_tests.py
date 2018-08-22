@@ -55,15 +55,23 @@ class GeometryTests(unittest.TestCase):
 	def test_transformations(self):
 		transformed_poly = self.__class__.polygon.translate(Point(1.0, 1.0))
 		self.assertTrue(np.allclose(transformed_poly.to_numpy(), np.array([[1.0, 1.0], [3.0, 1.0], [3.0, 2.0], [1.0, 2.0], [1.0, 1.0]])))
-
 		pts = self.__class__.polygon.rotate(-90).to_numpy()
+		"""
 		plt.plot(pts[:, 0], pts[:, 1])
 		plt.axis('equal')
 		plt.show()
+		"""
+		self.assertTrue(np.allclose(pts, np.array([[0.0, 0.0], [0.0, 2.0], [-1.0, 2.0], [-1.0, 0.0], [0.0, 0.0]])))
 
 
-	def test_collisions(self):
-		pass
+	def test_x_collisions(self):
+		transformed_poly = self.__class__.polygon.translate(Point(1.0, 1.0))
+		self.assertTrue(self.__class__.polygon.collides(transformed_poly))
+
+		transformed_poly_2 = self.__class__.polygon.translate(Point(3.0, 3.0))
+		self.assertFalse(self.__class__.polygon.collides(transformed_poly_2))
+
+		
 	
 if __name__ == '__main__':
 	unittest.main()

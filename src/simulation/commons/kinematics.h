@@ -28,8 +28,11 @@ namespace kinematics {
 using namespace simulation::commons;
 
 template<typename T>
-State_t step(const Matrix_t<T>& s_in, const Matrix_t<T>& u){
-	return s_in;
+Matrix_t<T> step(const Matrix_t<T>& state, const Matrix_t<T>& u, T dt){
+	Matrix_t<T> A(1,4);
+	A << state(3)*cos(state(2)), state(3)*sin(state(2)), tan(u(0))/T(1.5), u(1); 
+
+	return state + dt * A;
 }
 
 }

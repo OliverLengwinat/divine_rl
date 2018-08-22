@@ -20,3 +20,22 @@
  * AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+
+#include "gtest/gtest.h"
+#include "src/simulation/commons/kinematics.h"
+
+
+//! test point method and numpy conversion
+TEST(geometry, point) {
+	using namespace simulation::kinematics;
+
+	Matrix_t<double> state(1,4);
+	state << 0,0,0,5;
+
+	
+	Matrix_t<double> u(1, 2);
+	u << 0.5, 0.20;
+
+	std::cout << step(state, u, 0.1) << std::endl;
+	
+}

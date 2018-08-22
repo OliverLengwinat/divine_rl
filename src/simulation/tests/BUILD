@@ -11,3 +11,16 @@ cc_test(
     ],
 )
 
+cc_test(
+    name = "kinematics_tests",
+    srcs = [
+        "kinematics_tests.cpp",
+    ],
+    copts = ["-Iexternal/gtest/include"],
+    deps = [
+        "//src/simulation:world",
+        "//src/simulation:commons",
+        "@gtest//:main",
+    ],
+)
+

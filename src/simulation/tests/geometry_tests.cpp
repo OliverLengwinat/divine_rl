@@ -30,8 +30,10 @@ TEST(geometry, point) {
 	using namespace simulation::commons;
 	PointNd_t<double, 3> p(1.0, 2.0, 3.0);
 
+	
 	State_t<double, 3> p_eigen;
-	p_eigen << 1.0, 2.0, 3.0;
+	p_eigen.row(0) << 1.0, 2.0, 3.0;
+	
 	
 	State_t<double, 3> p_eigen2;
 	p_eigen2 = get_matrix<double, 3>(p);
@@ -44,7 +46,7 @@ TEST(geometry, point) {
 
 
 	EXPECT_EQ(p_converted_back_from_eigen, p_eigen) << "Eigen conversion did fail.";
-
+	
 }
 
 
@@ -62,6 +64,7 @@ TEST(geometry, line) {
 
 	EXPECT_NEAR(d, 4.0, 0.1);
 
+	
 	Matrix_t<double> eigen_ref_line(2,3);
 	eigen_ref_line << 0,0,0,5,0,0;
 
@@ -70,7 +73,7 @@ TEST(geometry, line) {
 	Matrix_t<double> linestring_from_eigen_converted_back = get_matrix<double, 3>(line_from_eigen);
 
 	EXPECT_EQ(linestring_from_eigen_converted_back, eigen_ref_line) << "Linestrings did not match";
-
+	
 }
 
 

@@ -28,29 +28,4 @@ from divine_rl.commons import Point, Line, Polygon
 # load everything into world
 w = World()
 
-
-p2 = Point(0.0, 2.0)
-p3 = Point(1.0, 2.0)
-
-line = Line()
-line.append(p2)
-line.append(p3)
-
-poly = Polygon()
-poly.append(p2)
-poly.append(p3)
-poly.append(p3)
-
-print(poly.collides(poly))
-
-print(line.to_numpy())
-print(poly.to_numpy())
-
-print(p2.to_numpy())
-print(p2.distance(p3))
-
-# TODO: simplify
-# line = Line([[0,0], [1,0]])
-# shape = Shape([[0,0], [1,0]])
-
 print("hello world")
