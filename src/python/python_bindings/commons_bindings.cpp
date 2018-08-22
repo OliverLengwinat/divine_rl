@@ -33,7 +33,7 @@ void commons_bindings(py::module m)
     using namespace simulation::commons;
     using namespace simulation::kinematics;
     
-    py::class_<PointNd_t<double, 3>>(m, "Point3d")
+    py::class_<PointNd_t<double, 3>>(m, "Pose")
         .def(py::init<double, double, double>())
         .def("__repr__", [](const PointNd_t<double, 3>& p)
         {

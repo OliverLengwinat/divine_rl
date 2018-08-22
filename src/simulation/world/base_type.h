@@ -27,15 +27,18 @@
 namespace simulation {
 namespace world {
 
+using namespace simulation::commons;
+
 class BaseType {
 public:
     BaseType(int id) : id_(id) {};
+    void set_shape(const Polygon_t<double, 2>& s){ shape_ = s; };
+    Polygon_t<double, 2> get_shape() const { return shape_; };
 
-    void set_shape(){};
-    
 private:
-    int shape_;
     int id_;
+    Polygon_t<double, 2> shape_;
+
 };
 
 } // simulation

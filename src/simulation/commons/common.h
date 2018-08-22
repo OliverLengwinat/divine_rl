@@ -186,7 +186,7 @@ Polygon_t<T, N> rotate(const Polygon_t<T, N>& poly, T angle){
  	namespace trans = boost::geometry::strategy::transform;
   using boost::geometry::dsv;
 	Polygon_t<T, N> poly_new;
-	trans::rotate_transformer<boost::geometry::degree, T, 2, 2> rotate(angle);
+	trans::rotate_transformer<boost::geometry::radian, T, 2, 2> rotate(-angle);
 	boost::geometry::transform(poly, poly_new, rotate);
 	return poly_new;
 }

@@ -81,6 +81,9 @@
         "streambuf": "cpp",
         "system_error": "cpp",
         "thread": "cpp",
-        "typeindex": "cpp"
+        "typeindex": "cpp",
+        "__locale": "cpp",
+        "locale": "cpp",
+        "__bit_reference": "cpp"
     }
 }

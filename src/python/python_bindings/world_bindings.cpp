@@ -37,6 +37,13 @@ void world_bindings(py::module m)
 
     py::class_<Agent, std::shared_ptr<Agent>>(m, "Agent")
         .def(py::init<int>())
+        .def("set_state", &simulation::world::Agent::set_state)
+        .def("set_shape", &simulation::world::Agent::set_shape)
+        .def("set_pose", &simulation::world::Agent::set_pose)
+        .def("get_pose", &simulation::world::Agent::get_pose)
+        .def("get_state", &simulation::world::Agent::get_state)
+        .def("step", &simulation::world::Agent::step)
+        .def("get_transformed_shape", &simulation::world::Agent::get_transformed_shape)
         .def("set_kinematic_model", &simulation::world::Agent::set_kinematic_model);
 }
 

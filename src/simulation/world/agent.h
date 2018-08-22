@@ -25,37 +25,44 @@
 
 #include "src/simulation/commons/common.h"
 #include "src/simulation/commons/kinematics.h"
+#include "src/simulation/world/base_type.h"
 
 namespace simulation {
 namespace world {
 
 using namespace simulation::kinematics;
 
-class Agent {
+class Agent : public BaseType {
 public:
-    Agent(int id) : id_(id){};
+    Agent(int id) : BaseType(id) {};
+
+    void step(const Matrix_t<double>& u, double dt){
+        state_ = this->kinematic_model_->step(state_, u, dt);
+        pose_ = this->kinematic_model_->get_pose(state_);
+    }
 
     //! setter
-    void set_shape();
-    
-    void set_pose();
+    void set_pose(const PointNd_t<double, 3>& p){ pose_ = p; }
 
-    void set_state();
+    void set_state(const Matrix_t<double>& s){ state_ = s; }
 
-    void set_kinematic_model(KinematicModel<double> * model){
+    void set_kinematic_model(SingleTrackModel<double> * model){
         kinematic_model_ = model;
-    };
+    }
 
     //! getter
     PointNd_t<double, 3> get_pose() const { return pose_; }
     Matrix_t<double> get_state() const { return state_; }
-    Polygon_t<double, 2> get_transformed_shape() const { return shape_; }
+    Polygon_t<double, 2> get_transformed_shape() const {
+        PointNd_t<double, 2> p_t;
+        bg::set<0>(p_t, bg::get<0>(pose_));
+        bg::set<1>(p_t, bg::get<1>(pose_));
+        return translate<double, 2>(rotate<double, 2>(this->get_shape(), bg::get<2>(pose_)), p_t);
+    }
 
 private:
     PointNd_t<double, 3> pose_;
     Matrix_t<double> state_;
-    Polygon_t<double, 2> shape_;
-    int id_;
     KinematicModel<double> * kinematic_model_;
 };
 
