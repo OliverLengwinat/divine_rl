@@ -46,3 +46,11 @@ py_test(
   imports = ['.'],
   deps = [],
 )
+
+py_test(
+  name = "kinematics_tests",
+  srcs = ["tests/kinematics_tests.py"],
+  data = [':divine_rl.so'],
+  imports = ['.'],
+  deps = [],
+)

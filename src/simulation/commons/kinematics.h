@@ -28,12 +28,32 @@ namespace kinematics {
 using namespace simulation::commons;
 
 template<typename T>
-Matrix_t<T> step(const Matrix_t<T>& state, const Matrix_t<T>& u, T dt){
-	Matrix_t<T> A(1,4);
-	A << state(3)*cos(state(2)), state(3)*sin(state(2)), tan(u(0))/T(1.5), u(1); 
+class KinematicModel {
+public:
 
-	return state + dt * A;
-}
+	KinematicModel(){};
+
+	virtual Matrix_t<T> step(const Matrix_t<T>& state, const Matrix_t<T>& u, T dt) = 0;
+	// Point3d ... get_pose ... x,y,theta
+	// get_state Eigen matrix
+	// get_timestamps eigen matrix
+private:
+	Matrix_t<T> state_;
+	Matrix_t<T> pose_;
+};
+
+
+template<typename T>
+class SingleTrackModel : public KinematicModel<T> {
+public:
+	SingleTrackModel(){};
+
+	Matrix_t<T> step(const Matrix_t<T>& state, const Matrix_t<T>& u, T dt){
+		Matrix_t<T> A(1, 4);
+		A << state(3)*cos(state(2)), state(3)*sin(state(2)), tan(u(0))/T(1.5), u(1); 
+		return state + dt * A;
+	}
+};
 
 }
 }

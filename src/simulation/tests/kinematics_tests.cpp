@@ -36,6 +36,6 @@ TEST(geometry, point) {
 	Matrix_t<double> u(1, 2);
 	u << 0.5, 0.20;
 
-	std::cout << step(state, u, 0.1) << std::endl;
+	//std::cout << step(state, u, 0.1) << std::endl;
 	
 }

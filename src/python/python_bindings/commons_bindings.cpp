@@ -23,6 +23,7 @@
 
 #include "commons_bindings.h"
 #include "src/simulation/commons/common.h"
+#include "src/simulation/commons/kinematics.h"
 
 namespace py = pybind11;
 
@@ -30,6 +31,7 @@ namespace py = pybind11;
 void commons_bindings(py::module m)
 {
     using namespace simulation::commons;
+    using namespace simulation::kinematics;
     
     py::class_<PointNd_t<double, 2>>(m, "Point")
         .def(py::init<double, double>())
@@ -111,6 +113,14 @@ void commons_bindings(py::module m)
         .def("__repr__", [](const Polygon_t<double, 2>& p)
         {
             return "Polygon";
+        });
+
+    py::class_<SingleTrackModel<double>>(m, "SingleTrackModel")
+        .def(py::init<>())
+        .def("step", &SingleTrackModel<double>::step)
+        .def("__repr__", [](const SingleTrackModel<double>& k)
+        {
+            return "SingleTrackModel";
         });
 }
 
