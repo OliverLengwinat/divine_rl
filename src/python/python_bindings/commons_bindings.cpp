@@ -31,17 +31,86 @@ void commons_bindings(py::module m)
 {
     using namespace simulation::commons;
     
-
-    py::class_<PointNd_t<double, 2>>(m, "Point2d")
-        .def(py::init<double, double>());
-
-
-    py::class_<PointNd_t<double, 3>>(m, "Point3d")
-        .def(py::init<double, double, double>())
-        .def("__repr__", [](const PointNd_t<double, 3>& p)
+    py::class_<PointNd_t<double, 2>>(m, "Point")
+        .def(py::init<double, double>())
+        .def("to_numpy", [](const PointNd_t<double, 2>& p)
         {
-            return "content";
+            return get_matrix<double, 2>(p);
+        })
+        .def("is_colliding", [](const PointNd_t<double, 2>& p, const Polygon_t<double, 2>& poly)
+        {
+            return collides<double, 2>(poly, p);
+        })
+        .def("distance", [](const PointNd_t<double, 2>& p, const Linestring_t<double, 2>& l)
+        {
+            return distance<double, 2>(l, p);
+        })
+        .def("distance", [](const PointNd_t<double, 2>& p, const Polygon_t<double, 2>& poly)
+        {
+            return distance<double, 2>(poly, p);
+        })
+        .def("distance", [](const PointNd_t<double, 2>& p0, const PointNd_t<double, 2>& p1)
+        {
+            return distance<double, 2>(p0, p1);
+        })
+        .def("__repr__", [](const PointNd_t<double, 2>& p)
+        {
+            return "Point";
         });
 
+
+    py::class_<Linestring_t<double, 2>>(m, "Line")
+        .def(py::init<>())
+        .def("append", [](Linestring_t<double, 2>& l, const PointNd_t<double, 2>& p)
+        {
+            return bg::append(l, p);
+        })
+        .def("to_numpy", [](const Linestring_t<double, 2>& l)
+        {
+            return get_matrix<double, 2>(l);
+        })
+        .def("distance", [](const Linestring_t<double, 2>& l, const PointNd_t<double, 2>& p)
+        {
+            return distance<double, 2>(l, p);
+        })
+        .def("distance", [](const Linestring_t<double, 2>& l, const Polygon_t<double, 2>& poly)
+        {
+            return distance<double, 2>(l, poly);
+        })
+        .def("__repr__", [](const Linestring_t<double, 2>& p)
+        {
+            return "Line";
+        });
+
+    py::class_<Polygon_t<double, 2>>(m, "Polygon")
+        .def(py::init<>())
+        .def("append", [](Polygon_t<double, 2>& l, const PointNd_t<double, 2>& p)
+        {
+            return bg::append(l, p);
+        })
+        .def("to_numpy", [](const Polygon_t<double, 2>& l)
+        {
+            return get_matrix<double, 2>(l);
+        })
+        .def("distance", [](const Polygon_t<double, 2>& poly, const PointNd_t<double, 2>& p)
+        {
+            return distance<double, 2>(poly, p);
+        })
+        .def("translate", [](const Polygon_t<double, 2>& poly, const PointNd_t<double, 2>& p)
+        {
+            return translate<double, 2>(poly, p);
+        })
+        .def("rotate", [](const Polygon_t<double, 2>& poly, double angle)
+        {
+            return rotate<double, 2>(poly, angle);
+        })
+        .def("collides", [](const Polygon_t<double, 2>& poly0, const Polygon_t<double, 2>& poly1)
+        {
+            return collides<double, 2>(poly0, poly1);
+        })
+        .def("__repr__", [](const Polygon_t<double, 2>& p)
+        {
+            return "Polygon";
+        });
 }
 

@@ -38,3 +38,11 @@ py_binary(
     imports = ['.'],
     deps = [],
 )
+
+py_test(
+  name = "geometry_tests",
+  srcs = ["tests/geometry_tests.py"],
+  data = [':divine_rl.so'],
+  imports = ['.'],
+  deps = [],
+)

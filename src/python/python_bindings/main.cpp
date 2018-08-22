@@ -25,6 +25,8 @@
 #include "world_bindings.h"
 #include "commons_bindings.h"
 
+PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
+
 
 PYBIND11_MODULE(divine_rl, m) {
     m.doc() = "Wrapper for divine_rl library";

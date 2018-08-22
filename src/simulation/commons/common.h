@@ -55,6 +55,11 @@ template<typename T>
 using Matrix_t = Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>; 
 
 
+//! distance point to point
+template<typename T, int N>
+T distance(const PointNd_t<T, N>& p0, const PointNd_t<T, N>& p1) {
+	return bg::distance(p0, p1);
+}
 
 //! distance: line to point
 template<typename T, int N>
@@ -82,14 +87,14 @@ T distance(const Polygon_t<T, N>& s0, const Polygon_t<T, N>& s1) {
 
 //! collison: shape to shape
 template<typename T, int N>
-bool distance(const Polygon_t<T, N>& s0, const Polygon_t<T, N>& s1) {
-	return boost::geometry::intersects(s0, s1);
+bool collides(const Polygon_t<T, N>& p0, const Polygon_t<T, N>& p1) {
+	return boost::geometry::intersects(p0, p1);
 }
 
 //! collision: point in shape
 template<typename T, int N>
-bool distance(const Polygon_t<T, N>& s0, const PointNd_t<T, N>& p) {
-	return boost::geometry::intersects(s0, p);
+bool collides(const Polygon_t<T, N>& p0, const PointNd_t<T, N>& p1) {
+	return boost::geometry::intersects(p0, p1);
 }
 
 //! translate polygon
@@ -99,20 +104,11 @@ Polygon_t<T, N> translate(const Polygon_t<T, N>& poly, const PointNd_t<T, N>& p)
   using boost::geometry::dsv;
 
 	Polygon_t<T, N> poly_new;
-	if (N == 2){
-		trans::translate_transformer<T, 2, 2> translate(bg::get<0>(p), bg::get<1>(p));
-		boost::geometry::transform(poly, poly_new, translate);
-	}
-	else if (N == 3) {
-		trans::translate_transformer<T, 3, 3> translate(bg::get<0>(p), bg::get<1>(p), bg::get<2>(p));
-		boost::geometry::transform(poly, poly_new, translate);
-	}
+	trans::translate_transformer<T, 2, 2> translate(bg::get<0>(p), bg::get<1>(p));
+	boost::geometry::transform(poly, poly_new, translate);
 
 	return poly_new;
 }
-
-
-
 
 //! Conversion functions to Eigen
 
@@ -120,11 +116,8 @@ Polygon_t<T, N> translate(const Polygon_t<T, N>& poly, const PointNd_t<T, N>& p)
 template<typename T, int N>
 Matrix_t<T> get_matrix(const PointNd_t<T, N>& p){
 	Matrix_t<T> ret(1, N);
-	if (N == 2){
-		ret.row(0) << bg::get<0>(p), bg::get<1>(p);
-	} else if (N == 3){
-		ret.row(0) << bg::get<0>(p), bg::get<1>(p), bg::get<2>(p);
-	}
+	ret.row(0) << bg::get<0>(p), bg::get<1>(p);
+
 	return ret;
 }
 
@@ -162,9 +155,6 @@ PointNd_t<T,N> create_point(const State_t<T, N>& p_eigen){
 	PointNd_t<T,N> p_ret;
 	bg::set<0>(p_ret, p_eigen(0));
 	bg::set<1>(p_ret, p_eigen(1));
-	if ( N == 3 ){
-		bg::set<2>(p_ret, p_eigen(2));
-	}
 	return p_ret;
 }
 
@@ -187,19 +177,14 @@ Polygon_t<T,N> create_polygon(const Matrix_t<T>& poly_eigen){
 }
 
 //! rotate polygon
-// TODO: cannot handle 3d rotations yet. Use quaternions?
+// TODO: cannot handle 3d rotations yet
 template<typename T, int N>
 Polygon_t<T, N> rotate(const Polygon_t<T, N>& poly, T angle){
+ 	namespace trans = boost::geometry::strategy::transform;
+  using boost::geometry::dsv;
 	Polygon_t<T, N> poly_new;
-	Matrix_t<T> rot_mat(3,3);
-	rot_mat << -sin(angle), cos(angle), 0, sin(angle), cos(angle), 0, 0, 0, 1;
-	Matrix_t<T> points = get_matrix<T, N>(poly);
-
-	for (int i = 0; i < points.rows(); i++){
-		State_t<T, 3> res = (rot_mat*points.block(i, 0, 1, 3).transpose()).transpose();
-		bg::append(poly_new, create_point<T, N>(res));
-	}
-
+	trans::rotate_transformer<boost::geometry::degree, T, 2, 2> rotate(angle);
+	boost::geometry::transform(poly, poly_new, rotate);
 	return poly_new;
 }
 

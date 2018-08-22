@@ -22,12 +22,32 @@
 """
 
 from divine_rl.world import World
-from divine_rl.commons import Point2d, Point3d, Point
+from divine_rl.commons import Point, Line, Polygon
 
+
+# load everything into world
 w = World()
-p = Point2d(0.0, 4.0)
-p2 = Point3d(0.0, 4.0, 5.0)
-p3 = Point()
+
+
+p2 = Point(0.0, 2.0)
+p3 = Point(1.0, 2.0)
+
+line = Line()
+line.append(p2)
+line.append(p3)
+
+poly = Polygon()
+poly.append(p2)
+poly.append(p3)
+poly.append(p3)
+
+print(poly.collides(poly))
+
+print(line.to_numpy())
+print(poly.to_numpy())
+
+print(p2.to_numpy())
+print(p2.distance(p3))
 
 # TODO: simplify
 # line = Line([[0,0], [1,0]])
