@@ -20,6 +20,9 @@
  * AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+#ifndef _WORLD_H_
+#define _WORLD_H_
+#include "src/simulation/world/base_type.h"
 
 namespace simulation {
 namespace world {
@@ -29,9 +32,10 @@ public:
     World(){};
     
 private:
-    int objects_; // list of base objects
+    std::vector<BaseType*> objects_; // list of base objects
 };
 
 } // simulation
 } // world
 
+#endif // _WORLD_H_

@@ -20,6 +20,8 @@
  * AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+#ifndef _WORLD_OBJECT_H_
+#define _WORLD_OBJECT_H_
 
 #include "src/simulation/base_type.h"
 
@@ -36,3 +38,5 @@ private:
 
 } // simulation
 } // world
+
+#endif //_WORLD_OBJECT_H_

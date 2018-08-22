@@ -20,8 +20,8 @@
  * AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef _COMMON_H_
-#define _COMMON_H_
+#ifndef _COMMONS_COMMON_H_
+#define _COMMONS_COMMON_H_
 
 #include <Eigen/Dense>
 #include <boost/geometry.hpp>
@@ -194,4 +194,4 @@ Polygon_t<T, N> rotate(const Polygon_t<T, N>& poly, T angle){
 
 } // simulation
 } // commons
-#endif //_COMMON_H_
+#endif //_COMMONS_COMMON_H_

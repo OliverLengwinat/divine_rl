@@ -20,6 +20,8 @@
  * AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+#ifndef _COMMOONS_KINEMATICS_H_
+#define _COMMOONS_KINEMATICS_H_
 #include "src/simulation/commons/common.h"
 
 namespace simulation {
@@ -60,3 +62,4 @@ struct SingleTrackModel : public KinematicModel<T> {
 
 }
 }
+#endif //_COMMOONS_KINEMATICS_H_

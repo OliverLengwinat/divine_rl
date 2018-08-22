@@ -21,6 +21,9 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#ifndef _WORLD_BASE_TYPE_H_
+#define _WORLD_BASE_TYPE_H_
+
 namespace simulation {
 namespace world {
 
@@ -37,3 +40,5 @@ private:
 
 } // simulation
 } // world
+
+#endif // _WORLD_BASE_TYPE_H_
