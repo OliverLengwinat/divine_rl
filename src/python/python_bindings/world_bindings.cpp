@@ -22,6 +22,7 @@
  */
 
 #include "world_bindings.h"
+#include "src/simulation/world/base_type.h"
 #include "src/simulation/world/object.h"
 #include "src/simulation/world/agent.h"
 #include "src/simulation/world/world.h"
@@ -34,7 +35,12 @@ void world_bindings(py::module m)
     using namespace simulation::world;
 
     py::class_<World, std::shared_ptr<World>>(m, "World")
-        .def(py::init<>());
+        .def(py::init<>())
+        .def("add_object", &simulation::world::World::add_object);
+
+
+    py::class_<BaseType, std::shared_ptr<BaseType>>(m, "BaseType")
+        .def(py::init<int>());
 
     py::class_<Agent, std::shared_ptr<Agent>>(m, "Agent")
         .def(py::init<int>())

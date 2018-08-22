@@ -33,12 +33,8 @@ class World {
 public:
     World(){};
 
-    void add_object(const Object& obj){
-        Object * oj = new Object(0);
-        Agent * ag = new Agent(0);
-        objects_.push_back(oj);
-        objects_.push_back(ag);
-        //objects_.push_back(obj);
+    void add_object(BaseType obj){
+        objects_.push_back(&obj);
     }
     
 private:

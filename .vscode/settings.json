@@ -86,6 +86,8 @@
         "locale": "cpp",
         "__bit_reference": "cpp",
         "queue": "cpp",
-        "stack": "cpp"
+        "stack": "cpp",
+        "__split_buffer": "cpp",
+        "string": "cpp"
     }
 }

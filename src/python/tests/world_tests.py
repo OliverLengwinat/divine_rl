@@ -2,7 +2,7 @@ import unittest
 import numpy as np
 #import matplotlib.pyplot as plt
 from divine_rl.commons import Point, Pose, Line, Polygon, SingleTrackModel
-from divine_rl.world import World, Agent, Object
+from divine_rl.world import World, Agent, Object, BaseType
 
 
 class WorldTests(unittest.TestCase):
@@ -51,6 +51,9 @@ class WorldTests(unittest.TestCase):
 		self.__class__.object = obj
 	
 	def test_world(self):
+		w = World()
+		b = BaseType(0)
+		w.add_object(b)
 		pass
 
 	
