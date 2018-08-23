@@ -57,10 +57,15 @@ py_test(
   deps = [],
 )
 
+filegroup(
+   name="object_test_data",
+   srcs=["tests/object.pb.txt", "tests/object_new.pb.txt"]
+)
+
 py_test(
   name = "protobuf_tests",
   srcs = ["tests/protobuf_tests.py"],
-  data = [':divine_rl.so'],
+  data = [":divine_rl.so", ":object_test_data"],
   imports = ['.'],
   deps = ["//src/proto:py_commons"],
 )
