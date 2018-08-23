@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package divine;
+
+import "src/proto/world.proto";
+import "src/proto/parameters.proto";
+
+message Experiment {
+  World = 1;
+}

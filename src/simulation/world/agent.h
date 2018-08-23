@@ -23,20 +23,25 @@
 #ifndef _WORLD_AGENT_H_
 #define _WORLD_AGENT_H_
 
+#include "src/simulation/commons/utilities.h"
 #include "src/simulation/commons/common.h"
 #include "src/simulation/commons/kinematics.h"
 #include "src/simulation/world/base_type.h"
-#include "src/proto/agent.pb.h"
+#include "src/proto/object.pb.h"
 
 namespace simulation {
 namespace world {
 
 using namespace simulation::kinematics;
+using namespace simulation::commons;
 
 class Agent : public BaseType {
 public:
     Agent(int id) : BaseType(id) {
-        divine::Agent ag;
+        /*
+        divine::Object* ag = new divine::Object();
+        ReadProtoFromTextFile("", ag);
+        */
     };
 
     void step(const Matrix_t<double>& u, double dt){

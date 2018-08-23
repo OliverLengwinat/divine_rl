@@ -1,12 +1,12 @@
 cc_proto_library(
-    name = "agent_cc_proto",
-    deps = [":agent_proto"],
+    name = "object_cc_proto",
+    deps = [":object_proto"],
 	visibility = ["//visibility:public"]
 )
 
 proto_library(
-    name = "agent_proto",
-    srcs = ["agent.proto"],
+    name = "object_proto",
+    srcs = ["object.proto"],
     deps = [":commons_proto"],
 )
 

@@ -24,3 +24,23 @@ cc_test(
     ],
 )
 
+filegroup(
+   name="agent_test_data",
+   srcs=["agent.pb.txt"]
+)
+
+cc_test(
+    name = "protobuf_tests",
+    srcs = [
+        "protobuf_tests.cpp",
+    ],
+    copts = ["-Iexternal/gtest/include"],
+    deps = [
+        "//src/simulation:world",
+        "//src/simulation:commons",
+        "@gtest//:main",
+        "//src/proto:object_cc_proto"
+    ],
+    data = [":agent_test_data"]
+)
+

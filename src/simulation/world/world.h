@@ -31,11 +31,17 @@ namespace world {
 
 class World {
 public:
+
+
     World(){};
+
+    // todo: initialize from proto
 
     void add_object(std::shared_ptr<BaseType> obj){
         objects_.push_back(obj);
     }
+
+    // TODO: get agents
 
     std::vector<std::shared_ptr<BaseType>> get_objects() { return objects_; }
 

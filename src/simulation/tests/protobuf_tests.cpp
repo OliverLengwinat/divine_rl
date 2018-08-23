@@ -21,21 +21,35 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+
 #include "gtest/gtest.h"
-#include "src/simulation/commons/kinematics.h"
+#include "src/simulation/world/agent.h"
+#include "src/simulation/commons/utilities.h"
+#include "src/proto/object.pb.h"
 
 
-//! test point method and numpy conversion
-TEST(kinematics, init) {
-	using namespace simulation::kinematics;
+TEST(protobuf, load_proto) {
+	using namespace simulation::commons;
 
-	Matrix_t<double> state(1,4);
-	state << 0,0,0,5;
+	divine::Object* ag = new divine::Object();
+  ReadProtoFromTextFile("src/simulation/tests/agent.pb.txt", ag);
 
+	std::cout << ag->name() << std::endl;
+
+}
+
+
+TEST(protobuf, load_and_save_proto) {
+	using namespace simulation::commons;
+
+	divine::Object* ag = new divine::Object();
 	
-	Matrix_t<double> u(1, 2);
-	u << 0.5, 0.20;
+  ReadProtoFromTextFile("src/simulation/tests/agent.pb.txt", ag);
 
-	//std::cout << step(state, u, 0.1) << std::endl;
+	std::cout << ag->name() << std::endl;
 	
+ 	ag->set_name("World2");
+
+	WriteProtoToTextFile(*ag, "src/simulation/tests/agent.pb.txt");
+
 }

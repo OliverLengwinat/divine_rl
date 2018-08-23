@@ -36,6 +36,7 @@ class GeometryTests(unittest.TestCase):
 		poly.append(p2)
 		poly.append(p3)
 		poly.append(p4)
+		
 		self.assertTrue(np.allclose(poly.to_numpy(), np.array([[0.0, 0.0], [2.0, 0.0], [2.0, 1.0], [0.0, 1.0], [0.0, 0.0]])))
 
 		self.__class__.polygon = poly
