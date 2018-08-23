@@ -82,6 +82,10 @@
         "system_error": "cpp",
         "thread": "cpp",
         "typeindex": "cpp",
-        "bitset": "cpp"
+        "bitset": "cpp",
+        "cfenv": "cpp",
+        "hashtable": "cpp",
+        "string": "cpp",
+        "locale": "cpp"
     }
 }

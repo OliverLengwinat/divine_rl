@@ -1,11 +1,9 @@
 syntax = "proto3";
 
 package divine;
-
 import "src/proto/commons.proto";
 
 message Object {
-
   string name = 1;
   int32 id = 2;
 	repeated divine.State shape = 3;
@@ -13,13 +11,10 @@ message Object {
 	divine.State state = 5;
 
   enum ObstacleType {
-    FATAL = 0;
-    BAD = 1;
-    GOAL = 2;
-    GOOD = 3;
-    NEUTRAL = 4;
+    AGENT = 0;
+    OBJECT = 1;
   }
 
   ObstacleType type = 6;
-
+  float reward = 7;
 }

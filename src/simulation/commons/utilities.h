@@ -33,6 +33,7 @@
 
 namespace simulation {
 namespace commons {
+    
 using google::protobuf::io::FileInputStream;
 using google::protobuf::io::FileOutputStream;
 using google::protobuf::io::ZeroCopyInputStream;
@@ -41,30 +42,6 @@ using google::protobuf::io::ZeroCopyOutputStream;
 using google::protobuf::io::CodedOutputStream;
 using google::protobuf::Message;
 
-bool ReadProtoFromTextFile(const std::string filename, google::protobuf::Message* proto)
-{
-    int fd = open(filename.c_str(), O_RDONLY);
-    if (fd == -1)
-        return false;
-
-    google::protobuf::io::FileInputStream* input = new google::protobuf::io::FileInputStream(fd);
-    bool success = google::protobuf::TextFormat::Parse(input, proto);
-    delete input;
-
-    close(fd);
-    return success;
-}
-
-void WriteProtoToTextFile(const google::protobuf::Message& proto, const char* filename) {
-    int fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644); 
-    if (fd == -1){
-        std::cout << "Could not open file.." << std::endl;
-    }
-    FileOutputStream* output = new FileOutputStream(fd);
-    //CHECK(google::protobuf::TextFormat::Print(proto, output));
-    delete output;
-    close(fd);
-}
 
 }
 }

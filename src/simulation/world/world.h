@@ -24,8 +24,10 @@
 #define _WORLD_H_
 #include <vector>
 #include "src/simulation/commons/common.h"
+#include "src/simulation/commons/utilities.h"
 #include "src/simulation/world/agent.h"
 #include "src/simulation/world/object.h"
+#include "src/proto/world.pb.h"
 
 namespace simulation {
 namespace world {
@@ -36,7 +38,12 @@ public:
 
     World(){};
 
+    bool load_proto(const std::string file_name){
+        //simulation::commons::ReadProtoFromTextFile(file_name, world_info_);
+    }
+
     // TODO: initialize from proto
+    bool parse_proto();
 
     void add_object(std::shared_ptr<BaseType> obj){
         objects_.push_back(obj);
@@ -64,7 +71,9 @@ public:
     }
 
     void reset(){
-        // TODO: clear everything and reload from pb
+        objects_.clear();
+        lines_.clear();
+        parse_proto();
     };
 
     std::vector<std::shared_ptr<BaseType>> get_objects() { return objects_; }
@@ -72,6 +81,7 @@ public:
 private:
     std::vector<std::shared_ptr<BaseType>> objects_; // list of base objects
     std::vector<std::shared_ptr<Linestring_t<double, 2>>> lines_;
+    divine::World* world_info_;
 };
 
 } // simulation

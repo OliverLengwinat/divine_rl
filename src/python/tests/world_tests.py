@@ -3,7 +3,7 @@ import numpy as np
 #import matplotlib.pyplot as plt
 from divine_rl.commons import Point, Pose, Line, Polygon, SingleTrackModel
 from divine_rl.world import World, Agent, Object
-
+from src.proto import world_pb2, commons_pb2, object_pb2
 
 class WorldTests(unittest.TestCase):
 

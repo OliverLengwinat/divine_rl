@@ -26,6 +26,8 @@ cc_binary(
           "@pybind11//:pybind11",
           "//src/simulation:world",
           "//src/simulation:commons",
+          "//src/proto:object_cc_proto",
+          "//src/proto:world_cc_proto",
          ],
   linkshared = 1,
   linkstatic = 1,
@@ -56,9 +58,17 @@ py_test(
 )
 
 py_test(
+  name = "protobuf_tests",
+  srcs = ["tests/protobuf_tests.py"],
+  data = [':divine_rl.so'],
+  imports = ['.'],
+  deps = ["//src/proto:py_commons"],
+)
+
+py_test(
   name = "world_tests",
   srcs = ["tests/world_tests.py"],
   data = [':divine_rl.so'],
   imports = ['.'],
-  deps = [],
+  deps = ["//src/proto:py_commons"],
 )

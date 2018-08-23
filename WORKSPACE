@@ -7,12 +7,14 @@ git_repository(
 load("@com_github_nelhage_rules_boost//:boost/boost.bzl", "boost_deps")
 boost_deps()
 
-http_archive(
-    name = "com_google_protobuf",
-    sha256 = "cef7f1b5a7c5fba672bec2a319246e8feba471f04dcebfe362d55930ee7c1c30",
-    strip_prefix = "protobuf-3.5.0",
-    urls = ["https://github.com/google/protobuf/archive/v3.5.0.zip"],
+git_repository(
+  name = "org_pubref_rules_protobuf",
+  remote = "https://github.com/pubref/rules_protobuf",
+  commit = "5cae42382b620aa1e347ecf30b3e92fd0d97998c" # alternatively, use latest commit on master
 )
+
+load("@org_pubref_rules_protobuf//python:rules.bzl", "py_proto_repositories")
+py_proto_repositories()
 
 new_http_archive(
     name = "pybind11",
