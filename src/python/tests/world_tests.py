@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 from divine_rl.commons import Point, Pose, Line, Polygon, SingleTrackModel
 from divine_rl.world import World, Agent, Object, BaseType
 
@@ -22,7 +22,7 @@ class WorldTests(unittest.TestCase):
 		a.set_pose(Pose(0,0,0.0))
 		a.set_state(state)
 
-		poly = Polygon() 
+		poly = Polygon()
 		poly.append(Point(-1.0, -1.0))
 		poly.append(Point(2.5, -1.0))
 		poly.append(Point(2.5, 1.0))
@@ -38,7 +38,7 @@ class WorldTests(unittest.TestCase):
 		self.__class__.polygon = poly
 
 		pts = a.get_transformed_shape().to_numpy()
-		plt.plot(pts[:,0], pts[:,1])
+		#plt.plot(pts[:,0], pts[:,1])
 		
 		for i in range(0, 10):
 			a.step(u, 0.25)
@@ -64,12 +64,8 @@ class WorldTests(unittest.TestCase):
 		w.add_object(self.__class__.agent)
 		w.add_object(self.__class__.object)
 		
-		# TODO: w.get_agents()
-		# for each agent choose u
-		# 	status, = w.step([u0,..., uN], dt)
 
 		objects = w.get_objects()
-
 		u = np.array([[0.5,0.5]])
 
 		print(objects[0].get_state())
@@ -80,11 +76,6 @@ class WorldTests(unittest.TestCase):
 		objects = w.get_objects()
 
 		print(objects[0].get_state())
-
-		#objects = w.get_agents()
-		#print(objects[0].get_pose().to_numpy())
-
-		#objects = w.get_objects()
 
 		print(objects)
 

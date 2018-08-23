@@ -55,7 +55,6 @@ py_test(
   deps = [],
 )
 
-
 py_test(
   name = "world_tests",
   srcs = ["tests/world_tests.py"],

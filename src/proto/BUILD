@@ -1,7 +1,7 @@
 cc_proto_library(
     name = "agent_cc_proto",
     deps = [":agent_proto"],
-		visibility = ["//visibility:public"]
+	visibility = ["//visibility:public"]
 )
 
 proto_library(

@@ -4,7 +4,6 @@ package divine;
 
 import "src/proto/commons.proto";
 
-
 message Agent {
 
   string name = 1;
