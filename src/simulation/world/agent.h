@@ -37,12 +37,7 @@ using namespace simulation::commons;
 
 class Agent : public BaseType {
 public:
-    Agent(int id) : BaseType(id) {
-        /*
-        divine::Object* ag = new divine::Object();
-        ReadProtoFromTextFile("", ag);
-        */
-    };
+    Agent() {};
 
     void step(const Matrix_t<double>& u, double dt){
         state_ = this->kinematic_model_->step(state_, u, dt);

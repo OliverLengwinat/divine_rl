@@ -37,14 +37,16 @@ void world_bindings(py::module m)
     py::class_<World, std::shared_ptr<World>>(m, "World")
         .def(py::init<>())
         .def("add_object", &simulation::world::World::add_object)
+        .def("get_agents", &simulation::world::World::get_agents)
+        .def("collides", &simulation::world::World::collides)
         .def("get_objects", &simulation::world::World::get_objects);
 
 
     py::class_<BaseType, std::shared_ptr<BaseType>>(m, "BaseType")
-        .def(py::init<int>());
+        .def(py::init<>());
 
     py::class_<Agent, BaseType, std::shared_ptr<Agent>>(m, "Agent")
-        .def(py::init<int>())
+        .def(py::init<>())
         .def("set_state", &simulation::world::Agent::set_state)
         .def("set_shape", &simulation::world::Agent::set_shape)
         .def("set_pose", &simulation::world::Agent::set_pose)
@@ -55,7 +57,7 @@ void world_bindings(py::module m)
         .def("set_kinematic_model", &simulation::world::Agent::set_kinematic_model);
 
     py::class_<Object, BaseType, std::shared_ptr<Object>>(m, "Object")
-        .def(py::init<int>())
+        .def(py::init<>())
         .def("set_shape", &simulation::world::Object::set_shape)
         .def("get_shape", &simulation::world::Object::get_shape);
 }

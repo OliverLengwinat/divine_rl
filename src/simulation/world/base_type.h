@@ -33,13 +33,23 @@ using namespace simulation::commons;
 
 class BaseType {
 public:
-    BaseType(int id) : id_(id) {};
+    BaseType() : status_(Status::NEUTRAL){};
     void set_shape(const Polygon_t<double, 2>& s){ shape_ = s; };
     Polygon_t<double, 2> get_shape() const { return shape_; };
     virtual ~BaseType() = default;
 
+    enum Status {
+        NEUTRAL = 0,
+        BAD = 1,
+        FATAL = 2,
+        GOOD = 3,
+        AWESOME = 4
+    };
+    
+    Status status_;
+
+
 private:
-    int id_;
     Polygon_t<double, 2> shape_;
 };
 

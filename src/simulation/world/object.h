@@ -30,10 +30,8 @@ namespace world {
 
 class Object : public BaseType {
 public:
-    Object(int id) : BaseType(id){};
-    
-private:
-	int type_; // goal, obstacle, reward, etc.
+    Object(){};
+
 };
 
 } // simulation

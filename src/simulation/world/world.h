@@ -23,6 +23,7 @@
 #ifndef _WORLD_H_
 #define _WORLD_H_
 #include <vector>
+#include "src/simulation/commons/common.h"
 #include "src/simulation/world/agent.h"
 #include "src/simulation/world/object.h"
 
@@ -35,18 +36,42 @@ public:
 
     World(){};
 
-    // todo: initialize from proto
+    // TODO: initialize from proto
 
     void add_object(std::shared_ptr<BaseType> obj){
         objects_.push_back(obj);
     }
 
     // TODO: get agents
+    std::vector<std::shared_ptr<Agent>> get_agents(){
+        std::vector<std::shared_ptr<Agent>> agents;
+        for (std::shared_ptr<BaseType> obj : objects_){
+            std::shared_ptr<Agent> agent = std::dynamic_pointer_cast<Agent>(obj);
+            if (agent != NULL)
+                agents.push_back(agent);
+        }
+        return agents;
+    }
+
+    bool collides(std::shared_ptr<Agent> agent){
+        for (std::shared_ptr<BaseType> obj : objects_){
+            if(agent != obj){
+                if ( simulation::commons::collides<double, 2>(obj->get_shape(), agent->get_transformed_shape()) )
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    void reset(){
+        // TODO: clear everything and reload from pb
+    };
 
     std::vector<std::shared_ptr<BaseType>> get_objects() { return objects_; }
 
 private:
     std::vector<std::shared_ptr<BaseType>> objects_; // list of base objects
+    std::vector<std::shared_ptr<Linestring_t<double, 2>>> lines_;
 };
 
 } // simulation

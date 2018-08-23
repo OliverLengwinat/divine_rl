@@ -18,7 +18,7 @@ class WorldTests(unittest.TestCase):
 		# this is the agent config
 		# a = Agent(protobuf_agent)
 
-		a = Agent(0)
+		a = Agent()
 		a.set_pose(Pose(0,0,0.0))
 		a.set_state(state)
 
@@ -54,7 +54,7 @@ class WorldTests(unittest.TestCase):
 		#plt.plot(pts[:,0], pts[:,1])
 		
 		for i in range(0, 10):
-			a.step(u, 0.25)
+			#a.step(u, 0.25)
 			pts = a.get_transformed_shape().to_numpy()
 		"""
 			plt.plot(pts[:,0], pts[:,1])
@@ -66,7 +66,7 @@ class WorldTests(unittest.TestCase):
 
 	def test_objects(self):
 		# obj = Object(protobuf_object)
-		obj = Object(0)
+		obj = Object()
 		obj.set_shape(self.__class__.polygon)
 		print(obj.get_shape().to_numpy())
 		self.__class__.object = obj
@@ -86,16 +86,13 @@ class WorldTests(unittest.TestCase):
 		objects = w.get_objects()
 		u = np.array([[0.5,1.5]])
 
-		#print(objects[0].get_state())
-		
-		# u = policy[0]
-		# [stati] = objects[0].step(u, 0.25)
+		agents = w.get_agents()
 
-		# tmp_objs =objects[0].step(u, 0.25)
-		# tmp_objs =objects[0].step(u, 0.25)
-
-		# [stati] = evaluate(tmp_objs)
-		# reward(world, point)
+		for i in range(0,20):
+			for a in agents:
+				a.step(u, 0.25)
+				status = w.collides(a)
+				print(status)
 
 
 		objects = w.get_objects()

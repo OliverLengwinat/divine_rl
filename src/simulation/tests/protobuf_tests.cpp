@@ -30,26 +30,17 @@
 
 TEST(protobuf, load_proto) {
 	using namespace simulation::commons;
-
 	divine::Object* ag = new divine::Object();
   ReadProtoFromTextFile("src/simulation/tests/agent.pb.txt", ag);
-
 	std::cout << ag->name() << std::endl;
-
 }
 
 
 TEST(protobuf, load_and_save_proto) {
 	using namespace simulation::commons;
-
 	divine::Object* ag = new divine::Object();
-	
   ReadProtoFromTextFile("src/simulation/tests/agent.pb.txt", ag);
-
 	std::cout << ag->name() << std::endl;
-	
  	ag->set_name("World2");
-
 	WriteProtoToTextFile(*ag, "src/simulation/tests/agent.pb.txt");
-
 }
