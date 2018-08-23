@@ -15,6 +15,9 @@ class WorldTests(unittest.TestCase):
 
 		w = World()
 
+		# this is the agent config
+		# a = Agent(protobuf_agent)
+
 		a = Agent(0)
 		a.set_pose(Pose(0,0,0.0))
 		a.set_state(state)
@@ -28,6 +31,8 @@ class WorldTests(unittest.TestCase):
 
 		a.set_shape(poly)
 		a.set_kinematic_model(model)
+
+		# end agent conf
 
 		self.__class__.agent = a
 		self.__class__.polygon = poly
@@ -45,6 +50,7 @@ class WorldTests(unittest.TestCase):
 		
 
 	def test_objects(self):
+		# obj = Object(protobuf_object)
 		obj = Object(0)
 		obj.set_shape(self.__class__.polygon)
 		print(obj.get_shape().to_numpy())
@@ -56,6 +62,10 @@ class WorldTests(unittest.TestCase):
 		w.add_object(self.__class__.agent)
 		w.add_object(self.__class__.object)
 		
+		# TODO: w.get_agents()
+		# for each agent choose u
+		# 	status, = w.step([u0,..., uN], dt)
+
 		print(w.get_objects())
 		
 		

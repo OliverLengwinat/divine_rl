@@ -26,6 +26,7 @@
 #include "src/simulation/commons/common.h"
 #include "src/simulation/commons/kinematics.h"
 #include "src/simulation/world/base_type.h"
+#include "src/proto/agent.pb.h"
 
 namespace simulation {
 namespace world {

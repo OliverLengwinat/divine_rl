@@ -5,7 +5,8 @@ cc_library(
     deps = [
         "@com_github_eigen_eigen//:eigen",
         "@boost//:geometry",
-        "//src/simulation:commons"
+        "//src/simulation:commons",
+        "//src/proto:agent_cc_proto",
 
     ],
     visibility = ["//visibility:public"],
