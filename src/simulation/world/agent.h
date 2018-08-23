@@ -49,7 +49,7 @@ public:
 
     void set_state(const Matrix_t<double>& s){ state_ = s; }
 
-    void set_kinematic_model(KinematicModel<double> * model){
+    void set_kinematic_model(std::shared_ptr<KinematicModel<double>> model){
         kinematic_model_ = model;
     }
 
@@ -66,7 +66,7 @@ public:
 private:
     PointNd_t<double, 3> pose_;
     Matrix_t<double> state_;
-    KinematicModel<double> * kinematic_model_;
+    std::shared_ptr<KinematicModel<double>> kinematic_model_;
 };
 
 } // simulation

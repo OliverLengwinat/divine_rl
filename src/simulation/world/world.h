@@ -33,13 +33,14 @@ class World {
 public:
     World(){};
 
-    void add_object(BaseType obj){
-        objects_.push_back(&obj);
+    void add_object(std::shared_ptr<BaseType> obj){
+        objects_.push_back(obj);
     }
-    
-    int get_objects() { return objects_.size(); }
+
+    std::vector<std::shared_ptr<BaseType>> get_objects() { return objects_; }
+
 private:
-    std::vector<BaseType*> objects_; // list of base objects
+    std::vector<std::shared_ptr<BaseType>> objects_; // list of base objects
 };
 
 } // simulation

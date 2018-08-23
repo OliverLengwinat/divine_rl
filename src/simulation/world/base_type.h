@@ -36,6 +36,7 @@ public:
     BaseType(int id) : id_(id) {};
     void set_shape(const Polygon_t<double, 2>& s){ shape_ = s; };
     Polygon_t<double, 2> get_shape() const { return shape_; };
+    virtual ~BaseType() = default;
 
 private:
     int id_;

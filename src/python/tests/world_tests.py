@@ -43,10 +43,12 @@ class WorldTests(unittest.TestCase):
 		for i in range(0, 10):
 			a.step(u, 0.25)
 			pts = a.get_transformed_shape().to_numpy()
+		"""
 			plt.plot(pts[:,0], pts[:,1])
 
 		plt.axis('equal')
 		plt.show()
+		"""
 		
 
 	def test_objects(self):
@@ -66,7 +68,27 @@ class WorldTests(unittest.TestCase):
 		# for each agent choose u
 		# 	status, = w.step([u0,..., uN], dt)
 
-		print(w.get_objects())
+		objects = w.get_objects()
+
+		u = np.array([[0.5,0.5]])
+
+		print(objects[0].get_state())
+		objects[0].step(u, 0.25)
+		objects[0].step(u, 0.25)
+		objects[0].step(u, 0.25)
+
+		objects = w.get_objects()
+
+		print(objects[0].get_state())
+
+		#objects = w.get_agents()
+		#print(objects[0].get_pose().to_numpy())
+
+		#objects = w.get_objects()
+
+		print(objects)
+
+		print("hello world")
 		
 		
 	
