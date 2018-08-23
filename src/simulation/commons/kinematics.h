@@ -33,15 +33,15 @@ template<typename T>
 struct KinematicModel {
 	KinematicModel(){};
 
-	virtual Matrix_t<T> step(const Matrix_t<T>& state, const Matrix_t<T>& u, T dt) = 0;
-	virtual PointNd_t<T, 3> get_pose(const Matrix_t<T>& state) = 0;
+	virtual Matrix_t<T> step(const Matrix_t<T>& state, const Matrix_t<T>& u, T dt) { return state;};
+	virtual PointNd_t<T, 3> get_pose(const Matrix_t<T>& state){PointNd_t<T, 3> p; return p;};
 
 };
 
 
 template<typename T>
 struct SingleTrackModel : public KinematicModel<T> {
-	SingleTrackModel(){};
+	SingleTrackModel() {};
 
 	// TODO: flexible wheel-base
 	Matrix_t<T> step(const Matrix_t<T>& state, const Matrix_t<T>& u, T dt){

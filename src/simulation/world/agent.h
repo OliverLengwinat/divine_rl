@@ -46,7 +46,7 @@ public:
 
     void set_state(const Matrix_t<double>& s){ state_ = s; }
 
-    void set_kinematic_model(SingleTrackModel<double> * model){
+    void set_kinematic_model(KinematicModel<double> * model){
         kinematic_model_ = model;
     }
 

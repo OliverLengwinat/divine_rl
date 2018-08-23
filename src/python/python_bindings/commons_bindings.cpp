@@ -122,7 +122,14 @@ void commons_bindings(py::module m)
             return "Polygon";
         });
 
-    py::class_<SingleTrackModel<double>>(m, "SingleTrackModel")
+    py::class_<KinematicModel<double> >(m, "KinematicModel")
+        .def(py::init<>())
+        .def("__repr__", [](const KinematicModel<double>& k)
+        {
+            return "KinematicModel";
+        });
+
+    py::class_< SingleTrackModel<double>, KinematicModel<double> >(m, "SingleTrackModel")
         .def(py::init<>())
         .def("step", &SingleTrackModel<double>::step)
         .def("get_pose", &SingleTrackModel<double>::get_pose)

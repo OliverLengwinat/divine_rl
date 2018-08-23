@@ -82,12 +82,6 @@
         "system_error": "cpp",
         "thread": "cpp",
         "typeindex": "cpp",
-        "__locale": "cpp",
-        "locale": "cpp",
-        "__bit_reference": "cpp",
-        "queue": "cpp",
-        "stack": "cpp",
-        "__split_buffer": "cpp",
-        "string": "cpp"
+        "bitset": "cpp"
     }
 }

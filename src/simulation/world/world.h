@@ -37,6 +37,7 @@ public:
         objects_.push_back(&obj);
     }
     
+    int get_objects() { return objects_.size(); }
 private:
     std::vector<BaseType*> objects_; // list of base objects
 };

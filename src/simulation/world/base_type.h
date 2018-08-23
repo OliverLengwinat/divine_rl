@@ -40,7 +40,6 @@ public:
 private:
     int id_;
     Polygon_t<double, 2> shape_;
-
 };
 
 } // simulation
