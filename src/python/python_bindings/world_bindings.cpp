@@ -39,6 +39,7 @@ void world_bindings(py::module m)
         .def("add_object", &simulation::world::World::add_object)
         .def("get_agents", &simulation::world::World::get_agents)
         .def("collides", &simulation::world::World::collides)
+        .def("load_proto", &simulation::world::World::load_proto)
         .def("get_objects", &simulation::world::World::get_objects);
 
 
