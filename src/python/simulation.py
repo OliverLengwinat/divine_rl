@@ -28,4 +28,6 @@ from divine_rl.commons import Point, Line, Polygon
 # load everything into world
 w = World()
 
+# a = Agent("file")
+
 print("hello world")

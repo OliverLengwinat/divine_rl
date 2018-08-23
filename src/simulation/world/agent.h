@@ -35,7 +35,9 @@ using namespace simulation::kinematics;
 
 class Agent : public BaseType {
 public:
-    Agent(int id) : BaseType(id) {};
+    Agent(int id) : BaseType(id) {
+        divine::Agent ag;
+    };
 
     void step(const Matrix_t<double>& u, double dt){
         state_ = this->kinematic_model_->step(state_, u, dt);
