@@ -6,7 +6,7 @@ import "src/proto/commons.proto";
 message Object {
   string name = 1;
   int32 id = 2;
-	repeated divine.Shape shape = 3;
+	divine.Shape shape = 3;
 	divine.Pose pose = 4;
 	divine.State state = 5;
 

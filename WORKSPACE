@@ -20,9 +20,8 @@ new_http_archive(
     name = "pybind11",
     strip_prefix = "pybind11-2.2.3",
     urls = ["https://github.com/pybind/pybind11/archive/v2.2.3.zip"],
-    build_file = "src/python/BUILD",
+    build_file = "build-rules/pybind11.BUILD",
 )
-
 
 new_http_archive(
     name = "com_github_eigen_eigen",
@@ -75,7 +74,7 @@ load("@io_bazel_rules_python//python:pip.bzl", "pip_import")
 
 pip_import(
    name = "my_deps",
-   requirements = "//src/python:requirements.txt",
+   requirements = "//src/environment/python_bindings:requirements.txt",
 )
 
 load("@my_deps//:requirements.bzl", "pip_install")

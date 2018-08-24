@@ -11,5 +11,5 @@ This library is completely built using the bazel build system. So all tests, pyt
 Here is an overview of the most important ones:
 
 * Build everything: `bazel build //...`
-* Run the Python simulation: `bazel run //src/python:simulation`
-* Run the GTests for cpp: `bazel test //src/simulation/tests:geometry_tests`
+* Run the Python environment: `bazel run //src/python:environment`
+* Run the GTests for cpp: `bazel test //src/environment/tests:geometry_tests`
