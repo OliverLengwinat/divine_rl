@@ -19,6 +19,9 @@ class ProtobufTests(unittest.TestCase):
 		pb_string = self.__class__.pb.SerializeToString()
 		w = World()
 		w.load_proto(pb_string)
+		print(w.get_objects())
+		self.assertTrue(False)
+
 		#self.assertEqual(self.__class__.pb.name, "Hello")
 
 

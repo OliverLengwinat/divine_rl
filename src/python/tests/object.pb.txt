@@ -1,3 +1,43 @@
 object {
 	name: "Hello"
+	id: 0
+	shape: {
+		p: 0.0
+		p: 0.0
+		p: 0.0
+	}
+	state: {
+		p: 0.0
+		p: 0.0
+		p: 0.0
+	}
+	pose: {
+		p: 0.0
+		p: 0.0
+		p: 0.0
+	}
+	type: 0
+	reward: 0.0
+}
+
+object {
+	name: "World"
+	id: 1
+	shape: {
+		p: 1.0
+		p: 1.0
+		p: 1.0
+	}
+	state: {
+		p: 1.0
+		p: 1.0
+		p: 1.0
+	}
+	pose: {
+		p: 1.0
+		p: 1.0
+		p: 1.0
+	}
+	type: 1
+	reward: 1.0
 }
