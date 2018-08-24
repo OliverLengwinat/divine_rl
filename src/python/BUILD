@@ -59,7 +59,7 @@ py_test(
 
 filegroup(
    name="object_test_data",
-   srcs=["tests/object.pb.txt", "tests/object_new.pb.txt"]
+   srcs=["tests/object.pb.txt"]
 )
 
 py_test(

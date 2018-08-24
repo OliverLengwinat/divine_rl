@@ -28,6 +28,7 @@
 #include "src/simulation/world/agent.h"
 #include "src/simulation/world/object.h"
 #include "src/proto/object.pb.h"
+#include "src/proto/world.pb.h"
 
 namespace simulation {
 namespace world {
@@ -39,12 +40,19 @@ public:
     World(){};
 
     bool load_proto(const std::string& data){
+        divine::World world_info;
+        world_info.ParseFromString(data);
+        world_info_ = world_info;
+        this->parse_proto();
+
         /*
         divine::Object object_proto;
         object_proto.ParseFromString(data);
         std::cout << object_proto.name() << std::endl;
         */
         //simulation::commons::ReadProtoFromTextFile(file_name, world_info_);
+        
+        return true;
     }
 
     // TODO: initialize from proto
@@ -86,6 +94,7 @@ public:
 private:
     std::vector<std::shared_ptr<BaseType>> objects_; // list of base objects
     std::vector<std::shared_ptr<Linestring_t<double, 2>>> lines_;
+    divine::World world_info_;
 };
 
 } // simulation
