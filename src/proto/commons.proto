@@ -3,6 +3,20 @@ syntax = "proto3";
 package divine;
 
 message State {
-  repeated float p = 1;
+  repeated float e = 1;
 }
 
+message Pose {
+  float x = 1;
+  float y = 2;
+  float theta = 3;
+}
+
+message Point {
+  float x = 1;
+  float y = 2;
+}
+
+message Shape {
+  repeated Point p = 1;
+}
