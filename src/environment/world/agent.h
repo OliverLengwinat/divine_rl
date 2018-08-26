@@ -30,18 +30,31 @@
 #include "src/proto/object.pb.h"
 
 namespace environment {
+namespace observers {
+    class BaseObserver;
+}
 namespace world {
 
 using namespace environment::kinematics;
 using namespace environment::commons;
+using namespace environment::observers;
 
 class Agent : public BaseType {
 public:
     Agent() {};
 
     void step(const Matrix_t<double>& u, double dt){
-        state_ = this->kinematic_model_->step(state_, u, dt);
-        pose_ = this->kinematic_model_->get_pose(state_);
+        if (observer_ != NULL){
+            //observer_->record_pre_state(this);
+            //observer_->record_action(u, dt);
+        }
+
+        state_ = kinematic_model_->step(state_, u, dt);
+        pose_ = kinematic_model_->get_pose(state_);
+
+        if (observer_ != NULL){
+            //observer_->record_post_state(this);
+        }
     }
 
     //! setter
@@ -51,6 +64,10 @@ public:
 
     void set_kinematic_model(std::shared_ptr<KinematicModel<double>> model){
         kinematic_model_ = model;
+    }
+
+    void set_observer(std::shared_ptr<BaseObserver> observer){
+        observer_ = observer;
     }
 
     //! getter
@@ -67,6 +84,7 @@ private:
     PointNd_t<double, 3> pose_;
     Matrix_t<double> state_;
     std::shared_ptr<KinematicModel<double>> kinematic_model_;
+    std::shared_ptr<BaseObserver> observer_; // world and agent
 };
 
 } // environment

@@ -1,7 +1,7 @@
 cc_library(
     name = "world",
-    srcs = glob(["world/*.cpp"]),
-    hdrs = glob(["world/*.h"]),
+    srcs = glob(["world/*.cpp", "observers/*.cpp"]),
+    hdrs = glob(["world/*.h", "observers/*.h"]),
     deps = [
         "@com_github_eigen_eigen//:eigen",
         "@boost//:geometry",
@@ -23,3 +23,8 @@ cc_library(
     visibility = ["//visibility:public"],
 )
 
+py_binary(
+    name = "environment",
+    srcs = ["environment.py"],
+    deps = []
+)

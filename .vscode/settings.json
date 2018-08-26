@@ -87,6 +87,8 @@
         "hashtable": "cpp",
         "string": "cpp",
         "locale": "cpp",
-        "__locale": "cpp"
+        "__locale": "cpp",
+        "random": "cpp",
+        "iterator": "cpp"
     }
 }

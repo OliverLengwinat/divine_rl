@@ -79,7 +79,7 @@ public:
         objects_.clear();
         lines_.clear();
         parse_proto();
-    };
+    }
 
     std::vector<std::shared_ptr<BaseType>> get_objects() { return objects_; }
 
