@@ -43,31 +43,29 @@ class Agent : public BaseType {
 public:
     Agent() {};
 
-    void step(const Matrix_t<double>& u, double dt){
-        if (observer_ != NULL){
-            //observer_->record_pre_state(this);
-            //observer_->record_action(u, dt);
-        }
+    template<class Action>
+    struct StateHistory {
+        Matrix_t<double> state;
+        Action action;
+        Matrix_t<double> next_state;
+        double reward;
+    };
 
+    void step(const Matrix_t<double>& u, double dt){
+        state_history_.state = state_;
+        state_history_.action = u;
         state_ = kinematic_model_->step(state_, u, dt);
         pose_ = kinematic_model_->get_pose(state_);
-
-        if (observer_ != NULL){
-            //observer_->record_post_state(this);
-        }
+        state_history_.next_state = state_;
     }
 
     //! setter
-    void set_pose(const PointNd_t<double, 3>& p){ pose_ = p; }
+    void set_pose(const PointNd_t<double, 3>& p){ pose_ = p;}
 
-    void set_state(const Matrix_t<double>& s){ state_ = s; }
+    void set_state(const Matrix_t<double>& s){ state_ = s;}
 
     void set_kinematic_model(std::shared_ptr<KinematicModel<double>> model){
         kinematic_model_ = model;
-    }
-
-    void set_observer(std::shared_ptr<BaseObserver> observer){
-        observer_ = observer;
     }
 
     //! getter
@@ -80,11 +78,13 @@ public:
         return translate<double, 2>(rotate<double, 2>(this->get_shape(), bg::get<2>(pose_)), p_t);
     }
 
+    StateHistory<Matrix_t<double>>& get_state_history() { return state_history_; };
+
 private:
     PointNd_t<double, 3> pose_;
     Matrix_t<double> state_;
+    StateHistory<Matrix_t<double>> state_history_;
     std::shared_ptr<KinematicModel<double>> kinematic_model_;
-    std::shared_ptr<BaseObserver> observer_; // world and agent
 };
 
 } // environment

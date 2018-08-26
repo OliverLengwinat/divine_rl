@@ -24,10 +24,32 @@
 #ifndef _KIN_OBSERVER_H_
 #define _KIN_OBSERVER_H_
 
+#include <functional>
 #include "src/environment/observers/observer.h"
 
 namespace environment {
 namespace observers {
+
+class KinematicObserver : public BaseObserver {
+public:
+    KinematicObserver() {};
+    void observe(std::shared_ptr<Agent> a){
+        Agent::StateHistory<Matrix_t<double>> h = a->get_state_history();
+        calculate_reward(a);
+    }
+
+    void calculate_reward(std::shared_ptr<Agent> a){
+        std::cout << get_world() << std::endl;
+        if(get_world()->collides(a)){
+            a->get_state_history().reward = -1.0;
+        } else {
+            a->get_state_history().reward = 1.0;
+        }
+    }
+
+private:
+    std::vector< Agent::StateHistory<Matrix_t<double>> > replay_;
+};
 
 
 } // observers

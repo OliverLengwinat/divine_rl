@@ -89,6 +89,7 @@
         "locale": "cpp",
         "__locale": "cpp",
         "random": "cpp",
-        "iterator": "cpp"
+        "iterator": "cpp",
+        "__bit_reference": "cpp"
     }
 }

@@ -26,6 +26,8 @@
 #include "src/environment/world/object.h"
 #include "src/environment/world/agent.h"
 #include "src/environment/world/world.h"
+#include "src/environment/observers/observer.h"
+#include "src/environment/observers/kin_observer.h"
 
 namespace py = pybind11;
 
@@ -33,6 +35,7 @@ namespace py = pybind11;
 void world_bindings(py::module m)
 {
     using namespace environment::world;
+    using namespace environment::observers;
 
     py::class_<World, std::shared_ptr<World>>(m, "World")
         .def(py::init<>())
@@ -61,4 +64,11 @@ void world_bindings(py::module m)
         .def(py::init<>())
         .def("set_shape", &environment::world::Object::set_shape)
         .def("get_shape", &environment::world::Object::get_shape);
+
+    /*
+    py::class_<KinematicObserver, BaseObserver, std::shared_ptr<KinematicObserver>>(m, "Observer")
+        .def(py::init<>())
+        .def("set_world", &environment::observers::BaseObserver::set_world)
+        .def("get_world", &environment::observers::BaseObserver::get_world);
+    */
 }

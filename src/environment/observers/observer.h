@@ -43,20 +43,12 @@ class BaseObserver {
 public:
 BaseObserver(){};
 
-struct Observation {
-    Matrix_t<double> state;
-    double action;
-    Matrix_t<double> next_state;
-    double reward;
-};
-
-virtual void record_pre_state(std::shared_ptr<Agent> agent) = 0;
-virtual void record_action(double a) = 0;
-virtual void record_post_state(std::shared_ptr<Agent> agent) = 0;
+void set_world(std::shared_ptr<World> w){ world_ = w; }
+std::shared_ptr<World> get_world(){ return world_; }
+virtual void observe(std::shared_ptr<Agent> a) = 0;
 
 private:
     std::shared_ptr<World> world_;
-    std::vector<Observation> observations_;
 };
 
 

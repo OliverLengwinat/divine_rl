@@ -7,15 +7,10 @@ from math import pi
 # env = Environment(descr, dt, max_steps, ...)
 # observer = Observer(env) # <-- ego_state, ego_antenna, ego_image, world_image, ...
 
-
-# important: 2 lines.. intersection distance
-# observer has all lines.. knows where the vehicles are.. calculates the d_col
-
 # agents = env.get_agents()
 
-# state, action, next_state, reward = observer.step( agent, u, dt )
-# observer.step(agent, u, dt)
-
+# agent.step(u, dt) 
+# observer.observe(agent)
 
 # Initialize the game engine
 pygame.init()
