@@ -65,10 +65,13 @@ void world_bindings(py::module m)
         .def("set_shape", &environment::world::Object::set_shape)
         .def("get_shape", &environment::world::Object::get_shape);
 
-    /*
-    py::class_<KinematicObserver, BaseObserver, std::shared_ptr<KinematicObserver>>(m, "Observer")
+    
+    py::class_<BaseObserver, std::shared_ptr<BaseObserver>>(m, "BaseObserver")
+        .def(py::init<>());
+
+    py::class_<KinematicObserver, BaseObserver, std::shared_ptr<KinematicObserver>>(m, "KinematicObserver")
         .def(py::init<>())
-        .def("set_world", &environment::observers::BaseObserver::set_world)
-        .def("get_world", &environment::observers::BaseObserver::get_world);
-    */
+        .def("set_world", &environment::observers::KinematicObserver::set_world)
+        .def("get_world", &environment::observers::KinematicObserver::get_world);
+    
 }

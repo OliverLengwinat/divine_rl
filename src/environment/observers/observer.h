@@ -45,7 +45,7 @@ BaseObserver(){};
 
 void set_world(std::shared_ptr<World> w){ world_ = w; }
 std::shared_ptr<World> get_world(){ return world_; }
-virtual void observe(std::shared_ptr<Agent> a) = 0;
+virtual void observe(std::shared_ptr<Agent> a) {};
 
 private:
     std::shared_ptr<World> world_;
