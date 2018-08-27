@@ -45,9 +45,13 @@ for i in range(1,20):
 
 	if i % 10 == 0:
 		u = np.array([[-0.5,0.5]])
-
-		# TODO only state + pose + TODO: add timestep
+		
+		# reset world
 		world.reset()
+
+		# TODO: set in PB file..
+		for agent in world.get_agents():
+			agent.set_kinematic_model(model)
 
 
 memory = o.get_replay_memory()
