@@ -36,9 +36,15 @@ using namespace environment::commons;
 class RoadNetwork {
 public:
     RoadNetwork(){}
-    void add_line(int starting_point, int end_point){};
 
-    Linestring_t<double, 2> calculate_bezier(PointNd_t<double, 2> p0, PointNd_t<double, 2> p1, PointNd_t<double, 2> p2, PointNd_t<double, 2> p3){
+    Linestring_t<double, 2> create_line(PointNd_t<double, 2> p0, PointNd_t<double, 2> p1){
+        Linestring_t<double, 2> line;
+        bg::append(line, p0);
+        bg::append(line, p1);
+        return line;
+    };
+
+    Linestring_t<double, 2> create_bezier(PointNd_t<double, 2> p0, PointNd_t<double, 2> p1, PointNd_t<double, 2> p2, PointNd_t<double, 2> p3){
         Linestring_t<double, 2> line;
         for(float t = 0; t < 1.0; t+=0.01){
             float p_x = std::pow(1-t, 3) * bg::get<0>(p0) + 3*t*std::pow(1-t, 2)*bg::get<0>(p1) + 3*std::pow(t, 2)*(1-t)*bg::get<0>(p2) + std::pow(t, 3)*bg::get<0>(p3);

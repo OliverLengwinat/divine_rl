@@ -48,7 +48,8 @@ void world_bindings(py::module m)
 
     py::class_<RoadNetwork, std::shared_ptr<RoadNetwork>>(m, "RoadNetwork")
         .def(py::init<>())
-        .def("calculate_bezier", &environment::world::RoadNetwork::calculate_bezier);
+        .def("create_line", &environment::world::RoadNetwork::create_line)
+        .def("create_bezier", &environment::world::RoadNetwork::create_bezier);
 
     py::class_<BaseType, std::shared_ptr<BaseType>>(m, "BaseType")
         .def(py::init<>())
