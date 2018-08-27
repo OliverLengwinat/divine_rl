@@ -75,6 +75,7 @@ void world_bindings(py::module m)
     py::class_<KinematicObserver, BaseObserver, std::shared_ptr<KinematicObserver>>(m, "KinematicObserver")
         .def(py::init<>())
         .def("set_world", &environment::observers::KinematicObserver::set_world)
+        .def("observe", &environment::observers::KinematicObserver::observe)
         .def("get_world", &environment::observers::KinematicObserver::get_world);
     
 }

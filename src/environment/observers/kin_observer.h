@@ -37,14 +37,15 @@ public:
     // is_final, reward
     std::pair<int, Agent::StateHistory> observe(const std::pair<int, Agent::StateHistory>& s){
         //world_->get_agent(s.first);
-
-        
+        // TODO: final_state, reward, implement replay_buffer
+        // calculate reward()
+        // is final()
         return s;
     }
 
 
 private:
-    //std::vector< Agent::StateHistory<Matrix_t<double>> > replay_;
+    std::vector< Agent::StateHistory > replay_memory_;
 };
 
 
