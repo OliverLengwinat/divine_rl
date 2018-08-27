@@ -26,6 +26,7 @@
 #include "src/environment/world/object.h"
 #include "src/environment/world/agent.h"
 #include "src/environment/world/world.h"
+#include "src/environment/world/road_network.h"
 #include "src/environment/observers/observer.h"
 #include "src/environment/observers/kin_observer.h"
 
@@ -45,6 +46,9 @@ void world_bindings(py::module m)
         .def("load_proto", &environment::world::World::load_proto)
         .def("get_objects", &environment::world::World::get_objects);
 
+    py::class_<RoadNetwork, std::shared_ptr<RoadNetwork>>(m, "RoadNetwork")
+        .def(py::init<>())
+        .def("calculate_bezier", &environment::world::RoadNetwork::calculate_bezier);
 
     py::class_<BaseType, std::shared_ptr<BaseType>>(m, "BaseType")
         .def(py::init<>())

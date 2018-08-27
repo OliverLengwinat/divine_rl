@@ -200,6 +200,6 @@ struct StateHistory {
 	bool is_final;
 };
 
-} // environment
 } // commons
+} // environment
 #endif //_COMMONS_COMMON_H_

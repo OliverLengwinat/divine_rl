@@ -60,3 +60,11 @@ py_test(
   imports = ['.'],
   deps = ["//src/proto:py_commons"],
 )
+
+py_test(
+  name = "road_tests",
+  srcs = ["tests/road_tests.py"],
+  data = [':divine_rl.so'],
+  imports = ['.'],
+  deps = ["//src/proto:py_commons"],
+)

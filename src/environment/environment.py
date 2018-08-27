@@ -39,12 +39,12 @@ for i in range(0,200):
 		o.observe(agent.step(u, 0.25)) # save these and update later
 	viewer.draw_world(world)
 
+
 memory = o.get_replay_memory()
 print(memory.sample(10))
+
 
 viewer.show()
 end = time.time()
 print(end - start)
-# TODO: visualize world
-# [[mat0,..., matN], [a0, ..., aN], [mat0, .., matN], [r0,..., rN]] = o.sample()
 	
