@@ -49,6 +49,9 @@ void world_bindings(py::module m)
     py::class_<BaseType, std::shared_ptr<BaseType>>(m, "BaseType")
         .def(py::init<>());
 
+    py::class_<Agent::StateHistory, std::shared_ptr<Agent::StateHistory>>(m, "StateHistory")
+        .def(py::init<>());
+
     py::class_<Agent, BaseType, std::shared_ptr<Agent>>(m, "Agent")
         .def(py::init<>())
         .def("set_state", &environment::world::Agent::set_state)

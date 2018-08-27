@@ -33,7 +33,7 @@ using namespace environment::commons;
 
 class BaseType {
 public:
-    BaseType() {};
+    BaseType() : id_(0), reward_(0.0) {};
     void set_shape(const Polygon_t<double, 2>& s){ shape_ = s; };
     Polygon_t<double, 2> get_shape() const { return shape_; };
     virtual ~BaseType() = default;

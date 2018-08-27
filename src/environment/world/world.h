@@ -37,7 +37,7 @@ class World {
 public:
 
 
-    World(){};
+    World() : agent_count_(0) {};
 
     bool load_proto(const std::string& data){
         divine::World world_info;
@@ -51,7 +51,9 @@ public:
     bool parse_proto();
 
     void add_object(std::shared_ptr<BaseType> obj){
+        obj->set_id(agent_count_);
         objects_.push_back(obj);
+        agent_count_++;
     }
 
     // TODO: get agents
@@ -79,6 +81,7 @@ public:
         objects_.clear();
         lines_.clear();
         parse_proto();
+        agent_count_ = 0;
     }
 
     std::vector<std::shared_ptr<BaseType>> get_objects() { return objects_; }
@@ -87,6 +90,7 @@ private:
     std::vector<std::shared_ptr<BaseType>> objects_; // list of base objects
     std::vector<std::shared_ptr<Linestring_t<double, 2>>> lines_;
     divine::World world_info_;
+    uint agent_count_;
 };
 
 } // environment

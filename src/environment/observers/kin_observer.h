@@ -35,25 +35,16 @@ public:
     KinematicObserver() {};
 
     // is_final, reward
-    void observe(std::shared_ptr<Agent> a){
-        Agent::StateHistory<Matrix_t<double>> h = a->get_state_history();
-        // transform_state()
-        calculate_reward(a);
-        // transform_state()
+    std::pair<int, Agent::StateHistory> observe(const std::pair<int, Agent::StateHistory>& s){
+        //world_->get_agent(s.first);
+
+        
+        return s;
     }
 
-    void calculate_reward(std::shared_ptr<Agent> a){
-        std::cout << get_world() << std::endl;
-        std::pair<bool, double> collides = get_world()->collides(a);
-        if(collides.first){
-            //! TODO state is final
-            a->get_state_history().is_final = true;
-        }
-        a->get_state_history().reward = collides.second;
-    }
 
 private:
-    std::vector< Agent::StateHistory<Matrix_t<double>> > replay_;
+    //std::vector< Agent::StateHistory<Matrix_t<double>> > replay_;
 };
 
 

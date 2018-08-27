@@ -43,22 +43,25 @@ class Agent : public BaseType {
 public:
     Agent() {};
 
-    template<class Action>
     struct StateHistory {
-        StateHistory() : is_final(false){};
+        StateHistory() : is_final(false) {};
         Matrix_t<double> state;
-        Action action;
+        Matrix_t<double> action;
         Matrix_t<double> next_state;
         double reward;
         bool is_final;
     };
 
-    void step(const Matrix_t<double>& u, double dt){
-        state_history_.state = state_;
-        state_history_.action = u;
+    std::pair<int, StateHistory> step(const Matrix_t<double>& u, double dt){
+        StateHistory sr;
+        sr.state = state_;
+        sr.action = u;
         state_ = kinematic_model_->step(state_, u, dt);
         pose_ = kinematic_model_->get_pose(state_);
-        state_history_.next_state = state_;
+        sr.next_state = state_;
+
+        std::pair<int, StateHistory> id_sr = std::make_pair(get_id(), sr);
+        return id_sr;
     }
 
     //! setter
@@ -80,12 +83,10 @@ public:
         return translate<double, 2>(rotate<double, 2>(this->get_shape(), bg::get<2>(pose_)), p_t);
     }
 
-    StateHistory<Matrix_t<double>>& get_state_history() { return state_history_; };
 
 private:
     PointNd_t<double, 3> pose_;
     Matrix_t<double> state_;
-    StateHistory<Matrix_t<double>> state_history_;
     std::shared_ptr<KinematicModel<double>> kinematic_model_;
 };
 

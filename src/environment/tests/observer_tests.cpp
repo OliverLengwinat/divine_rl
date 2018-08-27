@@ -39,6 +39,7 @@ TEST(observer, init) {
 
     std::shared_ptr<World> w(new World());
     std::shared_ptr<Agent> a(new Agent());
+    std::shared_ptr<Agent> b(new Agent());
     std::shared_ptr<KinematicObserver> o(new KinematicObserver());
     o->set_world(w);
 
@@ -50,22 +51,24 @@ TEST(observer, init) {
     a->set_pose(p);
     a->set_kinematic_model(kin);
 
+    b->set_state(m);
+    b->set_pose(p);
+    b->set_kinematic_model(kin);
+
+    w->add_object(a);
+    w->add_object(b);
+
     Matrix_t<double> u(1,2);
     u << 0,0;
 
     std::cout << a->get_state() << std::endl;
-    
-    a->step(u, 0.15);
-    o->observe(a);
 
-    //! check if state history has been filled correctly
-    Agent::StateHistory<Matrix_t<double>> hist = a->get_state_history();
 
-    std::cout << "State History:" << std::endl;
-    std::cout << hist.state << std::endl;
-    std::cout << hist.action << std::endl;
-    std::cout << hist.next_state << std::endl;
-    std::cout << hist.reward << std::endl;
+    std::pair<int, Agent::StateHistory> h = o->observe( a->step(u, 0.15) );
+    std::pair<int, Agent::StateHistory> hb = o->observe( b->step(u, 0.15) );
+    std::cout << h.first << std::endl;
+    std::cout << hb.first << std::endl;
+    std::cout << h.second.state << std::endl;
 
     
 
