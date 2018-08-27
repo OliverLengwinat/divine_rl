@@ -89,9 +89,10 @@ public:
     void reset(){
         objects_.clear();
         lines_.clear();
-        parse_proto();
         agent_count_ = 0;
+        parse_proto();
     }
+
 
     std::vector<std::shared_ptr<BaseType>> get_objects() { return objects_; }
 
