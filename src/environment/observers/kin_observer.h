@@ -33,18 +33,23 @@ namespace observers {
 class KinematicObserver : public BaseObserver {
 public:
     KinematicObserver() {};
+
+    // is_final, reward
     void observe(std::shared_ptr<Agent> a){
         Agent::StateHistory<Matrix_t<double>> h = a->get_state_history();
+        // transform_state()
         calculate_reward(a);
+        // transform_state()
     }
 
     void calculate_reward(std::shared_ptr<Agent> a){
         std::cout << get_world() << std::endl;
-        if(get_world()->collides(a)){
-            a->get_state_history().reward = -1.0;
-        } else {
-            a->get_state_history().reward = 1.0;
+        std::pair<bool, double> collides = get_world()->collides(a);
+        if(collides.first){
+            //! TODO state is final
+            a->get_state_history().is_final = true;
         }
+        a->get_state_history().reward = collides.second;
     }
 
 private:

@@ -65,14 +65,14 @@ public:
         return agents;
     }
 
-    bool collides(std::shared_ptr<Agent> agent){
+    std::pair<bool, double> collides(std::shared_ptr<Agent> agent){
         for (std::shared_ptr<BaseType> obj : objects_){
             if(agent != obj){
                 if ( environment::commons::collides<double, 2>(obj->get_shape(), agent->get_transformed_shape()) )
-                    return true;
+                    return std::make_pair(true, obj->get_reward());
             }
         }
-        return false;
+        return std::make_pair(false, 0.0);
     }
 
     void reset(){

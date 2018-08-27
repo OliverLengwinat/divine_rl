@@ -45,10 +45,12 @@ public:
 
     template<class Action>
     struct StateHistory {
+        StateHistory() : is_final(false){};
         Matrix_t<double> state;
         Action action;
         Matrix_t<double> next_state;
         double reward;
+        bool is_final;
     };
 
     void step(const Matrix_t<double>& u, double dt){

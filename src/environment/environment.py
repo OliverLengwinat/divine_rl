@@ -4,7 +4,7 @@ from math import pi
 
 # basically
 
-# env = Environment(descr, dt, max_steps, ...)
+# env = Environment(descr)
 # observer = Observer(env) # <-- ego_state, ego_antenna, ego_image, world_image, ...
 
 # agents = env.get_agents()
