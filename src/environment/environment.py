@@ -38,10 +38,16 @@ viewer = Viewer()
 start = time.time()
 # simulate
 
-for i in range(0,20):
+for i in range(1,20):
 	for agent in world.get_agents():
 		o.observe(agent.step(u, 0.25)) # save these and update later
 	viewer.draw_world(world)
+
+	if i % 10 == 0:
+		u = np.array([[-0.5,0.5]])
+
+		# TODO only state + pose + TODO: add timestep
+		world.reset()
 
 
 memory = o.get_replay_memory()

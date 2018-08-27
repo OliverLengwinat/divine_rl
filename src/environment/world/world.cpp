@@ -5,7 +5,7 @@ namespace world {
 
 bool World::parse_proto(){
     for (int i = 0; i < world_info_.object_size(); i++) {
-        const divine::Object& obj = world_info_.object(i);
+        const divine::Object obj = world_info_.object(i);
         
         //! create objects
         std::shared_ptr<BaseType> tmp_obj;
@@ -30,8 +30,6 @@ bool World::parse_proto(){
         } else if (obj.type() == 1) { //! create object
             std::shared_ptr<Object> object(new Object());
             tmp_obj = object;
-        } else if (obj.type() == 2) { //! add line
-            // TODO: define line
         }
 
         //! shape
@@ -45,7 +43,7 @@ bool World::parse_proto(){
         tmp_obj->set_reward(obj.reward());
         tmp_obj->set_type(obj.type());
 
-        this->add_object(tmp_obj);
+        add_object(tmp_obj);
     }
     return true;
 }
