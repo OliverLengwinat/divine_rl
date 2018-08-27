@@ -77,6 +77,15 @@ public:
         return std::make_pair(false, 0.0);
     }
 
+    std::shared_ptr<Agent> get_agent(uint agent_id){
+        for (std::shared_ptr<BaseType> obj : objects_){
+            if(obj->get_id() == agent_id){
+                return std::dynamic_pointer_cast<Agent>(obj);
+            }
+        }
+        return nullptr;
+    }
+
     void reset(){
         objects_.clear();
         lines_.clear();

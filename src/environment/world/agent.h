@@ -43,15 +43,6 @@ class Agent : public BaseType {
 public:
     Agent() {};
 
-    struct StateHistory {
-        StateHistory() : is_final(false) {};
-        Matrix_t<double> state;
-        Matrix_t<double> action;
-        Matrix_t<double> next_state;
-        double reward;
-        bool is_final;
-    };
-
     std::pair<int, StateHistory> step(const Matrix_t<double>& u, double dt){
         StateHistory sr;
         sr.state = state_;

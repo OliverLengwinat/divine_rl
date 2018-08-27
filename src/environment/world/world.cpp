@@ -9,7 +9,6 @@ bool World::parse_proto(){
         
         //! create objects
         std::shared_ptr<BaseType> tmp_obj;
-
         if(obj.type() == 0){ //! create agent
             std::shared_ptr<Agent> agent(new Agent());
 
@@ -44,6 +43,7 @@ bool World::parse_proto(){
         tmp_obj->set_shape(shape);
         tmp_obj->set_id(obj.id());
         tmp_obj->set_reward(obj.reward());
+        tmp_obj->set_type(obj.type());
 
         this->add_object(tmp_obj);
     }

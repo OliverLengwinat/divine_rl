@@ -35,17 +35,15 @@ public:
     KinematicObserver() {};
 
     // is_final, reward
-    std::pair<int, Agent::StateHistory> observe(const std::pair<int, Agent::StateHistory>& s){
-        //world_->get_agent(s.first);
-        // TODO: final_state, reward, implement replay_buffer
-        // calculate reward()
-        // is final()
+    std::pair<int, StateHistory> observe(std::pair<int, StateHistory> s){
+        std::shared_ptr<Agent> agent = get_world()->get_agent(s.first);
+        std::pair<bool, double> status = get_world()->collides(agent);
+        s.second.reward = status.second;
+        s.second.is_final = status.first;
+        memorize(s.second);
         return s;
     }
 
-
-private:
-    std::vector< Agent::StateHistory > replay_memory_;
 };
 
 

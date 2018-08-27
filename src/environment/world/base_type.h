@@ -40,12 +40,16 @@ public:
     void set_id(uint id){id_=id;};
     uint get_id() const { return id_; };
 
+    void set_type(uint type){ type_=type; };
+    uint get_type() const { return type_; };
+
     void set_reward(double reward){reward_=reward;};
     double get_reward() const { return reward_; };
 private:
     Polygon_t<double, 2> shape_;
     uint id_;
     double reward_;
+    uint type_;
 };
 
 } // environment

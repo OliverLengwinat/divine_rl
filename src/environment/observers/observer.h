@@ -24,6 +24,7 @@
 #ifndef _OBSERVERS_H_
 #define _OBSERVERS_H_
 
+#include <algorithm>
 #include "src/environment/world/world.h"
 #include "src/environment/world/agent.h"
 
@@ -39,16 +40,45 @@ namespace observers {
 
 using namespace environment::world;
 
+class ReplayMemory {
+public:
+    ReplayMemory() : max_sample_size(5000) {};
+    void push_back(const StateHistory s){
+        replay_memory_.push_back(s);
+        if(replay_memory_.size() > max_sample_size){
+            replay_memory_.pop_front();
+        }
+    }
+
+    std::vector<StateHistory> sample(size_t N){
+        std::vector<StateHistory> ret;
+        // TODO: make random
+        for(int i = 0; i < std::min(N, replay_memory_.size()); ++i ){
+            ret.push_back(replay_memory_[i]);
+        }
+        return ret;
+    }
+
+private:
+    std::deque< StateHistory > replay_memory_;
+    int max_sample_size;
+};
+
+
 class BaseObserver {
 public:
 BaseObserver(){};
+virtual ~BaseObserver() = default;
 
 void set_world(std::shared_ptr<World> w){ world_ = w; }
 std::shared_ptr<World> get_world(){ return world_; }
-virtual std::pair<int, Agent::StateHistory> observe(const std::pair<int, Agent::StateHistory>& s) { return s;};
+virtual std::pair<int, StateHistory> observe(std::pair<int, StateHistory> s) = 0;
+ReplayMemory& get_replay_memory() { return replay_memory_; };
+void memorize(const StateHistory s){ replay_memory_.push_back(s); };
 
 private:
     std::shared_ptr<World> world_;
+    ReplayMemory replay_memory_;
 };
 
 

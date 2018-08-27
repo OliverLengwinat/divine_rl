@@ -64,8 +64,8 @@ TEST(observer, init) {
     std::cout << a->get_state() << std::endl;
 
 
-    std::pair<int, Agent::StateHistory> h = o->observe( a->step(u, 0.15) );
-    std::pair<int, Agent::StateHistory> hb = o->observe( b->step(u, 0.15) );
+    std::pair<int, StateHistory> h = o->observe( a->step(u, 0.15) );
+    std::pair<int, StateHistory> hb = o->observe( b->step(u, 0.15) );
     std::cout << h.first << std::endl;
     std::cout << hb.first << std::endl;
     std::cout << h.second.state << std::endl;

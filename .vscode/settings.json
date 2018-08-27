@@ -90,6 +90,7 @@
         "__locale": "cpp",
         "random": "cpp",
         "iterator": "cpp",
-        "__bit_reference": "cpp"
+        "__bit_reference": "cpp",
+        "__split_buffer": "cpp"
     }
 }

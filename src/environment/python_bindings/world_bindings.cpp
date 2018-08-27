@@ -47,15 +47,15 @@ void world_bindings(py::module m)
 
 
     py::class_<BaseType, std::shared_ptr<BaseType>>(m, "BaseType")
-        .def(py::init<>());
-
-    py::class_<Agent::StateHistory, std::shared_ptr<Agent::StateHistory>>(m, "StateHistory")
-        .def(py::init<>());
+        .def(py::init<>())
+        .def("set_shape", &environment::world::BaseType::set_shape)
+        .def("get_shape", &environment::world::BaseType::get_shape)
+        .def("set_type", &environment::world::BaseType::set_type)
+        .def("get_type", &environment::world::BaseType::get_type);
 
     py::class_<Agent, BaseType, std::shared_ptr<Agent>>(m, "Agent")
         .def(py::init<>())
         .def("set_state", &environment::world::Agent::set_state)
-        .def("set_shape", &environment::world::Agent::set_shape)
         .def("set_pose", &environment::world::Agent::set_pose)
         .def("get_pose", &environment::world::Agent::get_pose)
         .def("get_state", &environment::world::Agent::get_state)
@@ -64,18 +64,24 @@ void world_bindings(py::module m)
         .def("set_kinematic_model", &environment::world::Agent::set_kinematic_model);
 
     py::class_<Object, BaseType, std::shared_ptr<Object>>(m, "Object")
-        .def(py::init<>())
-        .def("set_shape", &environment::world::Object::set_shape)
-        .def("get_shape", &environment::world::Object::get_shape);
-
-    
-    py::class_<BaseObserver, std::shared_ptr<BaseObserver>>(m, "BaseObserver")
         .def(py::init<>());
+
+    py::class_<StateHistory, std::shared_ptr<StateHistory>>(m, "StateHistory")
+        .def(py::init<>());
+
+    py::class_<ReplayMemory, std::shared_ptr<ReplayMemory>>(m, "ReplayMemory")
+        .def(py::init<>())
+        .def("push_back", &environment::observers::ReplayMemory::push_back)
+        .def("sample", &environment::observers::ReplayMemory::sample);
+
+    py::class_<BaseObserver, std::shared_ptr<BaseObserver>>(m, "BaseObserver")
+        .def("set_world", &environment::observers::BaseObserver::set_world)
+        .def("get_replay_memory", &environment::observers::BaseObserver::get_replay_memory)
+        .def("get_world", &environment::observers::BaseObserver::get_world);
 
     py::class_<KinematicObserver, BaseObserver, std::shared_ptr<KinematicObserver>>(m, "KinematicObserver")
         .def(py::init<>())
-        .def("set_world", &environment::observers::KinematicObserver::set_world)
-        .def("observe", &environment::observers::KinematicObserver::observe)
-        .def("get_world", &environment::observers::KinematicObserver::get_world);
+        .def("observe", &environment::observers::KinematicObserver::observe);
+
     
 }
