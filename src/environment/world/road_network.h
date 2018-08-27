@@ -31,11 +31,10 @@ namespace environment {
 namespace world {
 
 using namespace environment::commons;
-// TODO: graph
+using namespace boost; 
 
 class RoadNetwork {
 public:
-    RoadNetwork(){}
 
     Linestring_t<double, 2> create_line(PointNd_t<double, 2> p0, PointNd_t<double, 2> p1){
         Linestring_t<double, 2> line;
@@ -54,8 +53,13 @@ public:
         return line;
     }
 
+    void find(uint start_id, uint end_id){
+        // TODO: query road_graph_
+    }
+
 private:
     int road_graph_;
+
 };
 
 }

@@ -25,16 +25,20 @@ o.set_world(world)
 
 
 # set model to be used
+# TODO: set triple integrator model for line following
+# model = ThreeIntModel(ref_line)
+
 model = SingleTrackModel()
-u = np.array([[0.5,1.0]])
+u = np.array([[0.5,0.5]])
 for agent in world.get_agents():
 	agent.set_kinematic_model(model)
+
 
 viewer = Viewer()
 start = time.time()
 # simulate
 
-for i in range(0,200):
+for i in range(0,20):
 	for agent in world.get_agents():
 		o.observe(agent.step(u, 0.25)) # save these and update later
 	viewer.draw_world(world)
