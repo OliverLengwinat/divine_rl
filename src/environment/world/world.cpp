@@ -13,6 +13,8 @@ bool World::parse_proto(){
         if(obj.type() == 0){ //! create agent
             std::shared_ptr<Agent> agent(new Agent());
 
+            // TODO: add kinematic model
+
             //! pose
             PointNd_t<double, 3> pose(obj.pose().x(), obj.pose().y(), obj.pose().theta());
             agent->set_pose(pose);
@@ -26,9 +28,11 @@ bool World::parse_proto(){
             agent->set_state(state);
             tmp_obj = agent;
 
-        } else { //! create object
+        } else if (obj.type() == 1) { //! create object
             std::shared_ptr<Object> object(new Object());
             tmp_obj = object;
+        } else if (obj.type() == 2) { //! add line
+            // TODO: define line
         }
 
         //! shape
