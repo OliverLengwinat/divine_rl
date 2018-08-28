@@ -27,7 +27,7 @@
 #include "src/environment/observers/observer.h"
 #include "src/environment/observers/kin_observer.h"
 #include "src/environment/commons/utilities.h"
-#include "src/environment/commons/kinematics.h"
+#include "src/environment/dynamics/kinematics.h"
 #include "src/proto/object.pb.h"
 
 

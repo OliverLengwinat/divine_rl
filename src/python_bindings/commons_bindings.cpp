@@ -23,7 +23,7 @@
 
 #include "commons_bindings.h"
 #include "src/environment/commons/common.h"
-#include "src/environment/commons/kinematics.h"
+#include "src/environment/dynamics/kinematics.h"
 
 namespace py = pybind11;
 

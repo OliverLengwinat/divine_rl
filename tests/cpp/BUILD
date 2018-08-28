@@ -11,7 +11,6 @@ cc_test(
     ],
 )
 
-
 cc_test(
     name = "geometry_tests",
     srcs = [
@@ -38,11 +37,6 @@ cc_test(
     ],
 )
 
-filegroup(
-   name="agent_test_data",
-   srcs=["agent.pb.txt"]
-)
-
 cc_test(
     name = "protobuf_tests",
     srcs = [
@@ -54,7 +48,5 @@ cc_test(
         "//src/environment:commons",
         "@gtest//:main",
         "//src/proto:object_cc_proto"
-    ],
-    data = [":agent_test_data"]
+    ]
 )
-

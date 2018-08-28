@@ -67,19 +67,6 @@ git_repository(
     commit = "8b5d0683a7d878b28fffe464779c8a53659fc645",
 )
 
-load("@io_bazel_rules_python//python:pip.bzl", "pip_repositories")
-pip_repositories()
-
-load("@io_bazel_rules_python//python:pip.bzl", "pip_import")
-
-pip_import(
-   name = "my_deps",
-   requirements = "//src/environment/python_bindings:requirements.txt",
-)
-
-load("@my_deps//:requirements.bzl", "pip_install")
-pip_install()
-
 new_local_repository(
     name = "python_linux",
     path = "./venv/",

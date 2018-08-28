@@ -1,7 +1,7 @@
 cc_library(
     name = "world",
-    srcs = glob(["world/*.cpp", "observers/*.cpp"]),
-    hdrs = glob(["world/*.h", "observers/*.h"]),
+    srcs = glob(["world/*.cpp", "observers/*.cpp", "dynamics/*.cpp"]),
+    hdrs = glob(["world/*.h", "observers/*.h", "dynamics/*.h"]),
     deps = [
         "@com_github_eigen_eigen//:eigen",
         "@boost//:geometry",
@@ -26,7 +26,7 @@ cc_library(
 py_binary(
     name = "environment",
     srcs = ["environment.py", "viewer/viewer.py"],
-    data = ['//src/environment/python_bindings:divine_rl.so', "//src/environment/python_bindings:object_test_data"],
+    data = ['//src/python_bindings:divine_rl.so', "//tests/python:object_test_data"],
     imports = ['./python_bindings'],
     deps = ["//src/proto:py_commons"]
 )

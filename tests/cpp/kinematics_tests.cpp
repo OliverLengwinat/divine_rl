@@ -22,7 +22,7 @@
  */
 
 #include "gtest/gtest.h"
-#include "src/environment/commons/kinematics.h"
+#include "src/environment/dynamics/kinematics.h"
 
 
 //! test point method and numpy conversion

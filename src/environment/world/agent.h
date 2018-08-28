@@ -25,7 +25,7 @@
 
 #include "src/environment/commons/utilities.h"
 #include "src/environment/commons/common.h"
-#include "src/environment/commons/kinematics.h"
+#include "src/environment/dynamics/kinematics.h"
 #include "src/environment/world/base_type.h"
 #include "src/proto/object.pb.h"
 

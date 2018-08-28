@@ -20,8 +20,8 @@
  * AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef _COMMOONS_KINEMATICS_H_
-#define _COMMOONS_KINEMATICS_H_
+#ifndef _COMMONS_KINEMATICS_H_
+#define _COMMONS_KINEMATICS_H_
 #include "src/environment/commons/common.h"
 
 namespace environment {
@@ -66,9 +66,11 @@ struct InterpolationModel : public KinematicModel<T> {
 
 	// TODO: flexible wheel-base
 	Matrix_t<T> step(const Matrix_t<T>& state, const Matrix_t<T>& u, T dt){
-		Matrix_t<T> A(1, 4);
-		A << state(3)*cos(state(2)), state(3)*sin(state(2)), tan(u(0))/T(1.5), u(1); 
-		return state + dt * A;
+		Matrix_t<T> A(3, 3);
+		Matrix_t<T> B(3, 1);
+		A << 0, 1, 0, 0, 0, 1, 0, 0, 0;
+		B << 0, 0, 1;
+		return state + dt * (A*state + B*u);
 	}
 	
 	PointNd_t<T, 3> get_pose(const Matrix_t<T>& state){
@@ -78,6 +80,8 @@ struct InterpolationModel : public KinematicModel<T> {
 		bg::set<2>(pt, state(0,2));
 		return pt;
 	}
+	
+
 
 };
 

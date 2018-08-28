@@ -12,12 +12,16 @@ bool World::parse_proto(){
         if(obj.type() == 0){ //! create agent
             std::shared_ptr<Agent> agent(new Agent());
 
-            // TODO: add kinematic model
+            std::shared_ptr<KinematicModel<double>> model;
 
-            //! pose
+            // TODO: std::shared_ptr<KinematicModel> kin = obj.kinematic_model().name()
+
+            std::shared_ptr<KinematicModel<double>> kin;
+
+            //! TODO: get pose from kinematic model
             PointNd_t<double, 3> pose(obj.pose().x(), obj.pose().y(), obj.pose().theta());
             agent->set_pose(pose);
-
+            
             Matrix_t<double> state(1, obj.state().e_size());
             //! state
             for (int j = 0; j < obj.state().e_size(); j++) {

@@ -10,7 +10,7 @@ import time
 
 
 # load proto
-f = open('src/environment/python_bindings/tests/object.pb.txt', 'r')
+f = open('src/python_bindings/tests/object.pb.txt', 'r')
 obj = world_pb2.World() # replace with your own message
 text_format.Parse(f.read(), obj)
 f.close()
