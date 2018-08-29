@@ -44,16 +44,12 @@ public:
     Agent() {};
 
     std::pair<int, StateHistory> step(const Matrix_t<double>& u, double dt){
-        std::cout << "hello";
-
         StateHistory sr;
         sr.state = kinematic_model_->get_state();
         sr.action = u;
         kinematic_model_->step(u, dt);
         pose_ = kinematic_model_->get_pose();
         sr.next_state = kinematic_model_->get_state();
-        std::cout << "world";
-
         std::pair<int, StateHistory> id_sr = std::make_pair(get_id(), sr);
         return id_sr;
     }

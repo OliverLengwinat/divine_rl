@@ -98,7 +98,6 @@ class WorldTests(unittest.TestCase):
 
 		print(objects[0].get_kinematic_model().get_state())
 		print(objects)
-		print("hello world")
 		
 		
 	

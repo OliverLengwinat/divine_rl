@@ -93,13 +93,19 @@ class Environment(threading.Thread):
 
 
 if __name__ == '__main__':
-	e = Environment()
-	e.load_world("tests/python/world.pb.txt")
+	env = Environment()
+	env.load_world("tests/python/world.pb.txt")
 
+	obs = KinematicObserver()
+	env.set_observer(obs)
+	
+	# simulate and plot
 	u = np.array([[0.5,0.5]])
 	for frame in range(0,20):
-		for agent in e.agents:
-			agent.step(u, 0.25)
-		e.debug_plot()
-	
-	e.debug_plot_show()
+		for agent in env.agents:
+			obs.observe(agent.step(u, 0.25))
+		env.debug_plot()
+	env.debug_plot_show()
+
+	# sample 10 items from replay memory
+	print(env.sample_memory(10))
