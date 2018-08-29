@@ -108,7 +108,6 @@ if __name__ == '__main__':
 	# setup environment
 	env = Environment("tests/python/world.pb.txt")
 	obs = KinematicObserver()
-
 	env.set_observer(obs)
 	env.debug_world_plot()
 
