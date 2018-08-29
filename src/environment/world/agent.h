@@ -50,7 +50,7 @@ public:
         sr.state = kinematic_model_->get_state();
         sr.action = u;
         kinematic_model_->step(u, dt);
-        pose_ = kinematic_model_->get_pose(kinematic_model_->get_state());
+        pose_ = kinematic_model_->get_pose();
         sr.next_state = kinematic_model_->get_state();
         std::cout << "world";
 

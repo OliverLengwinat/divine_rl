@@ -39,15 +39,6 @@ public:
 
     World() : agent_count_(0) {};
 
-    bool load_proto(const std::string& data){
-        divine::World world_info;
-        world_info.ParseFromString(data);
-        world_info_ = world_info;
-        this->parse_proto();
-        return true;
-    }
-
-    bool parse_proto();
 
     void add_object(std::shared_ptr<BaseType> obj){
         obj->set_id(agent_count_);
@@ -83,14 +74,6 @@ public:
         }
         return nullptr;
     }
-
-    void reset(){
-        objects_.clear();
-        lines_.clear();
-        agent_count_ = 0;
-        parse_proto();
-    }
-
 
     std::vector<std::shared_ptr<BaseType>> get_objects() { return objects_; }
 

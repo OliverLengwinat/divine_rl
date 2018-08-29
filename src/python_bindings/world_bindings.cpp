@@ -43,8 +43,6 @@ void world_bindings(py::module m)
         .def("add_object", &environment::world::World::add_object)
         .def("get_agents", &environment::world::World::get_agents)
         .def("collides", &environment::world::World::collides)
-        .def("load_proto", &environment::world::World::load_proto)
-        .def("reset", &environment::world::World::reset)
         .def("get_objects", &environment::world::World::get_objects);
 
     py::class_<RoadNetwork, std::shared_ptr<RoadNetwork>>(m, "RoadNetwork")

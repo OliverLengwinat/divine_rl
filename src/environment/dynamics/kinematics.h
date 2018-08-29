@@ -35,7 +35,7 @@ public:
 	KinematicModel(){};
 
 	virtual void step(const Matrix_t<T>& u, T dt) = 0;
-	virtual PointNd_t<T, 3> get_pose(const Matrix_t<T>& state) = 0;
+	virtual PointNd_t<T, 3> get_pose() = 0;
 	void set_state(const Matrix_t<T>& state){state_ = state; };
 	Matrix_t<T> get_state() { return state_; };
 	virtual ~KinematicModel() = default;
@@ -56,7 +56,8 @@ struct SingleTrackModel : public KinematicModel<T> {
 		KinematicModel<T>::set_state(state + dt * A);
 	}
 	
-	PointNd_t<T, 3> get_pose(const Matrix_t<T>& state){
+	PointNd_t<T, 3> get_pose(){
+		Matrix_t<T> state = KinematicModel<T>::get_state();
 		PointNd_t<T, 3> pt;
 		bg::set<0>(pt, state(0,0));
 		bg::set<1>(pt, state(0,1));
@@ -80,8 +81,9 @@ struct TrippleIntModel : public KinematicModel<T> {
 		KinematicModel<T>::set_state(state + dt * (A*state + B*u));
 	}
 	
-	PointNd_t<T, 3> get_pose(const Matrix_t<T>& state){
+	PointNd_t<T, 3> get_pose(){
 		// TODO: calculate pose using: line_
+		Matrix_t<T> state = KinematicModel<T>::get_state();
 		PointNd_t<T, 3> pt;
 		bg::set<0>(pt, state(0,0));
 		bg::set<1>(pt, state(0,1));

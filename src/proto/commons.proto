@@ -18,5 +18,5 @@ message Point {
 }
 
 message Shape {
-  repeated Point p = 1;
+  repeated Point e = 1;
 }

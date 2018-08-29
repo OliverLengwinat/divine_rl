@@ -5,5 +5,5 @@ package divine;
 import "src/proto/object.proto";
 
 message World {
-  repeated Object object = 1;
+  repeated divine.Object object = 1;
 }

@@ -14,6 +14,7 @@ message Object {
 	divine.Shape shape = 3;
 	divine.Pose pose = 4;
   KinematicModel model = 5;
+
   enum ObstacleType {
     AGENT = 0;
     OBJECT = 1;

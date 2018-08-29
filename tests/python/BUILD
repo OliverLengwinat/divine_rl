@@ -1,6 +1,6 @@
 filegroup(
    name="object_test_data",
-   srcs=["object.pb.txt"],
+   srcs=["world.pb.txt"],
    visibility = ["//visibility:public"],
 )
 
