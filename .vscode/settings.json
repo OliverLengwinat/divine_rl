@@ -91,6 +91,8 @@
         "random": "cpp",
         "iterator": "cpp",
         "__bit_reference": "cpp",
-        "__split_buffer": "cpp"
+        "__split_buffer": "cpp",
+        "*.evaluator": "cpp",
+        "*.traits": "cpp"
     }
 }

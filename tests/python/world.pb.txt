@@ -24,7 +24,7 @@ object {
 		}
 	}
 	model: {
-		name: "SingleTrackModel"
+		name: "SingleTrackModel()"
 		state: {
 			e: 0.0
 			e: 0.0

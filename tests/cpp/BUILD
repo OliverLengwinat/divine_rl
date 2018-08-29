@@ -36,17 +36,3 @@ cc_test(
         "@gtest//:main",
     ],
 )
-
-cc_test(
-    name = "protobuf_tests",
-    srcs = [
-        "protobuf_tests.cpp",
-    ],
-    copts = ["-Iexternal/gtest/include"],
-    deps = [
-        "//src/environment:world",
-        "//src/environment:commons",
-        "@gtest//:main",
-        "//src/proto:object_cc_proto"
-    ]
-)

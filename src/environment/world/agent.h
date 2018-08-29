@@ -75,6 +75,7 @@ public:
         return kinematic_model_;
     }
 
+
 private:
     PointNd_t<double, 3> pose_;
     std::shared_ptr<KinematicModel<double>> kinematic_model_;

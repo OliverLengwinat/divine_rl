@@ -52,6 +52,7 @@ public:
 
     std::vector<StateHistory> sample(size_t N){
         std::vector<StateHistory> ret;
+
         // TODO: make random
         for(int i = 0; i < std::min(N, replay_memory_.size()); ++i ){
             ret.push_back(replay_memory_[i]);

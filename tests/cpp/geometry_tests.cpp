@@ -109,9 +109,6 @@ TEST(geometry, shape) {
 
 	EXPECT_EQ(ref_matrix, poly_translated) << "Translation of polygon failed.";
 
-
-	// TODO: finish test
-
 	poly = rotate<double, 2>(poly, 0.78);
 	std::cout << get_matrix<double, 2>(poly) << std::endl;
 

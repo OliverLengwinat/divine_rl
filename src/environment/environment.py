@@ -12,12 +12,14 @@ import importlib
 
 # TODO: add start method
 class Environment(threading.Thread):
-	def __init__(self, dt = 0.25):
+	def __init__(self, path, dt = 0.25):
 		threading.Thread.__init__(self)
 		self.dt = dt
 		self.world = World()
 		self.observer = KinematicObserver()
 		self.viewer = Viewer()
+		self.proto_path = path
+		self.load_world(path)
 	
 	@property
 	def agents(self):
@@ -31,13 +33,17 @@ class Environment(threading.Thread):
 		observer.set_world(self.world)
 		self.observer = observer
 
-	def step(self, u):
-		for agent in self.agents:
-			self.observer.observe(agent.step(u, self.dt))
-
 	def collides(self, obj):
 		self.world.collides(obj)
 	
+	def observe(self, step):
+		state_history =  self.observer.observe(step)
+		return state_history
+
+	def reset(self):
+		self.world = World()
+		self.load_world(self.proto_path)
+
 	def load_proto(self, path):
 		f = open(path, 'r')
 		world = world_pb2.World()
@@ -71,7 +77,7 @@ class Environment(threading.Thread):
 				agent = Agent()
 				agent.set_type(obj.type)
 				agent.set_shape(self.create_polygon(shape))
-				kinematic_model = SingleTrackModel() #__import__(obj.model.name)
+				kinematic_model = eval(obj.model.name) 
 				kinematic_model.set_state( np.array([self.get_list(obj.model.state)]) )
 				agent.set_pose(kinematic_model.get_pose())
 				agent.set_kinematic_model(kinematic_model)
@@ -82,8 +88,13 @@ class Environment(threading.Thread):
 				tmp_obj.set_shape(self.create_polygon(shape))
 				self.world.add_object(tmp_obj)
 
-	def debug_plot(self):
+	def debug_world_plot(self):
 		self.viewer.draw_world(self.world)
+
+	def debug_agents_plot(self):
+		for agent in self.agents:
+			polygon = agent.get_transformed_shape()
+			self.viewer.draw_polygon(polygon)
 
 	def debug_plot_show(self):
 		self.viewer.show()
@@ -93,19 +104,28 @@ class Environment(threading.Thread):
 
 
 if __name__ == '__main__':
-	env = Environment()
-	env.load_world("tests/python/world.pb.txt")
 
+	# setup environment
+	env = Environment("tests/python/world.pb.txt")
 	obs = KinematicObserver()
+
 	env.set_observer(obs)
-	
+	env.debug_world_plot()
+
 	# simulate and plot
 	u = np.array([[0.5,0.5]])
-	for frame in range(0,20):
+	for frame in range(1,20):
 		for agent in env.agents:
-			obs.observe(agent.step(u, 0.25))
-		env.debug_plot()
-	env.debug_plot_show()
+			env.observe(agent.step(u, 0.25))
+		env.debug_agents_plot() # caution slow!
 
-	# sample 10 items from replay memory
+		# reset after 10 time steps
+		if frame % 10 == 0:
+			env.reset()
+			u = np.array([[-0.5,-0.5]])
+
+	# show plot
+	env.debug_plot_show()
+	
+	# sample 10 items from replay memory 
 	print(env.sample_memory(10))
