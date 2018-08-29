@@ -27,6 +27,6 @@ py_binary(
     name = "environment",
     srcs = ["environment.py", "viewer/viewer.py"],
     data = ['//src/python_bindings:divine_rl.so', "//tests/python:object_test_data"],
-    imports = ['./python_bindings'],
+    imports = ['../python_bindings'],
     deps = ["//src/proto:py_commons"]
 )

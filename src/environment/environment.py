@@ -10,7 +10,7 @@ import time
 
 
 # load proto
-f = open('src/python_bindings/tests/object.pb.txt', 'r')
+f = open('tests/python/object.pb.txt', 'r')
 obj = world_pb2.World() # replace with your own message
 text_format.Parse(f.read(), obj)
 f.close()
@@ -30,8 +30,11 @@ o.set_world(world)
 
 model = SingleTrackModel()
 u = np.array([[0.5,0.5]])
+state = np.array([[0,0,0,5]])
+model.set_state(state)
 for agent in world.get_agents():
 	agent.set_kinematic_model(model)
+	
 
 
 viewer = Viewer()

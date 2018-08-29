@@ -13,8 +13,9 @@ bool World::parse_proto(){
             std::shared_ptr<Agent> agent(new Agent());
 
             //! TODO: load road_network
-
+            /*
             std::shared_ptr<KinematicModel<double>> model;
+
             if(obj.model().name() == "single_track"){
                 model = std::shared_ptr<SingleTrackModel<double>>(new SingleTrackModel<double>());
             } else if(obj.model().name() == "tripple_integrator") {
@@ -31,7 +32,9 @@ bool World::parse_proto(){
             }
 
             model->set_state(state);
+            
             agent->set_pose(model->get_pose(state));
+            */
             tmp_obj = agent;
 
         } else if (obj.type() == 1) { //! create object

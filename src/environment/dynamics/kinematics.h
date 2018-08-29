@@ -37,7 +37,7 @@ public:
 	virtual void step(const Matrix_t<T>& u, T dt) = 0;
 	virtual PointNd_t<T, 3> get_pose(const Matrix_t<T>& state) = 0;
 	void set_state(const Matrix_t<T>& state){state_ = state; };
-	Matrix_t<T> get_state() const { return state_; };
+	Matrix_t<T> get_state() { return state_; };
 	virtual ~KinematicModel() = default;
 private:
   Matrix_t<double> state_;
@@ -46,7 +46,7 @@ private:
 
 template<typename T>
 struct SingleTrackModel : public KinematicModel<T> {
-	SingleTrackModel() {};
+	SingleTrackModel(){ KinematicModel<T>::get_state().resize(1,4); };
 
 	// TODO: flexible wheel-base
 	void step(const Matrix_t<T>& u, T dt){
@@ -68,7 +68,7 @@ struct SingleTrackModel : public KinematicModel<T> {
 
 template<typename T>
 struct TrippleIntModel : public KinematicModel<T> {
-	TrippleIntModel() {}; // TODO: takes line and interpolates itself
+	TrippleIntModel() { KinematicModel<T>::get_state().resize(1,3); }; // TODO: takes line and interpolates itself
 
 	// TODO: flexible wheel-base
 	void step(const Matrix_t<T>& u, T dt){
