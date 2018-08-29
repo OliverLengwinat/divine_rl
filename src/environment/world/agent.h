@@ -45,12 +45,11 @@ public:
 
     std::pair<int, StateHistory> step(const Matrix_t<double>& u, double dt){
         StateHistory sr;
-        sr.state = state_;
+        sr.state = kinematic_model_->get_state();
         sr.action = u;
-        state_ = kinematic_model_->step(state_, u, dt);
-        pose_ = kinematic_model_->get_pose(state_);
-        sr.next_state = state_;
-
+        kinematic_model_->step(u, dt);
+        pose_ = kinematic_model_->get_pose(kinematic_model_->get_state());
+        sr.next_state = kinematic_model_->get_state();
         std::pair<int, StateHistory> id_sr = std::make_pair(get_id(), sr);
         return id_sr;
     }
@@ -58,15 +57,13 @@ public:
     //! setter
     void set_pose(const PointNd_t<double, 3>& p){ pose_ = p;}
 
-    void set_state(const Matrix_t<double>& s){ state_ = s;}
-
     void set_kinematic_model(std::shared_ptr<KinematicModel<double>> model){
         kinematic_model_ = model;
     }
 
     //! getter
     PointNd_t<double, 3> get_pose() const { return pose_; }
-    Matrix_t<double> get_state() const { return state_; }
+
     Polygon_t<double, 2> get_transformed_shape() const {
         PointNd_t<double, 2> p_t;
         bg::set<0>(p_t, bg::get<0>(pose_));
@@ -74,10 +71,12 @@ public:
         return translate<double, 2>(rotate<double, 2>(this->get_shape(), bg::get<2>(pose_)), p_t);
     }
 
+    std::shared_ptr<KinematicModel<double>> get_kinematic_model(){
+        return kinematic_model_;
+    }
 
 private:
     PointNd_t<double, 3> pose_;
-    Matrix_t<double> state_;
     std::shared_ptr<KinematicModel<double>> kinematic_model_;
 };
 

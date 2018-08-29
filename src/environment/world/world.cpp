@@ -12,23 +12,26 @@ bool World::parse_proto(){
         if(obj.type() == 0){ //! create agent
             std::shared_ptr<Agent> agent(new Agent());
 
+            //! TODO: load road_network
+
             std::shared_ptr<KinematicModel<double>> model;
+            if(obj.model().name() == "single_track"){
+                model = std::shared_ptr<SingleTrackModel<double>>(new SingleTrackModel<double>());
+            } else if(obj.model().name() == "tripple_integrator") {
+                //! TODO: calc ref line
+                model = std::shared_ptr<TrippleIntModel<double>>(new TrippleIntModel<double>());
+                // TODO: set line
+            }
 
-            // TODO: std::shared_ptr<KinematicModel> kin = obj.kinematic_model().name()
-
-            std::shared_ptr<KinematicModel<double>> kin;
-
-            //! TODO: get pose from kinematic model
-            PointNd_t<double, 3> pose(obj.pose().x(), obj.pose().y(), obj.pose().theta());
-            agent->set_pose(pose);
-            
-            Matrix_t<double> state(1, obj.state().e_size());
             //! state
-            for (int j = 0; j < obj.state().e_size(); j++) {
-                double value = obj.state().e(j);
+            Matrix_t<double> state(1, obj.model().state().e_size());
+            for (int j = 0; j < obj.model().state().e_size(); j++) {
+                double value = obj.model().state().e(j);
                 state(0,j) = value;
             }
-            agent->set_state(state);
+
+            model->set_state(state);
+            agent->set_pose(model->get_pose(state));
             tmp_obj = agent;
 
         } else if (obj.type() == 1) { //! create object
@@ -42,6 +45,7 @@ bool World::parse_proto(){
             divine::Point p = obj.shape().p(j);
             bg::append(shape, PointNd_t<double, 2>(p.x(), p.y()));
         }
+
         tmp_obj->set_shape(shape);
         tmp_obj->set_id(obj.id());
         tmp_obj->set_reward(obj.reward());

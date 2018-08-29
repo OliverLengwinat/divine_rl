@@ -20,7 +20,7 @@ class WorldTests(unittest.TestCase):
 
 		a = Agent()
 		a.set_pose(Pose(0,0,0.0))
-		a.set_state(state)
+		model.set_state(state)
 
 		poly = Polygon()
 		poly.append(Point(3.85, 0))
@@ -96,7 +96,7 @@ class WorldTests(unittest.TestCase):
 
 		objects = w.get_objects()
 
-		print(objects[0].get_state())
+		print(objects[0].get_kinematic_model().get_state())
 		print(objects)
 		print("hello world")
 		

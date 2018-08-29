@@ -24,17 +24,15 @@ object {
 			y: -1.0
 		}
 	}
-	state: {
-		e: 0.0
-		e: 0.0
-		e: 0.0
-		e: 5.0
-	}
-	pose: {
-		x: 0.0
-		y: 0.0
-		theta: 0.0
-	}
+	model: {
+		name: "single_track"
+		state: {
+			e: 0.0
+			e: 0.0
+			e: 0.0
+			e: 5.0
+		}
+	} 
 	type: 0
 	reward: 0.0
 }

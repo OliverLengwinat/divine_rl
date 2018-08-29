@@ -123,7 +123,8 @@ void commons_bindings(py::module m)
         });
 
     py::class_<KinematicModel<double>, std::shared_ptr<KinematicModel<double>>>(m, "KinematicModel")
-        .def(py::init<>())
+        .def("set_state", &KinematicModel<double>::set_state)
+        .def("get_state", &KinematicModel<double>::get_state)
         .def("__repr__", [](const KinematicModel<double>& k)
         {
             return "KinematicModel";

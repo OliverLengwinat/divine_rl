@@ -30,12 +30,17 @@ namespace kinematics {
 using namespace environment::commons;
 
 template<typename T>
-struct KinematicModel {
+class KinematicModel {
+public:
 	KinematicModel(){};
 
-	virtual Matrix_t<T> step(const Matrix_t<T>& state, const Matrix_t<T>& u, T dt) { return state;};
-	virtual PointNd_t<T, 3> get_pose(const Matrix_t<T>& state){PointNd_t<T, 3> p; return p;};
-
+	virtual void step(const Matrix_t<T>& u, T dt) = 0;
+	virtual PointNd_t<T, 3> get_pose(const Matrix_t<T>& state) = 0;
+	void set_state(const Matrix_t<T>& state){state_ = state; };
+	Matrix_t<T> get_state() const { return state_; };
+	virtual ~KinematicModel() = default;
+private:
+  Matrix_t<double> state_;
 };
 
 
@@ -44,10 +49,11 @@ struct SingleTrackModel : public KinematicModel<T> {
 	SingleTrackModel() {};
 
 	// TODO: flexible wheel-base
-	Matrix_t<T> step(const Matrix_t<T>& state, const Matrix_t<T>& u, T dt){
+	void step(const Matrix_t<T>& u, T dt){
 		Matrix_t<T> A(1, 4);
+		Matrix_t<T> state = KinematicModel<T>::get_state();
 		A << state(3)*cos(state(2)), state(3)*sin(state(2)), tan(u(0))/T(1.5), u(1); 
-		return state + dt * A;
+		KinematicModel<T>::set_state(state + dt * A);
 	}
 	
 	PointNd_t<T, 3> get_pose(const Matrix_t<T>& state){
@@ -61,27 +67,30 @@ struct SingleTrackModel : public KinematicModel<T> {
 };
 
 template<typename T>
-struct InterpolationModel : public KinematicModel<T> {
-	InterpolationModel() {}; // TODO: takes line and interpolates itself
+struct TrippleIntModel : public KinematicModel<T> {
+	TrippleIntModel() {}; // TODO: takes line and interpolates itself
 
 	// TODO: flexible wheel-base
-	Matrix_t<T> step(const Matrix_t<T>& state, const Matrix_t<T>& u, T dt){
+	void step(const Matrix_t<T>& u, T dt){
 		Matrix_t<T> A(3, 3);
 		Matrix_t<T> B(3, 1);
+		Matrix_t<T> state = KinematicModel<T>::get_state();
 		A << 0, 1, 0, 0, 0, 1, 0, 0, 0;
 		B << 0, 0, 1;
-		return state + dt * (A*state + B*u);
+		KinematicModel<T>::set_state(state + dt * (A*state + B*u));
 	}
 	
 	PointNd_t<T, 3> get_pose(const Matrix_t<T>& state){
+		// TODO: calculate pose using: line_
 		PointNd_t<T, 3> pt;
 		bg::set<0>(pt, state(0,0));
 		bg::set<1>(pt, state(0,1));
 		bg::set<2>(pt, state(0,2));
 		return pt;
 	}
-	
 
+	void set_reference_line(const Linestring_t<double, 2> line){ line_ = line; }
+	Linestring_t<double, 2> line_;
 
 };
 

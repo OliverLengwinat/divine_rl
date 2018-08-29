@@ -10,9 +10,10 @@ class KinematicTests(unittest.TestCase):
 		state = np.array([[0,0,0,5]])
 		u = np.array([[0.5,0.5]])
 		model = SingleTrackModel()
+		model.set_state(state)
 
 		for i in range(0, 10):
-			state = model.step(state, u, 0.1)
+			state = model.step(u, 0.1)
 			print(state)
 
 

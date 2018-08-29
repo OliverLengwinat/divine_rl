@@ -47,7 +47,6 @@ public:
         return true;
     }
 
-    // TODO: initialize from proto
     bool parse_proto();
 
     void add_object(std::shared_ptr<BaseType> obj){
@@ -56,7 +55,6 @@ public:
         agent_count_++;
     }
 
-    // TODO: get agents
     std::vector<std::shared_ptr<Agent>> get_agents(){
         std::vector<std::shared_ptr<Agent>> agents;
         for (std::shared_ptr<BaseType> obj : objects_){

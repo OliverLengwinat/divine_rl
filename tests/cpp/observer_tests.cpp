@@ -46,12 +46,12 @@ TEST(observer, init) {
     Matrix_t<double> m(1,4);
     m << 0,0,0,5;
     std::shared_ptr<SingleTrackModel<double>> kin(new SingleTrackModel<double>());
-    a->set_state(m);
+    kin->set_state(m);
     PointNd_t<double, 3> p(0,0,0);
     a->set_pose(p);
     a->set_kinematic_model(kin);
 
-    b->set_state(m);
+    kin->set_state(m);
     b->set_pose(p);
     b->set_kinematic_model(kin);
 
@@ -61,7 +61,7 @@ TEST(observer, init) {
     Matrix_t<double> u(1,2);
     u << 0,0;
 
-    std::cout << a->get_state() << std::endl;
+    //std::cout << a->get_state() << std::endl;
 
 
     std::pair<int, StateHistory> h = o->observe( a->step(u, 0.15) );
@@ -72,7 +72,7 @@ TEST(observer, init) {
 
     
 
-    std::cout << a->get_state() << std::endl;
+    //std::cout << a->get_state() << std::endl;
 
     ASSERT_TRUE(true);
     //a.step(u, 0.15);
