@@ -11,5 +11,5 @@ This library is completely built using the bazel build system. So all tests, pyt
 Here is an overview of the most important ones:
 
 * Build everything: `bazel build //...`
-* Test everything: `bazel test //src/python:environment`
+* Test everything: `bazel test //...`
 * Run the environment: `bazel run //src/environment:environment`
