@@ -94,6 +94,39 @@ object {
 	id: 1
 	shape: {
 		e: {
+			e: 15.0
+			e: 10.0
+		}
+		e: {
+			e: 20.0
+			e: 10.0
+		}
+		e: {
+			e: 20.0
+			e: 15.0
+		}
+		e: {
+			e: 15.0
+			e: 15.0
+		}
+		e: {
+			e: 15.0
+			e: 10.0
+		}
+		center: {
+			e: 0.0
+			e: 0.0
+		}
+	}
+	type: 1
+	reward: 1.0
+}
+
+object {
+	name: "Bounding Box"
+	id: 2
+	shape: {
+		e: {
 			e: -10.5
 			e: -10.0
 		}
@@ -118,6 +151,6 @@ object {
 			e: 0.0
 		}
 	}
-	type: 1
-	reward: 1.0
+	type: 2
+	reward: -1.0
 }

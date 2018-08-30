@@ -84,6 +84,9 @@ class Environment(threading.Thread):
 				tmp_obj.set_type(obj.type)
 				tmp_obj.set_shape(self.create_polygon(shape))
 				self.world.add_object(tmp_obj)
+			elif obj.type == object_pb2.Object.BOUNDING_BOX:
+				bounding_box = self.create_polygon(shape)
+				self.world.set_bounding_box(bounding_box)
 
 	def debug_world_plot(self):
 		self.viewer.draw_world(self.world, color='gray')
@@ -110,15 +113,17 @@ if __name__ == '__main__':
 
 	# simulate and plot
 	u = np.array([[0.5,0.5]])
-	for frame in range(1,20):
+	for frame in range(1,39):
 		for agent in env.agents:
-			obs.observe(agent.step(u, 0.25))
+			sh = obs.observe(agent.step(u, 0.25))
+			print(sh[1].is_final())
 		env.debug_agents_plot() # caution slow!
 
 		# reset after 10 time steps
-		if frame % 10 == 0:
+		if frame % 20 == 0:
 			env.reset()
-			u = np.array([[-0.5,-0.5]])
+			obs.set_world(env.world)
+			u = np.array([[-0.5,0.5]])
 
 	# show plot
 	env.debug_plot_show()

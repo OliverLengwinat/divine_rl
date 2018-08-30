@@ -18,6 +18,7 @@ message Object {
   enum ObstacleType {
     AGENT = 0;
     OBJECT = 1;
+    BOUNDING_BOX = 2;
   }
 
   ObstacleType type = 6;

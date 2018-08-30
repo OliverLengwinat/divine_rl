@@ -43,6 +43,8 @@ void world_bindings(py::module m)
         .def("add_object", &environment::world::World::add_object)
         .def("get_agents", &environment::world::World::get_agents)
         .def("collides", &environment::world::World::collides)
+        .def("set_bounding_box", &environment::world::World::set_bounding_box)
+        .def("get_bounding_box", &environment::world::World::get_bounding_box)
         .def("get_objects", &environment::world::World::get_objects);
 
     py::class_<RoadNetwork, std::shared_ptr<RoadNetwork>>(m, "RoadNetwork")
@@ -71,7 +73,11 @@ void world_bindings(py::module m)
         .def(py::init<>());
 
     py::class_<StateHistory, std::shared_ptr<StateHistory>>(m, "StateHistory")
-        .def(py::init<>());
+        .def(py::init<>())
+        .def("is_final", [](const StateHistory& s)
+        {
+            return s.is_final;
+        });
 
     py::class_<ReplayMemory, std::shared_ptr<ReplayMemory>>(m, "ReplayMemory")
         .def(py::init<>())
