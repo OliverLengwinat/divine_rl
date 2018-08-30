@@ -36,6 +36,8 @@ public:
 
     // is_final, reward
     std::pair<int, StateHistory> observe(std::pair<int, StateHistory> s){
+        // TODO: is final check based on collision and the bounding box should be done in the base class
+        // here the reward should be calculated and the state should be converted
         std::shared_ptr<Agent> agent = get_world()->get_agent(s.first);
         std::pair<bool, double> status = get_world()->collides(agent);
         s.second.reward = status.second;

@@ -77,11 +77,18 @@ public:
 
     std::vector<std::shared_ptr<BaseType>> get_objects() { return objects_; }
 
+    void set_bounding_box(const Polygon_t<double, 2>& bb){ bounding_box_=bb; }
+
+    Polygon_t<double, 2>& get_bounding_box(){ return bounding_box_; }
+
+
 private:
     std::vector<std::shared_ptr<BaseType>> objects_; // list of base objects
     std::vector<std::shared_ptr<Linestring_t<double, 2>>> lines_;
+    Polygon_t<double, 2> bounding_box_;
     divine::World world_info_;
     uint agent_count_;
+
 };
 
 } // environment

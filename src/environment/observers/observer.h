@@ -40,6 +40,7 @@ namespace observers {
 
 using namespace environment::world;
 
+// TODO: randomize sample use consistant seed!
 class ReplayMemory {
 public:
     ReplayMemory() : max_sample_size(5000) {};
