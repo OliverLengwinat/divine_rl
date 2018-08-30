@@ -29,16 +29,8 @@ class Environment(threading.Thread):
 	def objects(self):
 		return self.world.get_objects()
 
-	def set_observer(self, observer):
-		observer.set_world(self.world)
-		self.observer = observer
-
 	def collides(self, obj):
 		self.world.collides(obj)
-	
-	def observe(self, step):
-		state_history =  self.observer.observe(step)
-		return state_history
 
 	def reset(self):
 		self.world = World()
@@ -113,14 +105,14 @@ if __name__ == '__main__':
 	# setup environment
 	env = Environment("tests/python/world.pb.txt")
 	obs = KinematicObserver()
-	env.set_observer(obs)
+	obs.set_world(env.world)
 	env.debug_world_plot()
 
 	# simulate and plot
 	u = np.array([[0.5,0.5]])
 	for frame in range(1,20):
 		for agent in env.agents:
-			env.observe(agent.step(u, 0.25))
+			obs.observe(agent.step(u, 0.25))
 		env.debug_agents_plot() # caution slow!
 
 		# reset after 10 time steps
