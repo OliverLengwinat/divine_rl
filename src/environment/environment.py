@@ -94,12 +94,12 @@ class Environment(threading.Thread):
 				self.world.add_object(tmp_obj)
 
 	def debug_world_plot(self):
-		self.viewer.draw_world(self.world)
+		self.viewer.draw_world(self.world, color='gray')
 
 	def debug_agents_plot(self):
 		for agent in self.agents:
 			polygon = agent.get_transformed_shape()
-			self.viewer.draw_polygon(polygon)
+			self.viewer.draw_polygon(polygon, color='blue')
 
 	def debug_plot_show(self):
 		self.viewer.show()
