@@ -53,6 +53,7 @@ void world_bindings(py::module m)
     py::class_<BaseType, std::shared_ptr<BaseType>>(m, "BaseType")
         .def(py::init<>())
         .def("set_shape", &environment::world::BaseType::set_shape)
+        .def("set_shape_offset", &environment::world::BaseType::set_shape_offset)
         .def("get_shape", &environment::world::BaseType::get_shape)
         .def("set_type", &environment::world::BaseType::set_type)
         .def("get_type", &environment::world::BaseType::get_type);

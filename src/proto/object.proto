@@ -12,7 +12,7 @@ message Object {
   string name = 1;
   int32 id = 2;
 	divine.Shape shape = 3;
-	divine.Pose pose = 4;
+	divine.State pose = 4;
   KinematicModel model = 5;
 
   enum ObstacleType {

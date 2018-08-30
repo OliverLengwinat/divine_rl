@@ -51,10 +51,13 @@ class Environment(threading.Thread):
 		f.close()
 		return world
 
-	def get_xy_list(self, rep):
+	def get_nested_list(self, rep):
 		ret = []
-		for e in rep.e:
-			ret.append([e.x, e.y])
+		for e1 in rep.e:
+			tmp_ret = []
+			for e2 in e1.e:
+				tmp_ret.append(e2)
+			ret.append(tmp_ret)
 		return ret
 
 	def get_list(self, rep):
@@ -72,11 +75,13 @@ class Environment(threading.Thread):
 	def load_world(self, path):
 		world = self.load_proto(path)
 		for obj in world.object:
-			shape = self.get_xy_list(obj.shape)
+			shape = self.get_nested_list(obj.shape)# multiple states with each state containing 2x e
 			if obj.type == object_pb2.Object.AGENT:
 				agent = Agent()
 				agent.set_type(obj.type)
 				agent.set_shape(self.create_polygon(shape))
+				shape_offset = self.get_list(obj.shape.center)
+				agent.set_shape_offset(Point(shape_offset[0], shape_offset[1]))
 				kinematic_model = eval(obj.model.name) 
 				kinematic_model.set_state( np.array([self.get_list(obj.model.state)]) )
 				agent.set_pose(kinematic_model.get_pose())

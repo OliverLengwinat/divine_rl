@@ -199,30 +199,6 @@ struct StateHistory {
 	bool is_final;
 };
 
-/*
-Polygon_t<double, 2> vehicle_shape(){
-	Polygon_t<double, 2> poly;
-	bg::append(poly, PointNd_t<double, 2>(3.85, 0));
-	bg::append(poly, PointNd_t<double, 2>(3.772, -0.495));
-	bg::append(poly, PointNd_t<double, 2>(3.426, -0.887));
-	bg::append(poly, PointNd_t<double, 2>(2.914, -0.956));
-	bg::append(poly, PointNd_t<double, 2>(1.457, -0.956));
-	bg::append(poly, PointNd_t<double, 2>(0, -0.956));
-	bg::append(poly, PointNd_t<double, 2>(-0.512, -0.886));
-	bg::append(poly, PointNd_t<double, 2>(-1.02, -0.589));
-	bg::append(poly, PointNd_t<double, 2>(-1.119, 0));
-	bg::append(poly, PointNd_t<double, 2>(-1.02, 0.589));
-	bg::append(poly, PointNd_t<double, 2>(-0.512, 0.886));   
-	bg::append(poly, PointNd_t<double, 2>(0, 0.956));
-	bg::append(poly, PointNd_t<double, 2>(1.457, 0.956));
-	bg::append(poly, PointNd_t<double, 2>(2.914, 0.956));
-	bg::append(poly, PointNd_t<double, 2>(3.426, 0.887));
-	bg::append(poly, PointNd_t<double, 2>(3.772, 0.495));
-	bg::append(poly, PointNd_t<double, 2>(3.85, 0));
-	return poly;
-}
-*/
-
 } // commons
 } // environment
 #endif //_COMMONS_COMMON_H_

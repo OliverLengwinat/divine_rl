@@ -68,7 +68,8 @@ public:
         PointNd_t<double, 2> p_t;
         bg::set<0>(p_t, bg::get<0>(pose_));
         bg::set<1>(p_t, bg::get<1>(pose_));
-        return translate<double, 2>(rotate<double, 2>(this->get_shape(), bg::get<2>(pose_)), p_t);
+        Polygon_t<double, 2> tmp_poly = translate<double, 2>(this->get_shape(), this->get_shape_offset());
+        return translate<double, 2>(rotate<double, 2>(tmp_poly, bg::get<2>(pose_)), p_t);
     }
 
     std::shared_ptr<KinematicModel<double>> get_kinematic_model(){

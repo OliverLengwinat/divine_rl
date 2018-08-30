@@ -52,7 +52,6 @@ public:
 
     std::vector<StateHistory> sample(size_t N){
         std::vector<StateHistory> ret;
-
         // TODO: make random
         for(int i = 0; i < std::min(N, replay_memory_.size()); ++i ){
             ret.push_back(replay_memory_[i]);
@@ -73,6 +72,8 @@ virtual ~BaseObserver() = default;
 
 void set_world(std::shared_ptr<World> w){ world_ = w; }
 std::shared_ptr<World> get_world(){ return world_; }
+
+// TODO: always call observer from the base class and access a private function of the child
 virtual std::pair<int, StateHistory> observe(std::pair<int, StateHistory> s) = 0;
 ReplayMemory& get_replay_memory() { return replay_memory_; };
 void memorize(const StateHistory s){ replay_memory_.push_back(s); };
