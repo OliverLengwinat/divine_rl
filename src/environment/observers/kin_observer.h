@@ -35,7 +35,7 @@ public:
     KinematicObserver() {};
 
     Matrix_t<double> state_converter(std::shared_ptr<Agent> a, std::shared_ptr<World> w){
-        return a->get_kinematic_model()->get_state().block(0,0,1,2);
+        return a->get_kinematic_model()->get_state();
     }
 
 };

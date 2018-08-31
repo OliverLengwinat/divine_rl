@@ -99,19 +99,21 @@ std::shared_ptr<World> get_world(){ return world_; }
 
 virtual Matrix_t<double> state_converter(std::shared_ptr<Agent> a, std::shared_ptr<World> w) = 0;
 
-//! TODO: use function pointer for step and execute within this function
 StepReturn observe(std::pair<int, std::function<StepReturn()>> id_n_step){
     StepReturn sr;
     std::shared_ptr<Agent> agent = world_->get_agent(id_n_step.first);
-    std::pair<bool, double> status = world_->collides(agent);
 
+    // convert state before and after state
     sr.state = this->state_converter(agent, world_);
     StepReturn sr_tmp = id_n_step.second(); // step here
     sr.action = sr_tmp.action;
     sr.next_state = this->state_converter(agent, get_world());
 
+    // check for collision and reward
+    std::pair<bool, double> status = world_->collides(agent);
     sr.is_final = status.first;
     sr.reward = status.second;
+
     return sr;
 }
 
