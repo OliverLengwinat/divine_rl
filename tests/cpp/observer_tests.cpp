@@ -66,8 +66,8 @@ TEST(observer, init) {
 
     StepReturn h = o->observe( a->step(u, 0.15) );
     StepReturn hb = o->observe( b->step(u, 0.15) );
-    std::cout << h.id << std::endl;
-    std::cout << hb.id << std::endl;
+    std::cout << h.agent_id << std::endl;
+    std::cout << hb.agent_id << std::endl;
     std::cout << h.state << std::endl;
 
     
