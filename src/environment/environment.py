@@ -128,3 +128,6 @@ if __name__ == '__main__':
 	# show and sample
 	env.debug_plot_show()
 	print(obs.memory.sample(10))
+
+
+	
