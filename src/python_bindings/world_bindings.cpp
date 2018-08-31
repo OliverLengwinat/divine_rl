@@ -43,6 +43,7 @@ void world_bindings(py::module m)
         .def("add_object", &environment::world::World::add_object)
         .def("get_agents", &environment::world::World::get_agents)
         .def("collides", &environment::world::World::collides)
+        .def("reset", &environment::world::World::reset)
         .def("set_bounding_box", &environment::world::World::set_bounding_box)
         .def("get_bounding_box", &environment::world::World::get_bounding_box)
         .def("get_objects", &environment::world::World::get_objects);

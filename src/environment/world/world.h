@@ -81,6 +81,7 @@ public:
 
     Polygon_t<double, 2>& get_bounding_box(){ return bounding_box_; }
 
+    void reset(){ objects_.clear(); agent_count_ = 0; };
 
 private:
     std::vector<std::shared_ptr<BaseType>> objects_; // list of base objects

@@ -32,7 +32,7 @@ class Environment(threading.Thread):
 		self.world.collides(obj)
 
 	def reset(self):
-		self.world = World()
+		self.world.reset()
 		self.load_world(self.proto_path)
 
 	def load_proto(self, path):
@@ -120,7 +120,6 @@ if __name__ == '__main__':
 				if sh[1].is_final():
 					running = False
 					env.reset()
-					obs.set_world(env.world)
 			
 			# plot agents
 			env.debug_agents_plot()
