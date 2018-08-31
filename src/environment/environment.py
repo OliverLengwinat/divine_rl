@@ -104,15 +104,15 @@ if __name__ == '__main__':
 
 	# setup environment
 	env = Environment("tests/python/world.pb.txt")
-	obs = KinematicObserver()
-
-	obs.set_world(env.world)
 	env.debug_world_plot()
 
+	# setup obsever
+	obs = KinematicObserver()
+	obs.set_world(env.world)
 
-	# simulate and plot
+	# run environment
 	for i in range(0, 8):
-		u = np.array([[random.uniform(-1, 1),0.0]])
+		u = np.array([[random.uniform(-0.5, 0.5), 0.0]])
 		running = True
 		while running:
 			for agent in env.agents:
@@ -121,11 +121,10 @@ if __name__ == '__main__':
 					running = False
 					env.reset()
 					obs.set_world(env.world)
-			env.debug_agents_plot() # caution slow!
+			
+			# plot agents
+			env.debug_agents_plot()
 
-
-	# show plot
+	# show and sample
 	env.debug_plot_show()
-	
-	# sample 10 items from replay memory 
 	print(obs.memory.sample(10))

@@ -35,6 +35,10 @@ void commons_bindings(py::module m)
     
     py::class_<PointNd_t<double, 3>>(m, "Pose")
         .def(py::init<double, double, double>())
+        .def("to_numpy", [](const PointNd_t<double, 3>& p)
+        {
+            return get_matrix<double, 3>(p);
+        })
         .def("__repr__", [](const PointNd_t<double, 3>& p)
         {
             return "Point3d";
