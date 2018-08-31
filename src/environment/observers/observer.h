@@ -41,7 +41,14 @@ namespace observers {
 
 using namespace environment::world;
 
-// TODO: randomize sample use consistant seed!
+struct Memory {
+    std::vector<Matrix_t<double>> states;
+    std::vector<double> actions;
+    std::vector<Matrix_t<double>> next_states;
+    std::vector<double> rewards;
+    std::vector<bool> is_final;
+};
+
 class ReplayMemory {
 public:
     ReplayMemory() : max_sample_size(5000) {

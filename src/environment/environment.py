@@ -120,7 +120,7 @@ if __name__ == '__main__':
 			for agent in env.agents:
 				result = obs.observe(agent.step(u, 0.25))
 				if result.is_final:
-					print(result.state, result.reward)
+					print(result.state, result.action, result.next_state, result.reward)
 					running = False
 					env.reset()
 			
