@@ -99,8 +99,8 @@ std::shared_ptr<World> get_world(){ return world_; }
 
 virtual void observe_(StepReturn s) = 0;
 
+//! TODO: use function pointer for step and execute within this function
 virtual StepReturn observe(StepReturn s){
-    // TODO: save old world
     std::shared_ptr<Agent> agent = get_world()->get_agent(s.agent_id);
     std::pair<bool, double> status = get_world()->collides(agent);
     this->observe_(s);
