@@ -29,6 +29,7 @@
 #include "src/environment/world/road_network.h"
 #include "src/environment/observers/observer.h"
 #include "src/environment/observers/kin_observer.h"
+#include "src/environment/observers/visual_observer.h"
 
 namespace py = pybind11;
 
@@ -128,11 +129,12 @@ void world_bindings(py::module m)
     py::class_<BaseObserver, std::shared_ptr<BaseObserver>>(m, "BaseObserver")
         .def("set_world", &environment::observers::BaseObserver::set_world)
         .def_property("memory", &environment::observers::BaseObserver::get_replay_memory, &environment::observers::BaseObserver::set_replay_memory)
-        .def("get_world", &environment::observers::BaseObserver::get_world);
-
-    py::class_<KinematicObserver, BaseObserver, std::shared_ptr<KinematicObserver>>(m, "KinematicObserver")
-        .def(py::init<>())
+        .def("get_world", &environment::observers::BaseObserver::get_world)
         .def("observe", &environment::observers::KinematicObserver::observe);
 
-    
+    py::class_<KinematicObserver, BaseObserver, std::shared_ptr<KinematicObserver>>(m, "KinematicObserver")
+        .def(py::init<>());
+
+    py::class_<VisualObserver, BaseObserver, std::shared_ptr<VisualObserver>>(m, "VisualObserver")
+        .def(py::init<>());
 }
