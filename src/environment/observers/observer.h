@@ -25,6 +25,7 @@
 #define _OBSERVERS_H_
 
 #include <algorithm>
+#include <random>
 #include "src/environment/world/world.h"
 #include "src/environment/world/agent.h"
 
@@ -43,7 +44,8 @@ using namespace environment::world;
 // TODO: randomize sample use consistant seed!
 class ReplayMemory {
 public:
-    ReplayMemory() : max_sample_size(5000) {};
+    ReplayMemory() : max_sample_size(5000) {
+    };
     void push_back(const StateHistory s){
         replay_memory_.push_back(s);
         if(replay_memory_.size() > max_sample_size){
@@ -53,9 +55,16 @@ public:
 
     std::vector<StateHistory> sample(size_t N){
         std::vector<StateHistory> ret;
-        // TODO: make random
-        for(int i = 0; i < std::min(N, replay_memory_.size()); ++i ){
-            ret.push_back(replay_memory_[i]);
+
+        // max sampling size
+        int max = std::min(N, replay_memory_.size());
+
+        // random
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<int> uni(0, max);
+
+        for(int i = 0; i < max; ++i ){
+            ret.push_back(replay_memory_[uni(gen)]);
         }
         return ret;
     }
@@ -63,6 +72,8 @@ public:
 private:
     std::deque< StateHistory > replay_memory_;
     int max_sample_size;
+    std::random_device rd;
+
 };
 
 
