@@ -77,11 +77,13 @@ class Environment(threading.Thread):
 				kinematic_model.set_state( np.array([self.get_list(obj.model.state)]) )
 				agent.set_pose(kinematic_model.get_pose())
 				agent.set_kinematic_model(kinematic_model)
+				agent.set_reward(obj.reward)
 				self.world.add_object(agent)
 			elif obj.type == object_pb2.Object.OBJECT:
 				tmp_obj = Object()
 				tmp_obj.set_type(obj.type)
 				tmp_obj.set_shape(self.create_polygon(shape))
+				tmp_obj.set_reward(obj.reward)
 				self.world.add_object(tmp_obj)
 			elif obj.type == object_pb2.Object.BOUNDING_BOX:
 				bounding_box = self.create_polygon(shape)
@@ -111,13 +113,14 @@ if __name__ == '__main__':
 	obs.set_world(env.world)
 
 	# run environment
-	for i in range(0, 8):
+	for i in range(0, 42):
 		u = np.array([[random.uniform(-0.5, 0.5), 0.0]])
 		running = True
 		while running:
 			for agent in env.agents:
-				sh = obs.observe(agent.step(u, 0.25))
-				if sh[1].is_final():
+				result = obs.observe(agent.step(u, 0.25))
+				if result.is_final:
+					print(result.state, result.reward)
 					running = False
 					env.reset()
 			

@@ -43,15 +43,15 @@ class Agent : public BaseType {
 public:
     Agent() {};
 
-    std::pair<int, StateHistory> step(const Matrix_t<double>& u, double dt){
-        StateHistory sr;
+    StepReturn step(const Matrix_t<double>& u, double dt){
+        StepReturn sr;
         sr.state = kinematic_model_->get_state();
         sr.action = u;
         kinematic_model_->step(u, dt);
         pose_ = kinematic_model_->get_pose();
         sr.next_state = kinematic_model_->get_state();
-        std::pair<int, StateHistory> id_sr = std::make_pair(get_id(), sr);
-        return id_sr;
+        sr.agent_id = get_id();
+        return sr;
     }
 
     //! setter

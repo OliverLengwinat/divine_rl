@@ -35,7 +35,7 @@ public:
     KinematicObserver() {};
 
     // is_final, reward
-    void observe_(std::pair<int, StateHistory> s){
+    void observe_(StepReturn s){
         // convert state if needed
     }
 

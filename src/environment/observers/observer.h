@@ -46,15 +46,15 @@ class ReplayMemory {
 public:
     ReplayMemory() : max_sample_size(5000) {
     };
-    void push_back(const StateHistory s){
+    void push_back(const StepReturn s){
         replay_memory_.push_back(s);
         if(replay_memory_.size() > max_sample_size){
             replay_memory_.pop_front();
         }
     }
 
-    std::vector<StateHistory> sample(size_t N){
-        std::vector<StateHistory> ret;
+    std::vector<StepReturn> sample(size_t N){
+        std::vector<StepReturn> ret;
 
         // max sampling size
         int max = std::min(N, replay_memory_.size());
@@ -70,7 +70,7 @@ public:
     }
 
 private:
-    std::deque< StateHistory > replay_memory_;
+    std::deque< StepReturn > replay_memory_;
     int max_sample_size;
     std::random_device rd;
 
@@ -85,22 +85,22 @@ virtual ~BaseObserver() = default;
 void set_world(std::shared_ptr<World> w){ world_ = w; }
 std::shared_ptr<World> get_world(){ return world_; }
 
-virtual void observe_(std::pair<int, StateHistory> s) = 0;
+virtual void observe_(StepReturn s) = 0;
 
 // TODO: always call observer from the base class and access a private function of the child
-virtual std::pair<int, StateHistory> observe(std::pair<int, StateHistory> s){
-    std::shared_ptr<Agent> agent = get_world()->get_agent(s.first);
+virtual StepReturn observe(StepReturn s){
+    std::shared_ptr<Agent> agent = get_world()->get_agent(s.agent_id);
     std::pair<bool, double> status = get_world()->collides(agent);
     this->observe_(s);
-    s.second.is_final = status.first;
-    s.second.reward = status.second;
-    memorize(s.second);
+    s.is_final = status.first;
+    s.reward = status.second;
+    memorize(s);
     return s;
 }
 
 ReplayMemory& get_replay_memory() { return replay_memory_; }
 void set_replay_memory() { }
-void memorize(const StateHistory s){ replay_memory_.push_back(s); }
+void memorize(const StepReturn s){ replay_memory_.push_back(s); }
 
 private:
     std::shared_ptr<World> world_;

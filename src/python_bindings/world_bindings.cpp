@@ -58,6 +58,7 @@ void world_bindings(py::module m)
         .def("set_shape", &environment::world::BaseType::set_shape)
         .def("set_shape_offset", &environment::world::BaseType::set_shape_offset)
         .def("get_shape", &environment::world::BaseType::get_shape)
+        .def("set_reward", &environment::world::Agent::set_reward)
         .def("set_type", &environment::world::BaseType::set_type)
         .def("get_type", &environment::world::BaseType::get_type);
 
@@ -73,9 +74,25 @@ void world_bindings(py::module m)
     py::class_<Object, BaseType, std::shared_ptr<Object>>(m, "Object")
         .def(py::init<>());
 
-    py::class_<StateHistory, std::shared_ptr<StateHistory>>(m, "StateHistory")
+    py::class_<StepReturn, std::shared_ptr<StepReturn>>(m, "StepReturn")
         .def(py::init<>())
-        .def("is_final", [](const StateHistory& s)
+        .def_property_readonly("state", [](const StepReturn& s)
+        {
+            return s.state;
+        })
+        .def_property_readonly("next_state", [](const StepReturn& s)
+        {
+            return s.next_state;
+        })
+        .def_property_readonly("reward", [](const StepReturn& s)
+        {
+            return s.reward;
+        })
+        .def_property_readonly("action", [](const StepReturn& s)
+        {
+            return s.action;
+        })
+        .def_property_readonly("is_final", [](const StepReturn& s)
         {
             return s.is_final;
         });

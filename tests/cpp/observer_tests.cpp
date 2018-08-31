@@ -64,11 +64,11 @@ TEST(observer, init) {
     //std::cout << a->get_state() << std::endl;
 
 
-    std::pair<int, StateHistory> h = o->observe( a->step(u, 0.15) );
-    std::pair<int, StateHistory> hb = o->observe( b->step(u, 0.15) );
-    std::cout << h.first << std::endl;
-    std::cout << hb.first << std::endl;
-    std::cout << h.second.state << std::endl;
+    StepReturn h = o->observe( a->step(u, 0.15) );
+    StepReturn hb = o->observe( b->step(u, 0.15) );
+    std::cout << h.id << std::endl;
+    std::cout << hb.id << std::endl;
+    std::cout << h.state << std::endl;
 
     
 

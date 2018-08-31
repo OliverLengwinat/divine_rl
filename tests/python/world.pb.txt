@@ -119,7 +119,7 @@ object {
 		}
 	}
 	type: 1
-	reward: 1.0
+	reward: -1.0
 }
 
 object {

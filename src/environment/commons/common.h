@@ -196,13 +196,14 @@ Polygon_t<T, N> rotate(const Polygon_t<T, N>& poly, T angle){
 	return poly_new;
 }
 
-struct StateHistory {
-	StateHistory() : is_final(false) {};
+struct StepReturn {
+	StepReturn() : is_final(false) {};
 	Matrix_t<double> state;
 	Matrix_t<double> action;
 	Matrix_t<double> next_state;
 	double reward;
 	bool is_final;
+	int agent_id;
 };
 
 } // commons
