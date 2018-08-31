@@ -7,8 +7,7 @@ from google.protobuf import text_format
 from viewer.viewer import Viewer
 import threading
 import time
-import importlib
-
+import random
 
 # TODO: add start method
 class Environment(threading.Thread):
@@ -99,8 +98,6 @@ class Environment(threading.Thread):
 	def debug_plot_show(self):
 		self.viewer.show()
 
-	def sample_memory(self, N = 500):
-		return self.observer.get_replay_memory().sample(N)
 
 
 if __name__ == '__main__':
@@ -108,25 +105,27 @@ if __name__ == '__main__':
 	# setup environment
 	env = Environment("tests/python/world.pb.txt")
 	obs = KinematicObserver()
+
 	obs.set_world(env.world)
 	env.debug_world_plot()
 
-	# simulate and plot
-	u = np.array([[0.5,0.5]])
-	for frame in range(1,39):
-		for agent in env.agents:
-			sh = obs.observe(agent.step(u, 0.25))
-			print(sh[1].is_final())
-		env.debug_agents_plot() # caution slow!
 
-		# reset after 10 time steps
-		if frame % 20 == 0:
-			env.reset()
-			obs.set_world(env.world)
-			u = np.array([[-0.5,0.5]])
+	# simulate and plot
+	for i in range(0, 8):
+		u = np.array([[random.uniform(-1, 1),0.0]])
+		running = True
+		while running:
+			for agent in env.agents:
+				sh = obs.observe(agent.step(u, 0.25))
+				if sh[1].is_final():
+					running = False
+					env.reset()
+					obs.set_world(env.world)
+			env.debug_agents_plot() # caution slow!
+
 
 	# show plot
 	env.debug_plot_show()
 	
 	# sample 10 items from replay memory 
-	print(env.sample_memory(10))
+	print(obs.memory.sample(10))

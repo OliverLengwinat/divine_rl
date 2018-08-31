@@ -74,10 +74,22 @@ virtual ~BaseObserver() = default;
 void set_world(std::shared_ptr<World> w){ world_ = w; }
 std::shared_ptr<World> get_world(){ return world_; }
 
+virtual void observe_(std::pair<int, StateHistory> s) = 0;
+
 // TODO: always call observer from the base class and access a private function of the child
-virtual std::pair<int, StateHistory> observe(std::pair<int, StateHistory> s) = 0;
-ReplayMemory& get_replay_memory() { return replay_memory_; };
-void memorize(const StateHistory s){ replay_memory_.push_back(s); };
+virtual std::pair<int, StateHistory> observe(std::pair<int, StateHistory> s){
+    std::shared_ptr<Agent> agent = get_world()->get_agent(s.first);
+    std::pair<bool, double> status = get_world()->collides(agent);
+    this->observe_(s);
+    s.second.is_final = status.first;
+    s.second.reward = status.second;
+    memorize(s.second);
+    return s;
+}
+
+ReplayMemory& get_replay_memory() { return replay_memory_; }
+void set_replay_memory() { }
+void memorize(const StateHistory s){ replay_memory_.push_back(s); }
 
 private:
     std::shared_ptr<World> world_;

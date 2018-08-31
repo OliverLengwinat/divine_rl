@@ -12,6 +12,10 @@ class Viewer(object):
             elif obj.get_type() == 0:
                 polygon = obj.get_transformed_shape()
                 self.draw_polygon(polygon, color='blue')
+        
+        # draw bounding box
+        bb = world.get_bounding_box().to_numpy()
+        plt.plot(bb[:,0], bb[:,1])
 
     def draw_polygon(self, polygon, color='gray'):
         pts = polygon.to_numpy()

@@ -100,6 +100,12 @@ bool collides(const Polygon_t<T, N>& p0, const PointNd_t<T, N>& p1) {
 	return boost::geometry::intersects(p0, p1);
 }
 
+//! touching: shape to shape
+template<typename T, int N>
+bool disjoint(const Polygon_t<T, N>& p0, const Polygon_t<T, N>& p1) {
+	return boost::geometry::disjoint(p0, p1);
+}
+
 //! translate polygon
 template<typename T, int N>
 Polygon_t<T, N> translate(const Polygon_t<T, N>& poly, const PointNd_t<T, N>& p){
