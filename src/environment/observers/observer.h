@@ -43,7 +43,7 @@ using namespace environment::world;
 
 struct Memory {
     std::vector<Matrix_t<double>> states;
-    std::vector<double> actions;
+    std::vector<Matrix_t<double>> actions;
     std::vector<Matrix_t<double>> next_states;
     std::vector<double> rewards;
     std::vector<bool> is_final;
@@ -53,6 +53,7 @@ class ReplayMemory {
 public:
     ReplayMemory() : max_sample_size(5000) {
     };
+
     void push_back(const StepReturn s){
         replay_memory_.push_back(s);
         if(replay_memory_.size() > max_sample_size){
@@ -60,20 +61,24 @@ public:
         }
     }
 
-    std::vector<StepReturn> sample(size_t N){
-        std::vector<StepReturn> ret;
-
-        // max sampling size
-        int max = std::min(N, replay_memory_.size());
+    Memory sample(size_t N){
+        Memory subsampled_memory;
 
         // random
+        int max = std::min(N, replay_memory_.size());
         std::mt19937 gen(rd());
         std::uniform_int_distribution<int> uni(0, max);
 
         for(int i = 0; i < max; ++i ){
-            ret.push_back(replay_memory_[uni(gen)]);
+            //ret.push_back(replay_memory_[uni(gen)]);
+            int rand_idx = uni(gen);
+            subsampled_memory.states.push_back(replay_memory_[rand_idx].state);
+            subsampled_memory.actions.push_back(replay_memory_[rand_idx].action);
+            subsampled_memory.next_states.push_back(replay_memory_[rand_idx].next_state);
+            subsampled_memory.rewards.push_back(replay_memory_[rand_idx].reward);
         }
-        return ret;
+
+        return subsampled_memory;
     }
 
 private:

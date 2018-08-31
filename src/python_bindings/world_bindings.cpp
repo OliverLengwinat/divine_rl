@@ -74,6 +74,29 @@ void world_bindings(py::module m)
     py::class_<Object, BaseType, std::shared_ptr<Object>>(m, "Object")
         .def(py::init<>());
 
+    py::class_<Memory, std::shared_ptr<Memory>>(m, "Memory")
+        .def(py::init<>())
+        .def_property_readonly("states", [](const Memory& s)
+        {
+            return s.states;
+        })
+        .def_property_readonly("is_final", [](const Memory& s)
+        {
+            return s.is_final;
+        })
+        .def_property_readonly("next_states", [](const Memory& s)
+        {
+            return s.next_states;
+        })
+        .def_property_readonly("rewards", [](const Memory& s)
+        {
+            return s.rewards;
+        })
+        .def_property_readonly("actions", [](const Memory& s)
+        {
+            return s.actions;
+        });
+
     py::class_<StepReturn, std::shared_ptr<StepReturn>>(m, "StepReturn")
         .def(py::init<>())
         .def_property_readonly("state", [](const StepReturn& s)

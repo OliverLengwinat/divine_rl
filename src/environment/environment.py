@@ -127,9 +127,11 @@ if __name__ == '__main__':
 			# plot agents
 			env.debug_agents_plot()
 
-	# show and sample
+	# show plots
 	env.debug_plot_show()
-	print(obs.memory.sample(10))
 
+	# replay memory
+	replay_memory = obs.memory.sample(10)
+	replay_batch = zip(replay_memory.states, replay_memory.actions, replay_memory.next_states, replay_memory.rewards)
 
 	
