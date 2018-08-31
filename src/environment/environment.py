@@ -131,7 +131,7 @@ if __name__ == '__main__':
 	env.debug_plot_show()
 
 	# replay memory
-	replay_memory = obs.memory.sample(10)
+	replay_memory = obs.memory.sample(50)
 	replay_batch = zip(replay_memory.states, replay_memory.actions, replay_memory.next_states, replay_memory.rewards)
 
 	
