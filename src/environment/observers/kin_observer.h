@@ -34,9 +34,8 @@ class KinematicObserver : public BaseObserver {
 public:
     KinematicObserver() {};
 
-    // is_final, reward
-    void observe_(StepReturn s){
-        // convert state if needed
+    Matrix_t<double> state_converter(std::shared_ptr<Agent> a, std::shared_ptr<World> w){
+        return a->get_kinematic_model()->get_state().block(0,0,1,2);
     }
 
 };

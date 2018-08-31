@@ -43,7 +43,7 @@ class Agent : public BaseType {
 public:
     Agent() {};
 
-    StepReturn step(const Matrix_t<double>& u, double dt){
+    StepReturn exec_step(const Matrix_t<double>& u, double dt){
         StepReturn sr;
         sr.state = kinematic_model_->get_state();
         sr.action = u;
@@ -52,6 +52,10 @@ public:
         sr.next_state = kinematic_model_->get_state();
         sr.agent_id = get_id();
         return sr;
+    }
+    
+    std::pair<int, std::function<StepReturn()>> step(const Matrix_t<double>& u, double dt){
+        return std::make_pair<int, std::function<StepReturn()>>(get_id(), std::bind(&Agent::exec_step, this, u, dt));
     }
 
     //! setter

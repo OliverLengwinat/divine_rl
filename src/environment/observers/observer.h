@@ -97,17 +97,22 @@ virtual ~BaseObserver() = default;
 void set_world(std::shared_ptr<World> w){ world_ = w; }
 std::shared_ptr<World> get_world(){ return world_; }
 
-virtual void observe_(StepReturn s) = 0;
+virtual Matrix_t<double> state_converter(std::shared_ptr<Agent> a, std::shared_ptr<World> w) = 0;
 
 //! TODO: use function pointer for step and execute within this function
-virtual StepReturn observe(StepReturn s){
-    std::shared_ptr<Agent> agent = get_world()->get_agent(s.agent_id);
-    std::pair<bool, double> status = get_world()->collides(agent);
-    this->observe_(s);
-    s.is_final = status.first;
-    s.reward = status.second;
-    memorize(s);
-    return s;
+StepReturn observe(std::pair<int, std::function<StepReturn()>> id_n_step){
+    StepReturn sr;
+    std::shared_ptr<Agent> agent = world_->get_agent(id_n_step.first);
+    std::pair<bool, double> status = world_->collides(agent);
+
+    sr.state = this->state_converter(agent, world_);
+    StepReturn sr_tmp = id_n_step.second(); // step here
+    sr.action = sr_tmp.action;
+    sr.next_state = this->state_converter(agent, get_world());
+
+    sr.is_final = status.first;
+    sr.reward = status.second;
+    return sr;
 }
 
 ReplayMemory& get_replay_memory() { return replay_memory_; }

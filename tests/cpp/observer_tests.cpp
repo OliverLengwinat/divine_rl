@@ -62,16 +62,16 @@ TEST(observer, init) {
     u << 0,0;
 
     //std::cout << a->get_state() << std::endl;
+    auto step = a->step(u, 0.15);
+    StepReturn observation = o->observe( step );
 
-
-    StepReturn h = o->observe( a->step(u, 0.15) );
-    StepReturn hb = o->observe( b->step(u, 0.15) );
-    std::cout << h.agent_id << std::endl;
-    std::cout << hb.agent_id << std::endl;
-    std::cout << h.state << std::endl;
-
+    std::cout << observation.state << std::endl;
+    std::cout << observation.next_state << std::endl;
     
+    observation = o->observe( step );
 
+    std::cout << observation.state << std::endl;
+    std::cout << observation.next_state << std::endl;
     //std::cout << a->get_state() << std::endl;
 
     ASSERT_TRUE(true);

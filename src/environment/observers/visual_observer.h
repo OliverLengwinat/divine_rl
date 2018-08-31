@@ -29,17 +29,6 @@
 namespace environment {
 namespace observers {
 
-class VisualObserver : public BaseObserver {
-public:
-    VisualObserver() {};
-
-    // is_final, reward
-    void observe_(StepReturn s){
-        // convert state if needed
-    }
-
-};
-
 
 } // observers
 } // environment
