@@ -17,6 +17,11 @@ class Viewer(object):
         bb = world.get_bounding_box().to_numpy()
         plt.plot(bb[:,0], bb[:,1])
 
+        for key, line in world.get_reference_lines().items():
+            pts = line.to_numpy()
+            plt.plot(pts[:,0], pts[:,1])
+
+
     def draw_polygon(self, polygon, color='gray'):
         pts = polygon.to_numpy()
         plt.plot(pts[:,0], pts[:,1], color=color)

@@ -80,10 +80,13 @@ public:
         return kinematic_model_;
     }
 
+    void set_reference_line_id(int id){reference_line_id_=id;}
+    int get_reference_line_id() const {return reference_line_id_;}
 
 private:
     PointNd_t<double, 3> pose_;
     std::shared_ptr<KinematicModel<double>> kinematic_model_;
+    int reference_line_id_;
 };
 
 } // environment

@@ -78,6 +78,10 @@ void commons_bindings(py::module m)
         {
             return bg::append(l, p);
         })
+        .def("append", [](Linestring_t<double, 2>& l, Linestring_t<double, 2>& p)
+        {
+            return bg::append(l, p);
+        })
         .def("to_numpy", [](const Linestring_t<double, 2>& l)
         {
             return get_matrix<double, 2>(l);

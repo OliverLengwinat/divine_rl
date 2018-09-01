@@ -87,11 +87,17 @@ public:
 
     void reset(){ objects_.clear(); agent_count_ = 0; };
 
+    void add_reference_line(int id, Linestring_t<double, 2> line){
+        reference_lines_[id] = line;
+    }
+    std::map<int, Linestring_t<double, 2>> get_reference_lines() const { return reference_lines_; }
+
+    Linestring_t<double, 2> get_reference_line(int id) const { return reference_lines_.at(id); }
+
 private:
-    std::vector<std::shared_ptr<BaseType>> objects_; // list of base objects
-    std::vector<std::shared_ptr<Linestring_t<double, 2>>> lines_;
+    std::vector<std::shared_ptr<BaseType>> objects_;
+    std::map<int, Linestring_t<double, 2>> reference_lines_;
     Polygon_t<double, 2> bounding_box_;
-    divine::World world_info_;
     uint agent_count_;
 
 };

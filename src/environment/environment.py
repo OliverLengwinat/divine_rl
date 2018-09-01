@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
 from divine_rl.commons import Point, Line, Polygon, SingleTrackModel
-from divine_rl.world import World, Agent, Object, KinematicObserver, BaseObserver, ReplayMemory
+from divine_rl.world import World, Agent, Object, KinematicObserver, BaseObserver, ReplayMemory, RoadNetwork
 from src.proto import world_pb2, commons_pb2, object_pb2
 from google.protobuf import text_format
 from viewer.viewer import Viewer
@@ -65,6 +65,25 @@ class Environment(threading.Thread):
 
 	def load_world(self, path):
 		world = self.load_proto(path)
+		
+		# load reference lines
+		for line in world.reference_line:
+			ref_line = Line()
+			road_network = RoadNetwork()
+			for segment in line.line_segment:
+				if segment.type == commons_pb2.EdgeInfo.LINE:
+					p_start = Point(segment.start_point.e[0], segment.start_point.e[1])
+					p_end = Point(segment.end_point.e[0], segment.end_point.e[1])
+					ref_line.append(road_network.create_line(p_start, p_end))
+				elif segment.type == commons_pb2.EdgeInfo.BEZIER:
+					p_0 = Point(segment.start_point.e[0], segment.start_point.e[1])
+					p_1 = Point(segment.start_point.e[0], segment.start_point.e[1])
+					p_2 = Point(segment.start_point.e[0], segment.start_point.e[1])
+					p_3 = Point(segment.start_point.e[0], segment.start_point.e[1])
+					ref_line.append(road_network.create_bezier(p_0, p_1, p_2, p_3))
+			self.world.add_reference_line(line.id, ref_line)
+		
+		# load objects
 		for obj in world.object:
 			shape = self.get_nested_list(obj.shape)# multiple states with each state containing 2x e
 			if obj.type == object_pb2.Object.AGENT:
@@ -78,6 +97,7 @@ class Environment(threading.Thread):
 				agent.set_pose(kinematic_model.get_pose())
 				agent.set_kinematic_model(kinematic_model)
 				agent.set_reward(obj.reward)
+				agent.set_reference_line_id(obj.reference_line_id)
 				self.world.add_object(agent)
 			elif obj.type == object_pb2.Object.OBJECT:
 				tmp_obj = Object()
