@@ -206,6 +206,27 @@ struct StepReturn {
 	int agent_id;
 };
 
+//! s functions
+template<typename T>
+inline PointNd_t<T, 3> get_pose_at_s(Linestring_t<T, 2> l, T s) { 
+  float length = 0.0f;
+  for( uint32_t i = 0; i < l.size() - 1; i++ ){
+    float dx = (bg::get<0>(l[i+1])-bg::get<0>(l[i]));
+    float dy = (bg::get<1>(l[i+1])-bg::get<1>(l[i]));
+    length += sqrt(dx*dx + dy*dy);
+    if( length >= s ){
+      //! we need to interpolate
+      float segment_length = sqrt(dx*dx + dy*dy);
+      float t = ( length - s )/segment_length;
+      float x_final = bg::get<0>(l[i]) * t + (1-t)*bg::get<0>(l[i+1]);
+      float y_final = bg::get<1>(l[i]) * t + (1-t)*bg::get<1>(l[i+1]);
+      return PointNd_t<T, 3>(x_final, y_final, atan2(dy,dx));
+    }
+  }
+  return PointNd_t<T, 3>(0.0f, 0.0f, 0.0f);
+}
+
+
 } // commons
 } // environment
 #endif //_COMMONS_COMMON_H_

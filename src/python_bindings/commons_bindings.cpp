@@ -94,6 +94,10 @@ void commons_bindings(py::module m)
         {
             return distance<double, 2>(l, poly);
         })
+        .def("get_pose_at_s", [](const Linestring_t<double, 2>& l, double s)
+        {
+            return get_pose_at_s<double>(l, s);
+        })
         .def("__repr__", [](const Linestring_t<double, 2>& p)
         {
             return "Line";
@@ -133,6 +137,8 @@ void commons_bindings(py::module m)
     py::class_<KinematicModel<double>, std::shared_ptr<KinematicModel<double>>>(m, "KinematicModel")
         .def("set_state", &KinematicModel<double>::set_state)
         .def("get_state", &KinematicModel<double>::get_state)
+        .def("set_reference_line", &KinematicModel<double>::set_reference_line)
+        .def("get_reference_line", &KinematicModel<double>::get_reference_line)
         .def("__repr__", [](const KinematicModel<double>& k)
         {
             return "KinematicModel";
@@ -146,5 +152,13 @@ void commons_bindings(py::module m)
         {
             return "SingleTrackModel";
         });
-    
+
+    py::class_< TrippleIntModel<double>, KinematicModel<double>, std::shared_ptr<TrippleIntModel<double>>>(m, "TrippleIntModel")
+        .def(py::init<>())
+        .def("step", &TrippleIntModel<double>::step)
+        .def("get_pose", &TrippleIntModel<double>::get_pose)
+        .def("__repr__", [](const TrippleIntModel<double>& k)
+        {
+            return "TrippleIntModel";
+        });
 }

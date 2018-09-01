@@ -36,11 +36,13 @@ public:
     BaseType() : id_(0), shape_offset_(PointNd_t<double, 2>(0,0)), reward_(0.0) {};
     void set_shape(const Polygon_t<double, 2>& s){ shape_ = s; };
     void set_shape_offset(const PointNd_t<double, 2>& s){ shape_offset_ = s; };
+
     Polygon_t<double, 2> get_shape() const { return shape_; };
     PointNd_t<double, 2> get_shape_offset() const { return shape_offset_; };
+    
     virtual ~BaseType() = default;
     void set_id(uint id){id_=id;};
-    uint get_id() const { return id_; };
+    int get_id() const { return id_; };
 
     void set_type(uint type){ type_=type; };
     uint get_type() const { return type_; };
@@ -50,7 +52,7 @@ public:
 private:
     Polygon_t<double, 2> shape_;
     PointNd_t<double, 2> shape_offset_;
-    uint id_;
+    int id_;
     double reward_;
     uint type_;
 };

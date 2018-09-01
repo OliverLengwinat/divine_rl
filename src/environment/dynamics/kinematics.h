@@ -37,10 +37,13 @@ public:
 	virtual void step(const Matrix_t<T>& u, T dt) = 0;
 	virtual PointNd_t<T, 3> get_pose() = 0;
 	void set_state(const Matrix_t<T>& state){state_ = state; };
+	void set_reference_line(const Linestring_t<double, 2> line){referece_line_ = line; };
+	Linestring_t<double, 2> get_reference_line() { return referece_line_; };
 	Matrix_t<T> get_state() { return state_; };
 	virtual ~KinematicModel() = default;
 private:
-  Matrix_t<double> state_;
+	Matrix_t<double> state_;
+	Linestring_t<double, 2> referece_line_;
 };
 
 
@@ -74,26 +77,21 @@ struct TrippleIntModel : public KinematicModel<T> {
 	// TODO: flexible wheel-base
 	void step(const Matrix_t<T>& u, T dt){
 		Matrix_t<T> A(3, 3);
-		Matrix_t<T> B(3, 1);
+		Matrix_t<T> B(1, 3);
 		Matrix_t<T> state = KinematicModel<T>::get_state();
 		A << 0, 1, 0, 0, 0, 1, 0, 0, 0;
 		B << 0, 0, 1;
-		KinematicModel<T>::set_state(state + dt * (A*state + B*u));
+		//state = state + (A*state.transpose()).transpose() + B*u(0,0);
+		KinematicModel<T>::set_state(state + dt * ((A*state.transpose()).transpose() + B*u(0,0)));
 	}
 	
 	PointNd_t<T, 3> get_pose(){
-		// TODO: calculate pose using: line_
+		// TODO: match state on line
+		//std::cout << "getting pose.."  << get_matrix<double, 2>(KinematicModel<T>::get_reference_line()) << std::endl;
 		Matrix_t<T> state = KinematicModel<T>::get_state();
-		PointNd_t<T, 3> pt;
-		bg::set<0>(pt, state(0,0));
-		bg::set<1>(pt, state(0,1));
-		bg::set<2>(pt, state(0,2));
-		return pt;
+		PointNd_t<T, 3> pose = get_pose_at_s<T>(KinematicModel<T>::get_reference_line(), state(0,0));
+		return pose;
 	}
-
-	void set_reference_line(const Linestring_t<double, 2> line){ line_ = line; }
-	Linestring_t<double, 2> line_;
-
 };
 
 

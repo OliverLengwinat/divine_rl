@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from divine_rl.commons import Point, Line, Polygon, SingleTrackModel
+from divine_rl.commons import Point, Line, Polygon, SingleTrackModel, TrippleIntModel
 from divine_rl.world import World, Agent, Object, KinematicObserver, BaseObserver, ReplayMemory, RoadNetwork
 from src.proto import world_pb2, commons_pb2, object_pb2
 from google.protobuf import text_format
@@ -77,9 +77,9 @@ class Environment(threading.Thread):
 					ref_line.append(road_network.create_line(p_start, p_end))
 				elif segment.type == commons_pb2.EdgeInfo.BEZIER:
 					p_0 = Point(segment.start_point.e[0], segment.start_point.e[1])
-					p_1 = Point(segment.start_point.e[0], segment.start_point.e[1])
-					p_2 = Point(segment.start_point.e[0], segment.start_point.e[1])
-					p_3 = Point(segment.start_point.e[0], segment.start_point.e[1])
+					p_1 = Point(segment.start_point.e[2], segment.start_point.e[3])
+					p_2 = Point(segment.end_point.e[0], segment.end_point.e[1])
+					p_3 = Point(segment.end_point.e[2], segment.end_point.e[3])
 					ref_line.append(road_network.create_bezier(p_0, p_1, p_2, p_3))
 			self.world.add_reference_line(line.id, ref_line)
 		
@@ -92,18 +92,21 @@ class Environment(threading.Thread):
 				agent.set_shape(self.create_polygon(shape))
 				shape_offset = self.get_list(obj.shape.center)
 				agent.set_shape_offset(Point(shape_offset[0], shape_offset[1]))
-				kinematic_model = eval(obj.model.name) 
-				kinematic_model.set_state( np.array([self.get_list(obj.model.state)]) )
+				kinematic_model = eval(obj.model.name)
+				kinematic_model.set_state( np.array([self.get_list(obj.model.state)]))
+				if obj.HasField('reference_line_id'):
+					kinematic_model.set_reference_line(self.world.get_reference_line(obj.reference_line_id))
 				agent.set_pose(kinematic_model.get_pose())
 				agent.set_kinematic_model(kinematic_model)
 				agent.set_reward(obj.reward)
-				agent.set_reference_line_id(obj.reference_line_id)
+				agent.set_id(obj.id)
 				self.world.add_object(agent)
 			elif obj.type == object_pb2.Object.OBJECT:
 				tmp_obj = Object()
 				tmp_obj.set_type(obj.type)
 				tmp_obj.set_shape(self.create_polygon(shape))
 				tmp_obj.set_reward(obj.reward)
+				tmp_obj.set_id(obj.id)
 				self.world.add_object(tmp_obj)
 			elif obj.type == object_pb2.Object.BOUNDING_BOX:
 				bounding_box = self.create_polygon(shape)
@@ -133,15 +136,18 @@ if __name__ == '__main__':
 	obs.set_world(env.world)
 
 	# run environment
-	for i in range(0, 42):
-		u = np.array([[random.uniform(-0.5, 0.5), 0.0]])
+	for i in range(0, 1):
+		#u = np.array([[random.uniform(-0.5, 0.5), 0.0]])
+		u = np.array([[random.uniform(-0.0, 0.0)]])
 		running = True
 		while running:
+			#print(len(env.agents))
 			for agent in env.agents:
-				#state = obs.get_state(agent, env.world) #required for RL!
+				state = obs.get_state(agent, env.world) #required for RL!
+				#print(state)
 				result = obs.observe(agent.step(u, 0.25))
 				if result.is_final:
-					print(result.state, result.action, result.next_state, result.reward)
+					#print(result.state, result.action, result.next_state, result.reward)
 					running = False
 					env.reset()
 			

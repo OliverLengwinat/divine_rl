@@ -108,7 +108,7 @@ StepReturn observe(std::pair<int, std::function<StepReturn()>> id_n_step){
     StepReturn sr_tmp = id_n_step.second(); // step here
     sr.action = sr_tmp.action;
     sr.next_state = this->convert_state(agent, get_world());
-
+    
     // check for collision and reward
     std::pair<bool, double> status = world_->collides(agent);
     sr.is_final = status.first;

@@ -1,19 +1,19 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package divine;
 import "src/proto/commons.proto";
 
 message KinematicModel {
-  string name = 1;
-	divine.State state = 2;
+  required string name = 1;
+	required divine.State state = 2;
 }
 
 message Object {
-  string name = 1;
-  int32 id = 2;
-	divine.Shape shape = 3;
-	divine.State pose = 4;
-  KinematicModel model = 5;
+  optional string name = 1;
+  required int32 id = 2;
+	optional divine.Shape shape = 3;
+	optional divine.State pose = 4;
+  required KinematicModel model = 5;
 
   enum ObstacleType {
     AGENT = 0;
@@ -21,7 +21,7 @@ message Object {
     BOUNDING_BOX = 2;
   }
 
-  ObstacleType type = 6;
-  float reward = 7;
-  int32 reference_line_id = 8;
+  required ObstacleType type = 6;
+  optional float reward = 7;
+  optional int32 reference_line_id = 8;
 }

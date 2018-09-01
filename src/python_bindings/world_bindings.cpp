@@ -62,6 +62,8 @@ void world_bindings(py::module m)
         .def("set_shape", &environment::world::BaseType::set_shape)
         .def("set_shape_offset", &environment::world::BaseType::set_shape_offset)
         .def("get_shape", &environment::world::BaseType::get_shape)
+        .def("set_id", &environment::world::Agent::set_id)
+        .def("get_id", &environment::world::Agent::get_id)
         .def("set_reward", &environment::world::Agent::set_reward)
         .def("set_type", &environment::world::BaseType::set_type)
         .def("get_type", &environment::world::BaseType::get_type);

@@ -1,4 +1,4 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package divine;
 
@@ -8,7 +8,7 @@ message State {
 
 message Shape {
   repeated State e = 1;
-  State center = 2;
+  required State center = 2;
 }
 
 message EdgeInfo {
@@ -16,7 +16,7 @@ message EdgeInfo {
     LINE = 0;
     BEZIER = 1;
   }
-  LineType type = 1;
-  divine.State start_point = 2; 
-  divine.State end_point = 3; 
+  required LineType type = 1;
+  required divine.State start_point = 2; 
+  required divine.State end_point = 3; 
 }

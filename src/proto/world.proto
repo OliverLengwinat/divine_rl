@@ -1,4 +1,4 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package divine;
 
@@ -12,7 +12,7 @@ message Edge {
 }
 
 message Vertex {
-  int32 id = 1;
+  required int32 id = 1;
   repeated Edge edges = 2;
 }
 
@@ -21,7 +21,7 @@ message RoadGraph {
 }
 
 message ReferenceLine {
-  int32 id = 1;
+  required int32 id = 1;
   repeated divine.EdgeInfo line_segment = 2;
 }
 
