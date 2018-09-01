@@ -33,7 +33,7 @@ class VisualObserver : public BaseObserver {
 public:
     VisualObserver() {};
 
-    Matrix_t<double> state_converter(std::shared_ptr<Agent> a, std::shared_ptr<World> w){
+    Matrix_t<double> convert_state(std::shared_ptr<Agent> a, std::shared_ptr<World> w){
         //! TODO: draw 2D image!
         return a->get_kinematic_model()->get_state();
     }

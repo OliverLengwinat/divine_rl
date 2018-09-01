@@ -34,7 +34,7 @@ class KinematicObserver : public BaseObserver {
 public:
     KinematicObserver() {};
 
-    Matrix_t<double> state_converter(std::shared_ptr<Agent> a, std::shared_ptr<World> w){
+    Matrix_t<double> convert_state(std::shared_ptr<Agent> a, std::shared_ptr<World> w){
         return a->get_kinematic_model()->get_state();
     }
 

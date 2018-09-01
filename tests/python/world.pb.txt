@@ -154,3 +154,29 @@ object {
 	type: 2
 	reward: -1.0
 }
+
+reference_line {
+	id: 0
+	line_segment: {
+		type: 0
+		start_point: {
+			e: 0.0
+			e: 0.0
+		}
+		end_point: {
+			e: 10.0
+			e: 0.0
+		}
+	}
+	line_segment: {
+		type: 0
+		start_point: {
+			e: 10.0
+			e: 0.0
+		}
+		end_point: {
+			e: 10.0
+			e: 20.0
+		}
+	}
+}

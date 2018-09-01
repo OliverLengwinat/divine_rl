@@ -130,6 +130,7 @@ void world_bindings(py::module m)
         .def("set_world", &environment::observers::BaseObserver::set_world)
         .def_property("memory", &environment::observers::BaseObserver::get_replay_memory, &environment::observers::BaseObserver::set_replay_memory)
         .def("get_world", &environment::observers::BaseObserver::get_world)
+        .def("get_state", &environment::observers::BaseObserver::convert_state)
         .def("observe", &environment::observers::KinematicObserver::observe);
 
     py::class_<KinematicObserver, BaseObserver, std::shared_ptr<KinematicObserver>>(m, "KinematicObserver")

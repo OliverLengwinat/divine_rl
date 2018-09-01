@@ -97,17 +97,17 @@ virtual ~BaseObserver() = default;
 void set_world(std::shared_ptr<World> w){ world_ = w; }
 std::shared_ptr<World> get_world(){ return world_; }
 
-virtual Matrix_t<double> state_converter(std::shared_ptr<Agent> a, std::shared_ptr<World> w) = 0;
+virtual Matrix_t<double> convert_state(std::shared_ptr<Agent> a, std::shared_ptr<World> w) = 0;
 
 StepReturn observe(std::pair<int, std::function<StepReturn()>> id_n_step){
     StepReturn sr;
     std::shared_ptr<Agent> agent = world_->get_agent(id_n_step.first);
 
     // convert state before and after state
-    sr.state = this->state_converter(agent, world_);
+    sr.state = this->convert_state(agent, world_);
     StepReturn sr_tmp = id_n_step.second(); // step here
     sr.action = sr_tmp.action;
-    sr.next_state = this->state_converter(agent, get_world());
+    sr.next_state = this->convert_state(agent, get_world());
 
     // check for collision and reward
     std::pair<bool, double> status = world_->collides(agent);

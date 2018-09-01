@@ -10,3 +10,13 @@ message Shape {
   repeated State e = 1;
   State center = 2;
 }
+
+message EdgeInfo {
+  enum LineType {
+    LINE = 0;
+    BEZIER = 1;
+  }
+  LineType type = 1;
+  divine.State start_point = 2; 
+  divine.State end_point = 3; 
+}

@@ -118,6 +118,7 @@ if __name__ == '__main__':
 		running = True
 		while running:
 			for agent in env.agents:
+				#state = obs.get_state(agent, env.world) #required for RL!
 				result = obs.observe(agent.step(u, 0.25))
 				if result.is_final:
 					print(result.state, result.action, result.next_state, result.reward)

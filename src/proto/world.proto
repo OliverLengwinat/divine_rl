@@ -3,7 +3,29 @@ syntax = "proto3";
 package divine;
 
 import "src/proto/object.proto";
+import "src/proto/commons.proto";
+
+
+message Edge {
+  repeated int32 from = 1;
+  repeated int32 to = 2;
+}
+
+message Vertex {
+  int32 id = 1;
+  repeated Edge edges = 2;
+}
+
+message RoadGraph {
+  repeated Vertex vertices = 1;
+}
+
+message ReferenceLine {
+  int32 id = 1;
+  repeated divine.EdgeInfo line_segment = 2;
+}
 
 message World {
   repeated divine.Object object = 1;
+  repeated ReferenceLine reference_line = 2;
 }
