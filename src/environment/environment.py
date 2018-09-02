@@ -106,7 +106,6 @@ class Environment(threading.Thread):
 				kinematic_model.set_state( np.array([self.get_list(obj.model.state)]))
 
 				if obj.HasField('reference_line_id'):
-					#kinematic_model.set_reference_line(self.world.get_reference_line(obj.reference_line_id))
 					kinematic_model.set_road_network(road_network)
 					kinematic_model.set_reference_road_id(obj.reference_line_id)
 
@@ -128,6 +127,7 @@ class Environment(threading.Thread):
 
 	def debug_world_plot(self):
 		self.viewer.draw_world(self.world, color='gray')
+		self.debug_agents_plot()
 
 	def debug_agents_plot(self):
 		for agent in self.agents:
@@ -156,7 +156,7 @@ if __name__ == '__main__':
 		u = np.array([[random.uniform(-0.0, 0.0)]])
 		running = True
 
-		for i in range(0,20):
+		while running:
 			for agent in env.agents:
 				# state = obs.get_state(agent, env.world) 
 				result = obs.observe(agent.step(u, 0.25))
@@ -164,6 +164,7 @@ if __name__ == '__main__':
 					print(result.state, result.action, result.next_state, result.reward)
 					running = False
 					env.reset()
+			
 			# plot agents
 			env.debug_agents_plot()
 

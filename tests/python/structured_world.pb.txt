@@ -177,7 +177,7 @@ line_segment {
 			e: 5.0
 		}
 		end_point: {
-			e: 55.0
+			e: 65.0
 			e: 5.0
 		}
 	}

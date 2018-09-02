@@ -95,7 +95,6 @@ struct TrippleIntModel : public KinematicModel<T> {
 	PointNd_t<T, 3> get_pose(){
 		Matrix_t<T> state = KinematicModel<T>::get_state();
 		std::pair<int, double> id_s_start = this->get_road_network()->get_segment_id(this->get_road_network()->get_reference_road(this->get_reference_road_id()), state(0,0));
-		std::cout << id_s_start.first << ", " << state(0,0) << std::endl;
 		PointNd_t<T, 3> pose = get_pose_at_s<T>(this->get_road_network()->get_line_segment(id_s_start.first), state(0,0)-id_s_start.second);
 		return pose;
 	}
