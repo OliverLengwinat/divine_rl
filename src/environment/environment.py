@@ -94,8 +94,10 @@ class Environment(threading.Thread):
 				agent.set_shape_offset(Point(shape_offset[0], shape_offset[1]))
 				kinematic_model = eval(obj.model.name)
 				kinematic_model.set_state( np.array([self.get_list(obj.model.state)]))
+
 				if obj.HasField('reference_line_id'):
 					kinematic_model.set_reference_line(self.world.get_reference_line(obj.reference_line_id))
+				
 				agent.set_pose(kinematic_model.get_pose())
 				agent.set_kinematic_model(kinematic_model)
 				agent.set_reward(obj.reward)

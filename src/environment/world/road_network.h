@@ -53,10 +53,6 @@ public:
         return line;
     }
 
-    void find(uint start_id, uint end_id){
-        // TODO: query road_graph_
-    }
-
 private:
     int road_graph_;
 

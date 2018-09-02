@@ -72,22 +72,18 @@ struct SingleTrackModel : public KinematicModel<T> {
 
 template<typename T>
 struct TrippleIntModel : public KinematicModel<T> {
-	TrippleIntModel() { KinematicModel<T>::get_state().resize(1,3); }; // TODO: takes line and interpolates itself
+	TrippleIntModel() { KinematicModel<T>::get_state().resize(1,3); };
 
-	// TODO: flexible wheel-base
 	void step(const Matrix_t<T>& u, T dt){
 		Matrix_t<T> A(3, 3);
 		Matrix_t<T> B(1, 3);
 		Matrix_t<T> state = KinematicModel<T>::get_state();
 		A << 0, 1, 0, 0, 0, 1, 0, 0, 0;
 		B << 0, 0, 1;
-		//state = state + (A*state.transpose()).transpose() + B*u(0,0);
 		KinematicModel<T>::set_state(state + dt * ((A*state.transpose()).transpose() + B*u(0,0)));
 	}
 	
 	PointNd_t<T, 3> get_pose(){
-		// TODO: match state on line
-		//std::cout << "getting pose.."  << get_matrix<double, 2>(KinematicModel<T>::get_reference_line()) << std::endl;
 		Matrix_t<T> state = KinematicModel<T>::get_state();
 		PointNd_t<T, 3> pose = get_pose_at_s<T>(KinematicModel<T>::get_reference_line(), state(0,0));
 		return pose;
