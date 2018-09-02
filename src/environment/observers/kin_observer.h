@@ -35,10 +35,13 @@ public:
     KinematicObserver() {};
 
     Matrix_t<double> convert_state(std::shared_ptr<Agent> a, std::shared_ptr<World> w){
+        // TODO: select features to be saved.. eg. agents states concatenated
         return a->get_kinematic_model()->get_state();
     }
 
     void convert_reward(StepReturn& step_return, std::shared_ptr<Agent> a, std::shared_ptr<World> w){
+        // TODO: calculate the reward on something other than a collison
+        // e.g. the deviation of the desired speed
         //step_return.reward;
     }
 };
