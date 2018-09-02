@@ -117,6 +117,7 @@ class Environment(threading.Thread):
 
 	def debug_agents_plot(self):
 		for agent in self.agents:
+			self.viewer.draw_point(agent.get_pose(), color='blue')
 			polygon = agent.get_transformed_shape()
 			self.viewer.draw_polygon(polygon, color='blue')
 
@@ -128,7 +129,7 @@ class Environment(threading.Thread):
 if __name__ == '__main__':
 
 	# setup environment
-	env = Environment("tests/python/world.pb.txt")
+	env = Environment("tests/python/structured_world.pb.txt")
 	env.debug_world_plot()
 
 	# setup obsever
@@ -141,16 +142,13 @@ if __name__ == '__main__':
 		u = np.array([[random.uniform(-0.0, 0.0)]])
 		running = True
 		while running:
-			#print(len(env.agents))
 			for agent in env.agents:
-				state = obs.get_state(agent, env.world) #required for RL!
-				#print(state)
+				# state = obs.get_state(agent, env.world) 
 				result = obs.observe(agent.step(u, 0.25))
 				if result.is_final:
-					#print(result.state, result.action, result.next_state, result.reward)
+					print(result.state, result.action, result.next_state, result.reward)
 					running = False
 					env.reset()
-			
 			# plot agents
 			env.debug_agents_plot()
 
@@ -160,5 +158,7 @@ if __name__ == '__main__':
 	# replay memory
 	replay_memory = obs.memory.sample(50)
 	replay_batch = zip(replay_memory.states, replay_memory.actions, replay_memory.next_states, replay_memory.rewards)
+
+	
 
 	

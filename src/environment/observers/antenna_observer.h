@@ -21,21 +21,48 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef _KIN_OBSERVER_H_
-#define _KIN_OBSERVER_H_
+#ifndef _ANTENNA_OBSERVER_H_
+#define _ANTENNA_OBSERVER_H_
 
 #include <functional>
+#include <boost/geometry.hpp>
+#include <boost/geometry/geometries/point.hpp>
+#include <boost/geometry/geometries/box.hpp>
 #include "src/environment/observers/observer.h"
 
 namespace environment {
 namespace observers {
+namespace bg = boost::geometry;
 
-class KinematicObserver : public BaseObserver {
+class AntennaObserver : public BaseObserver {
 public:
-    KinematicObserver() {};
+    AntennaObserver() {};
+
+    Linestring_t<double, 2> create_antenna(Matrix_t<double> vehicle_state, double angle_offset){
+        Linestring_t<double, 2> antenna;
+        PointNd_t<double, 2> p_start(vehicle_state(0,0), vehicle_state(0,1));
+        double dx = 150.0*cos(vehicle_state(0,2) + angle_offset);
+        double dy = 150.0*sin(vehicle_state(0,2) + angle_offset);
+        PointNd_t<double, 2> p_end(vehicle_state(0,0) + dx, vehicle_state(0,1) + dy);
+        bg::append(antenna, p_start);
+        bg::append(antenna, p_end);
+    }
 
     Matrix_t<double> convert_state(std::shared_ptr<Agent> a, std::shared_ptr<World> w){
-        return a->get_kinematic_model()->get_state();
+        Matrix_t<double> vehicle_state = a->get_kinematic_model()->get_state();
+        PointNd_t<double, 2> center_point(vehicle_state(0,0), vehicle_state(0,1));
+
+        std::vector<Linestring_t<double, 2>> antennas;
+        for(float angle = -3.14; angle < 3.14; angle+=0.25){
+            Linestring_t<double, 2> local_antenna = create_antenna(vehicle_state, angle);
+            double min_dist = 10000;
+            /*
+            if(environment::commons::collides<double, 2>(this->get_bounding_box(), local_antenna)){
+                
+            }
+            */
+        }
+
     }
 
     void convert_reward(StepReturn& step_return, std::shared_ptr<Agent> a, std::shared_ptr<World> w){

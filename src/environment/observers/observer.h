@@ -98,6 +98,7 @@ void set_world(std::shared_ptr<World> w){ world_ = w; }
 std::shared_ptr<World> get_world(){ return world_; }
 
 virtual Matrix_t<double> convert_state(std::shared_ptr<Agent> a, std::shared_ptr<World> w) = 0;
+virtual void convert_reward(StepReturn& step_return,std::shared_ptr<Agent> a, std::shared_ptr<World> w) = 0;
 
 StepReturn observe(std::pair<int, std::function<StepReturn()>> id_n_step){
     StepReturn sr;
@@ -112,8 +113,8 @@ StepReturn observe(std::pair<int, std::function<StepReturn()>> id_n_step){
     // check for collision and reward
     std::pair<bool, double> status = world_->collides(agent);
     sr.is_final = status.first;
-    sr.reward = status.second;
-
+    sr.reward = status.second; 
+    this->convert_reward(sr, agent, world_);
     return sr;
 }
 

@@ -57,11 +57,11 @@ public:
     }
 
     std::pair<bool, double> collides(std::shared_ptr<Agent> agent){
+        if(environment::commons::disjoint<double, 2>(this->get_bounding_box(), agent->get_transformed_shape()))
+            return std::make_pair(true, 0.0); 
+            
         for (std::shared_ptr<BaseType> obj : objects_){
             if(agent != obj){
-                if(environment::commons::disjoint<double, 2>(this->get_bounding_box(), agent->get_transformed_shape()))
-                    return std::make_pair(true, 0.0);
-                
                 std::shared_ptr<Agent> other_agent = std::dynamic_pointer_cast<Agent>(obj);
                 if(other_agent != NULL){
                     if ( environment::commons::collides<double, 2>(other_agent->get_transformed_shape(), agent->get_transformed_shape()))
@@ -70,8 +70,6 @@ public:
                     if ( environment::commons::collides<double, 2>(obj->get_shape(), agent->get_transformed_shape()))
                         return std::make_pair(true, obj->get_reward());
                 }
-                
-                
             }
         }
         return std::make_pair(false, 0.0);

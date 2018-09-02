@@ -1,6 +1,6 @@
 filegroup(
-   name="object_test_data",
-   srcs=["world.pb.txt"],
+   name="world_test_data",
+   srcs=["unstructured_world.pb.txt", "structured_world.pb.txt"],
    visibility = ["//visibility:public"],
 )
 

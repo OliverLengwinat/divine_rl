@@ -1,0 +1,221 @@
+object {
+	name: "Hello"
+	id: 0
+	shape: {
+		e: {
+			e: 3.85
+			e: 0.0
+		}
+		e: {
+			e: 3.772
+			e: -0.495
+		}
+		e: {
+			e: 3.426
+			e: -0.887
+		}
+		e: {
+			e: 2.914
+			e: -0.956
+		}
+		e: {
+			e: 1.457
+			e: -0.956
+		}
+		e: {
+			e: 0.0
+			e: -0.956
+		}
+		e: {
+			e: -0.512
+			e: -0.886
+		}
+		e: {
+			e: -1.02
+			e: -0.589
+		}
+		e: {
+			e: -1.119
+			e: 0.0
+		}
+
+		e: {
+			e: -1.02
+			e: 0.589
+		}
+		e: {
+			e: -0.512
+			e: 0.886
+		}
+		e: {
+			e: 0.0
+			e:  0.956
+		}
+		e: {
+			e: 1.457
+			e: 0.956
+		}
+		e: {
+			e: 2.914
+			e: 0.956
+		}
+		e: {
+			e: 3.426
+			e: 0.887
+		}
+		e: {
+			e: 3.772
+			e: 0.495
+		}
+		e: {
+			e: 3.85
+			e: 0.0
+		}
+		center: {
+			e: 0.0
+			e: 0.0
+		}
+	}
+	model: {
+		name: "TrippleIntModel()"
+		state: {
+			e: 10.0
+			e: 12.0
+			e: 0.0
+		}
+	} 
+	type: 0
+	reward: 0.0
+	reference_line_id: 0
+}
+
+
+object {
+	name: "Bounding Box"
+	id: 2
+	shape: {
+		e: {
+			e: -10.5
+			e: -15.0
+		}
+		e: {
+			e: 65.0
+			e: -15.0
+		}
+		e: {
+			e: 65.0
+			e: 15.0
+		}
+		e: {
+			e: -10.5
+			e: 15.0
+		}
+		e: {
+			e: -10.5
+			e: -15.0
+		}
+		center: {
+			e: 0.0
+			e: 0.0
+		}
+	}
+	type: 2
+	reward: -1.0
+}
+
+reference_line {
+	id: 0
+	line_segment: {
+		type: 0
+		start_point: {
+			e: -15.0
+			e: 0.0
+		}
+		end_point: {
+			e: 10.0
+			e: 0.0
+		}
+	}
+	line_segment: {
+		type: 1
+		start_point: {
+			e: 10.0
+			e: 0.0
+			e: 20.0
+			e: 0.0
+		}
+		end_point: {
+			e: 25.0
+			e: 5.0
+			e: 35.0
+			e: 5.0
+		}
+	}
+	line_segment: {
+		type: 0
+		start_point: {
+			e: 35.0
+			e: 5.0
+		}
+		end_point: {
+			e: 75.0
+			e: 5.0
+		}
+	}
+}
+
+reference_line {
+	id: 1
+	line_segment: {
+		type: 0
+		start_point: {
+			e: -15.0
+			e: 5.0
+		}
+		end_point: {
+			e: 35.0
+			e: 5.0
+		}
+	}
+}
+
+reference_line {
+	id: 2
+	line_segment: {
+		type: 0
+		start_point: {
+			e: 50.0
+			e: -20.0
+		}
+		end_point: {
+			e: 50.0
+			e: 0.0
+		}
+	}
+	line_segment: {
+		type: 1
+		start_point: {
+			e: 50.0
+			e: 0.0
+			e: 50.0
+			e: 5.0
+		}
+		end_point: {
+			e: 50.0
+			e: 5.0
+			e: 55.0
+			e: 5.0
+		}
+	}
+	line_segment: {
+		type: 0
+		start_point: {
+			e: 55.0
+			e: 5.0
+		}
+		end_point: {
+			e: 65.0
+			e: 5.0
+		}
+	}
+}

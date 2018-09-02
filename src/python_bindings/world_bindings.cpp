@@ -29,7 +29,6 @@
 #include "src/environment/world/road_network.h"
 #include "src/environment/observers/observer.h"
 #include "src/environment/observers/kin_observer.h"
-#include "src/environment/observers/visual_observer.h"
 
 namespace py = pybind11;
 
@@ -61,6 +60,7 @@ void world_bindings(py::module m)
         .def(py::init<>())
         .def("set_shape", &environment::world::BaseType::set_shape)
         .def("set_shape_offset", &environment::world::BaseType::set_shape_offset)
+        .def("get_shape_offset", &environment::world::BaseType::get_shape_offset)
         .def("get_shape", &environment::world::BaseType::get_shape)
         .def("set_id", &environment::world::Agent::set_id)
         .def("get_id", &environment::world::Agent::get_id)
@@ -143,6 +143,4 @@ void world_bindings(py::module m)
     py::class_<KinematicObserver, BaseObserver, std::shared_ptr<KinematicObserver>>(m, "KinematicObserver")
         .def(py::init<>());
 
-    py::class_<VisualObserver, BaseObserver, std::shared_ptr<VisualObserver>>(m, "VisualObserver")
-        .def(py::init<>());
 }

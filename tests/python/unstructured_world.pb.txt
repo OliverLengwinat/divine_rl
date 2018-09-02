@@ -77,16 +77,16 @@ object {
 		}
 	}
 	model: {
-		name: "TrippleIntModel()"
+		name: "SingleTrackModel()"
 		state: {
-			e: 5.0
-			e: 8.0
 			e: 0.0
+			e: 0.0
+			e: 0.0
+			e: 5.0
 		}
 	} 
 	type: 0
 	reward: 0.0
-	reference_line_id: 0
 }
 
 
@@ -154,45 +154,4 @@ object {
 	}
 	type: 2
 	reward: -1.0
-}
-
-reference_line {
-	id: 0
-	line_segment: {
-		type: 0
-		start_point: {
-			e: 0.0
-			e: 0.0
-		}
-		end_point: {
-			e: 10.0
-			e: 0.0
-		}
-	}
-	line_segment: {
-		type: 0
-		start_point: {
-			e: 10.0
-			e: 0.0
-		}
-		end_point: {
-			e: 10.0
-			e: 20.0
-		}
-	}
-	line_segment: {
-		type: 1
-		start_point: {
-			e: 10.0
-			e: 20.0
-			e: 10.0
-			e: 25.0
-		}
-		end_point: {
-			e: 15.0
-			e: 30.0
-			e: 15.0
-			e: 35.0
-		}
-	}
 }

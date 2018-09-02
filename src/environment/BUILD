@@ -26,7 +26,7 @@ cc_library(
 py_binary(
     name = "environment",
     srcs = ["environment.py", "viewer/viewer.py"],
-    data = ['//src/python_bindings:divine_rl.so', "//tests/python:object_test_data"],
+    data = ['//src/python_bindings:divine_rl.so', "//tests/python:world_test_data"],
     imports = ['../python_bindings'],
     deps = ["//src/proto:py_commons"]
 )
