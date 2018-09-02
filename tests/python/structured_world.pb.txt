@@ -89,6 +89,96 @@ object {
 	reference_line_id: 0
 }
 
+object {
+	name: "Hello"
+	id: 1
+	shape: {
+		e: {
+			e: 3.85
+			e: 0.0
+		}
+		e: {
+			e: 3.772
+			e: -0.495
+		}
+		e: {
+			e: 3.426
+			e: -0.887
+		}
+		e: {
+			e: 2.914
+			e: -0.956
+		}
+		e: {
+			e: 1.457
+			e: -0.956
+		}
+		e: {
+			e: 0.0
+			e: -0.956
+		}
+		e: {
+			e: -0.512
+			e: -0.886
+		}
+		e: {
+			e: -1.02
+			e: -0.589
+		}
+		e: {
+			e: -1.119
+			e: 0.0
+		}
+
+		e: {
+			e: -1.02
+			e: 0.589
+		}
+		e: {
+			e: -0.512
+			e: 0.886
+		}
+		e: {
+			e: 0.0
+			e:  0.956
+		}
+		e: {
+			e: 1.457
+			e: 0.956
+		}
+		e: {
+			e: 2.914
+			e: 0.956
+		}
+		e: {
+			e: 3.426
+			e: 0.887
+		}
+		e: {
+			e: 3.772
+			e: 0.495
+		}
+		e: {
+			e: 3.85
+			e: 0.0
+		}
+		center: {
+			e: 0.0
+			e: 0.0
+		}
+	}
+	model: {
+		name: "TrippleIntModel()"
+		state: {
+			e: 6.0
+			e: 5.0
+			e: 0.0
+		}
+	} 
+	type: 0
+	reward: 0.0
+	reference_line_id: 1
+}
 
 object {
 	name: "Bounding Box"
@@ -227,5 +317,11 @@ line_segment {
 reference_line: {
 	id: 0
 	segment_id: 0
+	segment_id: 2
+}
+
+reference_line: {
+	id: 1
+	segment_id: 1
 	segment_id: 2
 }

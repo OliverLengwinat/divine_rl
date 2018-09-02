@@ -3,7 +3,7 @@ This library is intended to provide an environment for planning behaviors of aut
 
 Running the command `bazel run //src/environment:environment` will produce the following output:
 
-![Simple World](docs/images/env.png "Vehicle in simple world")
+![Simple World](docs/images/structured.png "Vehicle in simple world")
 
 ## Installation
 Getting started is simple. Just run `bash install.sh` which will install all the necessary prerequisites and a virtual python environment. You can access it using `source dev_into.sh`.
