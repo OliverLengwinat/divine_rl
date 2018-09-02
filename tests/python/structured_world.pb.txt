@@ -99,11 +99,11 @@ object {
 			e: -15.0
 		}
 		e: {
-			e: 65.0
+			e: 55.0
 			e: -15.0
 		}
 		e: {
-			e: 65.0
+			e: 55.0
 			e: 15.0
 		}
 		e: {
@@ -123,7 +123,7 @@ object {
 	reward: -1.0
 }
 
-reference_line {
+line_segment {
 	id: 0
 	line_segment: {
 		type: 0
@@ -151,20 +151,9 @@ reference_line {
 			e: 5.0
 		}
 	}
-	line_segment: {
-		type: 0
-		start_point: {
-			e: 35.0
-			e: 5.0
-		}
-		end_point: {
-			e: 75.0
-			e: 5.0
-		}
-	}
 }
 
-reference_line {
+line_segment {
 	id: 1
 	line_segment: {
 		type: 0
@@ -179,8 +168,23 @@ reference_line {
 	}
 }
 
-reference_line {
+line_segment {
 	id: 2
+	line_segment: {
+		type: 0
+		start_point: {
+			e: 35.0
+			e: 5.0
+		}
+		end_point: {
+			e: 55.0
+			e: 5.0
+		}
+	}
+}
+
+line_segment {
+	id: 3
 	line_segment: {
 		type: 0
 		start_point: {
@@ -218,4 +222,10 @@ reference_line {
 			e: 5.0
 		}
 	}
+}
+
+reference_line: {
+	id: 0
+	segment_id: 0
+	segment_id: 2
 }

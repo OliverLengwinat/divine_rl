@@ -23,11 +23,13 @@
 #ifndef _COMMONS_KINEMATICS_H_
 #define _COMMONS_KINEMATICS_H_
 #include "src/environment/commons/common.h"
+#include "src/environment/world/road_network.h"
 
 namespace environment {
 namespace kinematics {
 
 using namespace environment::commons;
+using namespace environment::world;
 
 template<typename T>
 class KinematicModel {
@@ -37,13 +39,20 @@ public:
 	virtual void step(const Matrix_t<T>& u, T dt) = 0;
 	virtual PointNd_t<T, 3> get_pose() = 0;
 	void set_state(const Matrix_t<T>& state){state_ = state; };
-	void set_reference_line(const Linestring_t<double, 2> line){referece_line_ = line; };
-	Linestring_t<double, 2> get_reference_line() { return referece_line_; };
+	
+    void set_road_network(std::shared_ptr<RoadNetwork> rn){ road_network_ = rn; }
+    std::shared_ptr<RoadNetwork> get_road_network(){ return road_network_; }
+
 	Matrix_t<T> get_state() { return state_; };
 	virtual ~KinematicModel() = default;
+
+	void set_reference_road_id(int id){ reference_road_id_ = id; }
+	int get_reference_road_id(){ return reference_road_id_; }
+
 private:
 	Matrix_t<double> state_;
-	Linestring_t<double, 2> referece_line_;
+	std::shared_ptr<RoadNetwork> road_network_;
+	int reference_road_id_;
 };
 
 
@@ -85,7 +94,9 @@ struct TrippleIntModel : public KinematicModel<T> {
 	
 	PointNd_t<T, 3> get_pose(){
 		Matrix_t<T> state = KinematicModel<T>::get_state();
-		PointNd_t<T, 3> pose = get_pose_at_s<T>(KinematicModel<T>::get_reference_line(), state(0,0));
+		std::pair<int, double> id_s_start = this->get_road_network()->get_segment_id(this->get_road_network()->get_reference_road(this->get_reference_road_id()), state(0,0));
+		std::cout << id_s_start.first << ", " << state(0,0) << std::endl;
+		PointNd_t<T, 3> pose = get_pose_at_s<T>(this->get_road_network()->get_line_segment(id_s_start.first), state(0,0)-id_s_start.second);
 		return pose;
 	}
 };

@@ -137,8 +137,10 @@ void commons_bindings(py::module m)
     py::class_<KinematicModel<double>, std::shared_ptr<KinematicModel<double>>>(m, "KinematicModel")
         .def("set_state", &KinematicModel<double>::set_state)
         .def("get_state", &KinematicModel<double>::get_state)
-        .def("set_reference_line", &KinematicModel<double>::set_reference_line)
-        .def("get_reference_line", &KinematicModel<double>::get_reference_line)
+        .def("set_reference_road_id", &KinematicModel<double>::set_reference_road_id)
+        .def("get_reference_road_id", &KinematicModel<double>::get_reference_road_id)
+        .def("set_road_network", &KinematicModel<double>::set_road_network)
+        .def("get_road_network", &KinematicModel<double>::get_road_network)
         .def("__repr__", [](const KinematicModel<double>& k)
         {
             return "KinematicModel";

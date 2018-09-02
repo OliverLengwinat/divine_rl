@@ -66,10 +66,12 @@ class Environment(threading.Thread):
 	def load_world(self, path):
 		world = self.load_proto(path)
 		
+		road_network = RoadNetwork()
 		# load reference lines
-		for line in world.reference_line:
+		for line in world.line_segment:
+
+			# add line segments
 			ref_line = Line()
-			road_network = RoadNetwork()
 			for segment in line.line_segment:
 				if segment.type == commons_pb2.EdgeInfo.LINE:
 					p_start = Point(segment.start_point.e[0], segment.start_point.e[1])
@@ -81,7 +83,15 @@ class Environment(threading.Thread):
 					p_2 = Point(segment.end_point.e[0], segment.end_point.e[1])
 					p_3 = Point(segment.end_point.e[2], segment.end_point.e[3])
 					ref_line.append(road_network.create_bezier(p_0, p_1, p_2, p_3))
-			self.world.add_reference_line(line.id, ref_line)
+			road_network.set_line_segment(line.id, ref_line)
+
+		# add reference roads
+		for road in world.reference_line:
+			ids = []
+			for idx in road.segment_id:
+				ids.append(idx)
+			road_network.add_reference_road(road.id, ids)
+		self.world.set_road_network(road_network)
 		
 		# load objects
 		for obj in world.object:
@@ -96,8 +106,10 @@ class Environment(threading.Thread):
 				kinematic_model.set_state( np.array([self.get_list(obj.model.state)]))
 
 				if obj.HasField('reference_line_id'):
-					kinematic_model.set_reference_line(self.world.get_reference_line(obj.reference_line_id))
-				
+					#kinematic_model.set_reference_line(self.world.get_reference_line(obj.reference_line_id))
+					kinematic_model.set_road_network(road_network)
+					kinematic_model.set_reference_road_id(obj.reference_line_id)
+
 				agent.set_pose(kinematic_model.get_pose())
 				agent.set_kinematic_model(kinematic_model)
 				agent.set_reward(obj.reward)
@@ -143,7 +155,8 @@ if __name__ == '__main__':
 		#u = np.array([[random.uniform(-0.5, 0.5), 0.0]])
 		u = np.array([[random.uniform(-0.0, 0.0)]])
 		running = True
-		while running:
+
+		for i in range(0,20):
 			for agent in env.agents:
 				# state = obs.get_state(agent, env.world) 
 				result = obs.observe(agent.step(u, 0.25))

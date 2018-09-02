@@ -53,9 +53,28 @@ public:
         return line;
     }
 
-private:
-    int road_graph_;
+    std::pair<int, double> get_segment_id(std::vector<int> ids, double s){
+        double s_ = 0.0;
+        for(int id : ids){
+            double s_old = s_;
+            s_ += bg::length(line_segments_[id]);
+            if ( s <= s_)
+                return std::make_pair(id, s_old);
+        }
+        return std::make_pair(0, 0.0);
+    }
 
+    void set_line_segment(int idx, const Linestring_t<double, 2> line) { line_segments_[idx] = line;}
+    Linestring_t<double, 2> get_line_segment(int idx) const { return line_segments_.at(idx); }
+    std::map<int, Linestring_t<double, 2>> get_line_segments() const { return line_segments_; }
+
+    void add_reference_road(int id, std::vector<int> ref_road){ reference_roads_[id] = ref_road; }
+    std::vector<int> get_reference_road(int id) { return reference_roads_[id]; }
+    std::map<int, std::vector<int>> get_reference_roads() { return reference_roads_; }
+
+private:
+    std::map<int, Linestring_t<double, 2>> line_segments_;
+    std::map<int, std::vector<int>> reference_roads_;
 };
 
 }

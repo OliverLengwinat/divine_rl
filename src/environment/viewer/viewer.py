@@ -16,7 +16,7 @@ class Viewer(object):
         # draw bounding box
         bb = world.get_bounding_box().to_numpy()
         plt.plot(bb[:,0], bb[:,1], color='gray', linestyle='dotted')
-        for _, line in world.get_reference_lines().items():
+        for _, line in world.get_road_network().get_line_segments().items():
             pts = line.to_numpy()
             plt.plot(pts[:,0], pts[:,1], color='black')
 

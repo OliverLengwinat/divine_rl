@@ -24,4 +24,5 @@ message Object {
   required ObstacleType type = 6;
   optional float reward = 7;
   optional int32 reference_line_id = 8;
+  
 }

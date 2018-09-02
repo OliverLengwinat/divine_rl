@@ -27,6 +27,7 @@
 #include "src/environment/commons/utilities.h"
 #include "src/environment/world/agent.h"
 #include "src/environment/world/object.h"
+#include "src/environment/world/road_network.h"
 #include "src/proto/object.pb.h"
 #include "src/proto/world.pb.h"
 
@@ -96,12 +97,16 @@ public:
         reference_lines_[id] = line;
     }
     std::map<int, Linestring_t<double, 2>> get_reference_lines() const { return reference_lines_; }
-
     Linestring_t<double, 2> get_reference_line(int id) const { return reference_lines_.at(id); }
+
+    void set_road_network(std::shared_ptr<RoadNetwork> rn){ road_network_ = rn; }
+    std::shared_ptr<RoadNetwork> get_road_network(){ return road_network_; }
 
 private:
     std::vector<std::shared_ptr<BaseType>> objects_;
     std::map<int, Linestring_t<double, 2>> reference_lines_;
+    std::shared_ptr<RoadNetwork> road_network_;
+
     Polygon_t<double, 2> bounding_box_;
     uint agent_count_;
 
