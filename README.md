@@ -1,7 +1,7 @@
 # Dive Into Reinforcement learning (divine-rl)
 This library is intended to provide an environment for planning behaviors of autonomous vehicles using reinforcement learning. The name is derived from the initial intention of this library which is to provide a basic dive into the world of reinforcement learning (**Div**e **In**to r**E**inforcement learning).
 
-Running the command `bazel run //src/environment:environment` will produce the following output:
+Running the command `bazel run //src/divine:run` will produce the following output:
 
 ![Simple World](docs/images/structured.png "Vehicle in simple world")
 
@@ -13,8 +13,8 @@ Before you run any of the commands provided below, make sure you are in the virt
 
 * Build everything: `bazel build //...`
 * Test everything: `bazel test //...`
-* Run the environment: `bazel run //src/environment:environment`
+* Run the environment: `bazel run //src/divine:run`
 
-The code executed running `bazel run //src/environment:environment` is shown in the image below:
+The code executed running `bazel run //src/divine:run` is shown in the image below:
 
 ![Code Example](docs/images/code.png "Code example how to use the library")
