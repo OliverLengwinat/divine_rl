@@ -131,7 +131,7 @@ class Environment(threading.Thread):
 
 	def debug_agents_plot(self):
 		for agent in self.agents:
-			self.viewer.draw_point(agent.get_pose(), color='blue')
+			#self.viewer.draw_point(agent.get_pose(), color='blue')
 			polygon = agent.get_transformed_shape()
 			self.viewer.draw_polygon(polygon, color='blue')
 
@@ -145,17 +145,16 @@ if __name__ == '__main__':
 	# setup environment
 	env = Environment("tests/python/structured_world.pb.txt")
 	env.debug_world_plot()
-
+	
 	# setup obsever
 	obs = KinematicObserver()
 	obs.set_world(env.world)
-
+	
 	# run environment
 	for i in range(0, 1):
 		#u = np.array([[random.uniform(-0.5, 0.5), 0.0]])
-		u = np.array([[random.uniform(-0.0, 0.0)]])
+		u = np.array([[random.uniform(-0.5, 0.5)]])
 		running = True
-
 		while running:
 			for agent in env.agents:
 				# state = obs.get_state(agent, env.world) 

@@ -66,7 +66,7 @@ public:
     }
 
     //! getter
-    PointNd_t<double, 3> get_pose() const { return pose_; }
+    PointNd_t<double, 3> get_pose() const { return kinematic_model_->get_pose(); }
 
     Polygon_t<double, 2> get_transformed_shape() const {
         PointNd_t<double, 2> p_t;
