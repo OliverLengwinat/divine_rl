@@ -23,10 +23,22 @@ cc_library(
     visibility = ["//visibility:public"],
 )
 
-py_binary(
+py_library(
+    name = "viewer",
+    srcs = ["viewer/viewer.py"],
+    data = ['//src/python_bindings:divine_rl.so'],
+    imports = ['../../python_bindings'],
+    deps = ["//src/proto:py_commons"],
+    visibility = ["//visibility:public"],
+)
+
+py_library(
     name = "environment",
-    srcs = ["environment.py", "viewer/viewer.py"],
-    data = ['//src/python_bindings:divine_rl.so', "//tests/python:world_test_data"],
+    srcs = ["environment.py"],
+    data = ['//src/python_bindings:divine_rl.so',
+            "//tests/python:world_test_data"],
     imports = ['../python_bindings'],
-    deps = ["//src/proto:py_commons"]
+    deps = ["//src/proto:py_commons",
+            ":viewer"],
+    visibility = ["//visibility:public"],
 )

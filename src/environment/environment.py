@@ -4,7 +4,7 @@ from divine_rl.commons import Point, Line, Polygon, SingleTrackModel, TrippleInt
 from divine_rl.world import World, Agent, Object, KinematicObserver, BaseObserver, ReplayMemory, RoadNetwork
 from src.proto import world_pb2, commons_pb2, object_pb2
 from google.protobuf import text_format
-from viewer.viewer import Viewer
+from src.environment.viewer.viewer import Viewer
 import threading
 import time
 import random
@@ -138,7 +138,7 @@ class Environment(threading.Thread):
 	def debug_plot_show(self):
 		self.viewer.show()
 
-
+"""
 
 if __name__ == '__main__':
 
@@ -176,4 +176,4 @@ if __name__ == '__main__':
 
 	
 
-	
+"""
