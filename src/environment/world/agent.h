@@ -48,7 +48,6 @@ public:
         sr.state = kinematic_model_->get_state();
         sr.action = u;
         kinematic_model_->step(u, dt);
-        pose_ = kinematic_model_->get_pose();
         sr.next_state = kinematic_model_->get_state();
         sr.agent_id = get_id();
         return sr;
@@ -58,33 +57,31 @@ public:
         return std::make_pair<int, std::function<StepReturn()>>(get_id(), std::bind(&Agent::exec_step, this, u, dt));
     }
 
-    //! setter
-    void set_pose(const PointNd_t<double, 3>& p){ pose_ = p;}
-
+    //! Setter
     void set_kinematic_model(std::shared_ptr<KinematicModel<double>> model){
         kinematic_model_ = model;
     }
 
-    //! getter
-    PointNd_t<double, 3> get_pose() const { return kinematic_model_->get_pose(); }
+    void set_reference_line_id(int id){reference_line_id_=id;}
 
-    Polygon_t<double, 2> get_transformed_shape() const {
-        PointNd_t<double, 2> p_t;
-        bg::set<0>(p_t, bg::get<0>(pose_));
-        bg::set<1>(p_t, bg::get<1>(pose_));
-        Polygon_t<double, 2> tmp_poly = translate<double, 2>(this->get_shape(), this->get_shape_offset());
-        return translate<double, 2>(rotate<double, 2>(tmp_poly, bg::get<2>(pose_)), p_t);
-    }
+    //! Getter
+    PointNd_t<double, 3> get_pose() const { return kinematic_model_->get_pose(); }
 
     std::shared_ptr<KinematicModel<double>> get_kinematic_model(){
         return kinematic_model_;
     }
 
-    void set_reference_line_id(int id){reference_line_id_=id;}
     int get_reference_line_id() const {return reference_line_id_;}
 
+    Polygon_t<double, 2> get_transformed_shape() const {
+        PointNd_t<double, 2> p_t;
+        bg::set<0>(p_t, bg::get<0>(this->get_pose()));
+        bg::set<1>(p_t, bg::get<1>(this->get_pose()));
+        Polygon_t<double, 2> tmp_poly = translate<double, 2>(this->get_shape(), this->get_shape_offset());
+        return translate<double, 2>(rotate<double, 2>(tmp_poly, bg::get<2>(this->get_pose())), p_t);
+    }
+
 private:
-    PointNd_t<double, 3> pose_;
     std::shared_ptr<KinematicModel<double>> kinematic_model_;
     int reference_line_id_;
 };

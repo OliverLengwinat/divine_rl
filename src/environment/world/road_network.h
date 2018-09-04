@@ -53,24 +53,32 @@ public:
         return line;
     }
 
-    std::pair<int, double> get_segment_id(std::vector<int> ids, double s){
+
+    //! Setter
+    void set_line_segment(int idx, const Linestring_t<double, 2> line) { line_segments_[idx] = line;}
+
+    void add_reference_road(int id, std::vector<int> ref_road){ reference_roads_[id] = ref_road; }
+
+    
+    //! Getter
+    std::vector<int> get_reference_road(int id) const { return reference_roads_.at(id); }
+
+    std::map<int, std::vector<int>> get_reference_roads() const { return reference_roads_; }
+
+    std::pair<int, double> get_segment_id(const std::vector<int>& ids, double s) const {
         double s_ = 0.0;
         for(int id : ids){
             double s_old = s_;
-            s_ += bg::length(line_segments_[id]);
+            s_ += bg::length(line_segments_.at(id));
             if ( s <= s_)
                 return std::make_pair(id, s_old);
         }
         return std::make_pair(0, 0.0);
     }
 
-    void set_line_segment(int idx, const Linestring_t<double, 2> line) { line_segments_[idx] = line;}
     Linestring_t<double, 2> get_line_segment(int idx) const { return line_segments_.at(idx); }
-    std::map<int, Linestring_t<double, 2>> get_line_segments() const { return line_segments_; }
 
-    void add_reference_road(int id, std::vector<int> ref_road){ reference_roads_[id] = ref_road; }
-    std::vector<int> get_reference_road(int id) { return reference_roads_[id]; }
-    std::map<int, std::vector<int>> get_reference_roads() { return reference_roads_; }
+    std::map<int, Linestring_t<double, 2>> get_line_segments() const { return line_segments_; }
 
 private:
     std::map<int, Linestring_t<double, 2>> line_segments_;

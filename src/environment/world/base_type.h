@@ -33,28 +33,38 @@ using namespace environment::commons;
 
 class BaseType {
 public:
-    BaseType() : id_(0), shape_offset_(PointNd_t<double, 2>(0,0)), reward_(0.0) {};
-    void set_shape(const Polygon_t<double, 2>& s){ shape_ = s; };
-    void set_shape_offset(const PointNd_t<double, 2>& s){ shape_offset_ = s; };
-
-    Polygon_t<double, 2> get_shape() const { return shape_; };
-    PointNd_t<double, 2> get_shape_offset() const { return shape_offset_; };
+    BaseType() : shape_offset_(PointNd_t<double, 2>(0,0)), id_(0), reward_(0.0) {};
     
     virtual ~BaseType() = default;
-    void set_id(uint id){id_=id;};
-    int get_id() const { return id_; };
 
-    void set_type(uint type){ type_=type; };
-    uint get_type() const { return type_; };
+    //! Setter
+    void set_id(int id){id_=id;};
+
+    void set_type(int type){ type_=type; };
 
     void set_reward(double reward){reward_=reward;};
+
+    void set_shape(const Polygon_t<double, 2>& s){ shape_ = s; };
+
+    void set_shape_offset(const PointNd_t<double, 2>& s){ shape_offset_ = s; };
+
+    //! Getter
     double get_reward() const { return reward_; };
+
+    int get_type() const { return type_; };
+
+    int get_id() const { return id_; };
+
+    Polygon_t<double, 2> get_shape() const { return shape_; };
+
+    PointNd_t<double, 2> get_shape_offset() const { return shape_offset_; };
+
 private:
     Polygon_t<double, 2> shape_;
     PointNd_t<double, 2> shape_offset_;
     int id_;
     double reward_;
-    uint type_;
+    int type_;
 };
 
 } // environment

@@ -83,9 +83,8 @@ public:
 
 private:
     std::deque< StepReturn > replay_memory_;
-    int max_sample_size;
+    size_t max_sample_size;
     std::random_device rd;
-
 };
 
 

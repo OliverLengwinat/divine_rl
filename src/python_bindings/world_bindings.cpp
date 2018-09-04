@@ -74,7 +74,6 @@ void world_bindings(py::module m)
 
     py::class_<Agent, BaseType, std::shared_ptr<Agent>>(m, "Agent")
         .def(py::init<>())
-        .def("set_pose", &environment::world::Agent::set_pose)
         .def("get_pose", &environment::world::Agent::get_pose)
         .def("step", &environment::world::Agent::step)
         .def("set_reference_line_id", &environment::world::Agent::set_reference_line_id)

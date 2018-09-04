@@ -48,11 +48,9 @@ TEST(observer, init) {
     std::shared_ptr<SingleTrackModel<double>> kin(new SingleTrackModel<double>());
     kin->set_state(m);
     PointNd_t<double, 3> p(0,0,0);
-    a->set_pose(p);
     a->set_kinematic_model(kin);
 
     kin->set_state(m);
-    b->set_pose(p);
     b->set_kinematic_model(kin);
 
     w->add_object(a);

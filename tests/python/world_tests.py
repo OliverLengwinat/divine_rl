@@ -19,7 +19,6 @@ class WorldTests(unittest.TestCase):
 		# a = Agent(protobuf_agent)
 
 		a = Agent()
-		a.set_pose(Pose(0,0,0.0))
 		model.set_state(state)
 
 		poly = Polygon()
