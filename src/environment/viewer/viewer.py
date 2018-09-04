@@ -23,7 +23,6 @@ class Viewer(object):
 			pts = line.to_numpy()
 			plt.plot(pts[:,0], pts[:,1], color='black')
 
-
 	def draw_polygon(self, polygon, color='gray'):
 		pts = polygon.to_numpy()
 		plt.plot(pts[:,0], pts[:,1], color=color)

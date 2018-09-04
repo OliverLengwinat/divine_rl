@@ -88,7 +88,7 @@ object {
 	reference_line_id: 0
 	properties: {
 		name: "Agent1"
-		edgecolor: "red"
+		edgecolor: "blue"
 	}
 }
 
@@ -182,7 +182,7 @@ object {
 	reference_line_id: 1
 	properties: {
 		name: "Agent2"
-		edgecolor: "blue"
+		edgecolor: "red"
 	}
 }
 
