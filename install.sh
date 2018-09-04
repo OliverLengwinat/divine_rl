@@ -9,4 +9,4 @@ fi
 
 virtualenv -p python3 venv
 && source activate ./venv/bin/activate
-&& pip install install matplotlib numpy lxml scipy
+&& pip install install matplotlib numpy lxml scipy tensorflow tflearn pprint gym
