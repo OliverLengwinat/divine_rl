@@ -79,7 +79,7 @@ object {
 		name: "TrippleIntModel()"
 		state: {
 			e: 10.0
-			e: 12.0
+			e: 9.0
 			e: 0.0
 		}
 	} 
@@ -233,11 +233,11 @@ object {
 			e: -15.0
 		}
 		e: {
-			e: 55.0
+			e: 150.0
 			e: -15.0
 		}
 		e: {
-			e: 55.0
+			e: 150.0
 			e: 15.0
 		}
 		e: {
@@ -254,7 +254,7 @@ object {
 		}
 	}
 	type: 2
-	reward: 1.0
+	reward: 0.0
 	properties: {
 		name: "Agent2"
 		edgecolor: "red"
@@ -315,7 +315,7 @@ line_segment {
 			e: 5.0
 		}
 		end_point: {
-			e: 65.0
+			e: 200.0
 			e: 5.0
 		}
 	}

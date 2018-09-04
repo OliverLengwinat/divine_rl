@@ -49,9 +49,6 @@ public:
             if(this->get_agent(agent_id) != obj){
                 std::shared_ptr<Agent> other_agent = std::dynamic_pointer_cast<Agent>(obj);
                 if(other_agent != NULL){
-                    if(environment::commons::disjoint<double, 2>(this->get_bounding_box(), this->get_agent(other_agent->get_id())->get_transformed_shape()))
-                        return std::make_pair(true, 0.0); 
-
                     if ( environment::commons::collides<double, 2>(other_agent->get_transformed_shape(), this->get_agent(agent_id)->get_transformed_shape()))
                         return std::make_pair(true, obj->get_reward());
                 } else {

@@ -16,7 +16,7 @@ StepRet Agent::step(const Matrix_t<double>& u, double dt){
 		sr.action = u;
 		kinematic_model_->step(u, dt);
 		sr.next_state = kinematic_model_->get_state();
-		std::pair<bool, double> col_rew = get_world()->collides(get_id());
+		std::pair<bool, double> col_rew = get_world()->collides(this->get_id());
 		return std::make_tuple(sr.state, sr.action, sr.next_state, col_rew.second, col_rew.first);
 }
 
