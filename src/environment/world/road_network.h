@@ -67,13 +67,16 @@ public:
 
     std::pair<int, double> get_segment_id(const std::vector<int>& ids, double s) const {
         double s_ = 0.0;
+        double s_old = s_;
+
         for(int id : ids){
-            double s_old = s_;
+            s_old = s_;
             s_ += bg::length(line_segments_.at(id));
             if ( s <= s_)
                 return std::make_pair(id, s_old);
         }
-        return std::make_pair(0, 0.0);
+        
+        return std::make_pair(ids[ids.size()-1], s_old);
     }
 
     Linestring_t<double, 2> get_line_segment(int idx) const { return line_segments_.at(idx); }

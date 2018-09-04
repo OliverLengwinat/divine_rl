@@ -18,16 +18,21 @@ class Environment(threading.Thread):
 		self.observer = KinematicObserver()
 		self.viewer = Viewer()
 		self.proto_path = path
+		self.observation_space = None
+		self.action_space = None
 		self.load_world(path)
 	
 	@property
 	def agents(self):
 		return self.world.get_agents()
 
+	def get_agent(self, id):
+		return self.world.get_agent(id)
+
 	@property
 	def objects(self):
 		return self.world.get_objects()
-
+	
 	def collides(self, obj):
 		self.world.collides(obj)
 
@@ -141,3 +146,12 @@ class Environment(threading.Thread):
 
 	def debug_plot_show(self):
 		self.viewer.show()
+
+	# gym interface
+	def render(self):
+		self.debug_world_plot()
+		self.debug_plot_show()
+		self.viewer.clear()
+
+	def step(self):
+		pass

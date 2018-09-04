@@ -189,7 +189,7 @@ Polygon_t<T,N> create_polygon(const Matrix_t<T>& poly_eigen){
 template<typename T, int N>
 Polygon_t<T, N> rotate(const Polygon_t<T, N>& poly, T angle){
  	namespace trans = boost::geometry::strategy::transform;
-  using boost::geometry::dsv;
+  	using boost::geometry::dsv;
 	Polygon_t<T, N> poly_new;
 	trans::rotate_transformer<boost::geometry::radian, T, 2, 2> rotate(-angle);
 	boost::geometry::transform(poly, poly_new, rotate);
@@ -218,11 +218,13 @@ inline PointNd_t<T, 3> get_pose_at_s(Linestring_t<T, 2> l, T s) {
       //! we need to interpolate
       float segment_length = sqrt(dx*dx + dy*dy);
       float t = ( length - s )/segment_length;
+
       float x_final = bg::get<0>(l[i]) * t + (1-t)*bg::get<0>(l[i+1]);
       float y_final = bg::get<1>(l[i]) * t + (1-t)*bg::get<1>(l[i+1]);
       return PointNd_t<T, 3>(x_final, y_final, atan2(dy,dx));
     }
   }
+
   return PointNd_t<T, 3>(0.0f, 0.0f, 0.0f);
 }
 

@@ -14,7 +14,7 @@ class Viewer(object):
 
 			if obj.get_type() == 1:
 				polygon = obj.get_shape()
-				self.draw_polygon(polygon, color=properties.edgecolorcolor())
+				self.draw_polygon(polygon, color='blue')
 
 		# draw bounding box
 		bb = world.get_bounding_box().to_numpy()
@@ -34,3 +34,7 @@ class Viewer(object):
 	def show(self):
 		plt.axis("equal")
 		plt.show()
+	
+	def clear(self):
+		plt.cla()
+		plt.clf()

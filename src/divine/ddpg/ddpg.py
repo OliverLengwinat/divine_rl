@@ -18,6 +18,8 @@ import argparse
 import pprint as pp
 
 from replay_buffer import ReplayBuffer
+from src.environment.environment import Environment
+
 
 # ===========================
 #   Actor and Critic DNNs
@@ -274,21 +276,25 @@ def train(sess, env, args, actor, critic, actor_noise):
 
     for i in range(int(args['max_episodes'])):
 
-        s = env.reset()
+        env.reset()
 
         ep_reward = 0
         ep_ave_max_q = 0
 
         for j in range(int(args['max_episode_len'])):
-
             if args['render_env']:
-                env.render()
+                if i % 500 == 0:
+                    env.debug_agents_plot()
 
+            s = env.get_agent(0).get_kinematic_model().get_state()
             # Added exploration noise
             #a = actor.predict(np.reshape(s, (1, 3))) + (1. / (1. + i))
             a = actor.predict(np.reshape(s, (1, actor.s_dim))) + actor_noise()
-
-            s2, r, terminal, info = env.step(a[0])
+            #print(a)
+            env.get_agent(1).step(np.array([[0.0]]), 0.25)
+            s, _, s2, r, terminal = env.get_agent(0).step(a, 0.25)
+            #s, _, s2, r, terminal = env.step(a[0])
+            # s2, r, terminal, info = env.step(a[0]) # todo
             replay_buffer.add(np.reshape(s, (actor.s_dim,)), np.reshape(a, (actor.a_dim,)), r,
                               terminal, np.reshape(s2, (actor.s_dim,)))
 
@@ -324,7 +330,6 @@ def train(sess, env, args, actor, critic, actor_noise):
                 actor.update_target_network()
                 critic.update_target_network()
 
-            s = s2
             ep_reward += r
 
             if terminal:
@@ -336,25 +341,31 @@ def train(sess, env, args, actor, critic, actor_noise):
 
                 writer.add_summary(summary_str, i)
                 writer.flush()
-
-                print('| Reward: {:d} | Episode: {:d} | Qmax: {:.4f}'.format(int(ep_reward), \
-                        i, (ep_ave_max_q / float(j))))
+                print('| Reward: {:.4f} | Episode: {:d} | Qmax: {:.4f}'.format(float(ep_reward), \
+                            i, (ep_ave_max_q / float(j))))
                 break
 
+        if args['render_env']:
+            if i % 500 == 0:
+                env.render()
+        
 def main(args):
 
     with tf.Session() as sess:
 
-        env = gym.make(args['env'])
-        np.random.seed(int(args['random_seed']))
+        #env = gym.make(args['env']) # TODO: add environment
+        env = Environment("tests/python/structured_world.pb.txt")
+        #np.random.seed(int(args['random_seed']))
         tf.set_random_seed(int(args['random_seed']))
-        env.seed(int(args['random_seed']))
+        #env.seed(int(args['random_seed']))
 
-        state_dim = env.observation_space.shape[0]
-        action_dim = env.action_space.shape[0]
-        action_bound = env.action_space.high
+        state_dim = 3 #env.observation_space.shape[0]
+        action_dim = 1 #env.action_space.shape[0]
+        #action_bound = env.action_space.high
+        action_bound = 2.0 # TODO
+
         # Ensure action bound is symmetric
-        assert (env.action_space.high == -env.action_space.low)
+        # assert (env.action_space.high == -env.action_space.low)
 
         actor = ActorNetwork(sess, state_dim, action_dim, action_bound,
                              float(args['actor_lr']), float(args['tau']),
@@ -366,18 +377,20 @@ def main(args):
                                actor.get_num_trainable_vars())
         
         actor_noise = OrnsteinUhlenbeckActionNoise(mu=np.zeros(action_dim))
-
+        """
         if args['use_gym_monitor']:
             if not args['render_env']:
                 env = wrappers.Monitor(
                     env, args['monitor_dir'], video_callable=False, force=True)
             else:
                 env = wrappers.Monitor(env, args['monitor_dir'], force=True)
-
+        """
         train(sess, env, args, actor, critic, actor_noise)
 
+        """
         if args['use_gym_monitor']:
             env.monitor.close()
+        """
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='provide arguments for DDPG agent')
