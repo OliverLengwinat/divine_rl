@@ -72,6 +72,7 @@ void world_bindings(py::module m)
         .def("set_type", &environment::world::BaseType::set_type)
         .def("set_properties", &environment::world::BaseType::set_properties)
         .def("get_properties", &environment::world::BaseType::get_properties)
+        .def("set_world", &environment::world::BaseType::set_world)
         .def("get_type", &environment::world::BaseType::get_type);
 
     py::class_<Agent, BaseType, std::shared_ptr<Agent>>(m, "Agent")

@@ -113,6 +113,7 @@ class Environment(threading.Thread):
 				agent.set_reward(obj.reward)
 				agent.set_id(obj.id)
 				agent.set_properties(obj.properties.SerializeToString())
+				agent.set_world(self.world)
 				self.world.add_object(agent)
 			elif obj.type == object_pb2.Object.OBJECT:
 				tmp_obj = Object()

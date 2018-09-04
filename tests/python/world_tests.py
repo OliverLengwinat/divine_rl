@@ -19,6 +19,8 @@ class WorldTests(unittest.TestCase):
 		# a = Agent(protobuf_agent)
 
 		a = Agent()
+		a.set_world(w)
+
 		model.set_state(state)
 
 		poly = Polygon()
@@ -43,11 +45,11 @@ class WorldTests(unittest.TestCase):
 
 		a.set_shape(poly)
 		a.set_kinematic_model(model)
-
+		
 		# end agent conf
-
-		self.__class__.agent = a
-		self.__class__.polygon = poly
+		w.add_object(a)
+		
+		self.__class__.world = w
 
 		pts = a.get_transformed_shape().to_numpy()
 		#plt.plot(pts[:,0], pts[:,1])
@@ -61,25 +63,14 @@ class WorldTests(unittest.TestCase):
 		plt.axis('equal')
 		plt.show()
 		"""
-		
 
-	def test_objects(self):
-		# obj = Object(protobuf_object)
-		obj = Object()
-		obj.set_shape(self.__class__.polygon)
-		print(obj.get_shape().to_numpy())
-		self.__class__.object = obj
-	
 
 
 	def test_world(self):
 
 
-		w = World()
-		#w.load_from_proto()
-	
-		w.add_object(self.__class__.agent)
-		w.add_object(self.__class__.object)
+		w = self.__class__.world
+
 		
 		objects = w.get_objects()
 		u = np.array([[0.5,1.5]])
@@ -98,7 +89,7 @@ class WorldTests(unittest.TestCase):
 		print(objects[0].get_kinematic_model().get_state())
 		print(objects)
 		
-		
+
 	
 if __name__ == '__main__':
 	unittest.main()

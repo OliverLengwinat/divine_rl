@@ -35,6 +35,7 @@ namespace observers {
     class BaseObserver;
 }
 namespace world {
+
 class World;
 
 using namespace environment::kinematics;
@@ -47,16 +48,8 @@ class Agent : public BaseType {
 public:
     Agent() {};
 
-    StepRet step(const Matrix_t<double>& u, double dt){
-        StepReturn sr;
-        sr.state = kinematic_model_->get_state();
-        sr.action = u;
-        kinematic_model_->step(u, dt);
-        sr.next_state = kinematic_model_->get_state();
-        //std::pair<bool, double> col_rew = get_world()->collides(get_id());
-        return std::make_tuple(sr.state, sr.action, sr.next_state, 0.0, true);
-    }
-
+    StepRet step(const Matrix_t<double>& u, double dt);
+    
     //! Setter
     void set_kinematic_model(std::shared_ptr<KinematicModel<double>> model){
         kinematic_model_ = model;

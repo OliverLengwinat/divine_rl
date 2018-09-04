@@ -49,7 +49,7 @@ TEST(observer, init) {
     kin->set_state(m);
     PointNd_t<double, 3> p(0,0,0);
     a->set_kinematic_model(kin);
-
+    a->set_world(w);
     kin->set_state(m);
     b->set_kinematic_model(kin);
 
