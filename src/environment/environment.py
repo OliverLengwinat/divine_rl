@@ -134,7 +134,10 @@ class Environment(threading.Thread):
 	def debug_agents_plot(self):
 		for agent in self.agents:
 			polygon = agent.get_transformed_shape()
-			self.viewer.draw_polygon(polygon, color='blue')
+			properties = commons_pb2.Properties()
+			properties_byte = str.encode(agent.get_properties() )
+			properties.ParseFromString( properties_byte )
+			self.viewer.draw_polygon(polygon, color=properties.edgecolor)
 
 	def debug_plot_show(self):
 		self.viewer.show()
