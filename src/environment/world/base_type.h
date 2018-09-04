@@ -25,9 +25,12 @@
 #define _WORLD_BASE_TYPE_H_
 
 #include "src/environment/commons/common.h"
+#include "src/proto/commons.pb.h"
 
 namespace environment {
 namespace world {
+
+class World;
 
 using namespace environment::commons;
 
@@ -48,6 +51,15 @@ public:
 
     void set_shape_offset(const PointNd_t<double, 2>& s){ shape_offset_ = s; };
 
+    void set_properties(const std::string& data){
+        divine::Properties properties;
+        properties.ParseFromString(data);
+        properties_ = properties;
+    }
+
+    void set_world(std::shared_ptr<World> world){world_=world;}
+
+
     //! Getter
     double get_reward() const { return reward_; };
 
@@ -59,12 +71,20 @@ public:
 
     PointNd_t<double, 2> get_shape_offset() const { return shape_offset_; };
 
+    std::string get_properties() const { std::string str = ""; properties_.SerializeToString(&str); return str; };
+    
+    std::shared_ptr<World> get_world(){return world_;}
+
+
 private:
     Polygon_t<double, 2> shape_;
     PointNd_t<double, 2> shape_offset_;
     int id_;
     double reward_;
     int type_;
+    divine::Properties properties_;
+    std::shared_ptr<World> world_;
+
 };
 
 } // environment

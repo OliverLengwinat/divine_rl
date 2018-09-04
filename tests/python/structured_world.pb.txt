@@ -1,5 +1,4 @@
 object {
-	name: "Hello"
 	id: 0
 	shape: {
 		e: {
@@ -87,10 +86,13 @@ object {
 	type: 0
 	reward: 0.0
 	reference_line_id: 0
+	properties: {
+		name: "Agent1"
+		edgecolor: "red"
+	}
 }
 
 object {
-	name: "Hello"
 	id: 1
 	shape: {
 		e: {
@@ -178,6 +180,10 @@ object {
 	type: 0
 	reward: 0.0
 	reference_line_id: 1
+	properties: {
+		name: "Agent2"
+		edgecolor: "blue"
+	}
 }
 
 object {

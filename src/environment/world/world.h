@@ -25,6 +25,7 @@
 #include <vector>
 #include "src/environment/commons/common.h"
 #include "src/environment/commons/utilities.h"
+#include "src/environment/world/base_type.h"
 #include "src/environment/world/agent.h"
 #include "src/environment/world/object.h"
 #include "src/environment/world/road_network.h"
@@ -40,18 +41,18 @@ public:
 
     World() : agent_count_(0) {};
 
-    std::pair<bool, double> collides(std::shared_ptr<Agent> agent){
-        if(environment::commons::disjoint<double, 2>(this->get_bounding_box(), agent->get_transformed_shape()))
+    std::pair<bool, double> collides(int agent_id){
+        if(environment::commons::disjoint<double, 2>(this->get_bounding_box(), this->get_agent(agent_id)->get_transformed_shape()))
             return std::make_pair(true, 0.0); 
             
         for (std::shared_ptr<BaseType> obj : objects_){
-            if(agent != obj){
+            if(this->get_agent(agent_id) != obj){
                 std::shared_ptr<Agent> other_agent = std::dynamic_pointer_cast<Agent>(obj);
                 if(other_agent != NULL){
-                    if ( environment::commons::collides<double, 2>(other_agent->get_transformed_shape(), agent->get_transformed_shape()))
+                    if ( environment::commons::collides<double, 2>(other_agent->get_transformed_shape(), this->get_agent(agent_id)->get_transformed_shape()))
                         return std::make_pair(true, obj->get_reward());
                 } else {
-                    if ( environment::commons::collides<double, 2>(obj->get_shape(), agent->get_transformed_shape()))
+                    if ( environment::commons::collides<double, 2>(obj->get_shape(), this->get_agent(agent_id)->get_transformed_shape()))
                         return std::make_pair(true, obj->get_reward());
                 }
             }
@@ -64,11 +65,7 @@ public:
 
     //! Setter
     void set_bounding_box(const Polygon_t<double, 2>& bb){ bounding_box_=bb; }
-
-    void add_reference_line(int id, Linestring_t<double, 2> line){
-        reference_lines_[id] = line;
-    }
-
+    
     void set_road_network(std::shared_ptr<RoadNetwork> rn){ road_network_ = rn; }
 
     void add_object(std::shared_ptr<BaseType> obj){
@@ -80,10 +77,6 @@ public:
 
     //! Getter
     std::shared_ptr<RoadNetwork> get_road_network(){ return road_network_; }
-
-    Linestring_t<double, 2> get_reference_line(int id) const { return reference_lines_.at(id); }
-
-    std::map<int, Linestring_t<double, 2>> get_reference_lines() const { return reference_lines_; }
 
     Polygon_t<double, 2>& get_bounding_box(){ return bounding_box_; }
 
@@ -110,7 +103,6 @@ public:
 
 private:
     std::vector<std::shared_ptr<BaseType>> objects_;
-    std::map<int, Linestring_t<double, 2>> reference_lines_;
     std::shared_ptr<RoadNetwork> road_network_;
 
     Polygon_t<double, 2> bounding_box_;

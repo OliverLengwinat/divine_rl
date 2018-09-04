@@ -7,6 +7,7 @@ cc_library(
         "@boost//:geometry",
         "//src/environment:commons",
         "//src/proto:object_cc_proto",
+        "//src/proto:commons_cc_proto",
         "//src/proto:world_cc_proto",
     ],
     visibility = ["//visibility:public"],

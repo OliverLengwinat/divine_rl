@@ -89,7 +89,7 @@ class WorldTests(unittest.TestCase):
 		for i in range(0,20):
 			for a in agents:
 				a.step(u, 0.25)
-				status = w.collides(a)
+				status = w.collides(a.get_id())
 				print(status)
 
 

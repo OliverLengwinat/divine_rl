@@ -12,7 +12,6 @@ message Object {
   optional string name = 1;
   required int32 id = 2;
 	optional divine.Shape shape = 3;
-	optional divine.State pose = 4;
   required KinematicModel model = 5;
 
   enum ObstacleType {
@@ -24,5 +23,5 @@ message Object {
   required ObstacleType type = 6;
   optional float reward = 7;
   optional int32 reference_line_id = 8;
-  
+  optional divine.Properties properties = 9;
 }

@@ -20,3 +20,12 @@ message EdgeInfo {
   required divine.State start_point = 2; 
   required divine.State end_point = 3; 
 }
+
+message Properties {
+  optional string facecolor = 1;
+  optional string facealpha = 2;
+  optional string edgecolor = 3;
+  optional string edgealpha = 4;
+  optional string name = 5;
+  optional float fading_coef = 6;
+}

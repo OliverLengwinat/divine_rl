@@ -23,6 +23,7 @@
 #ifndef _WORLD_AGENT_H_
 #define _WORLD_AGENT_H_
 
+#include <memory>
 #include "src/environment/commons/utilities.h"
 #include "src/environment/commons/common.h"
 #include "src/environment/dynamics/kinematics.h"
@@ -34,27 +35,26 @@ namespace observers {
     class BaseObserver;
 }
 namespace world {
+class World;
 
 using namespace environment::kinematics;
 using namespace environment::commons;
 using namespace environment::observers;
 
+typedef std::tuple<Matrix_t<double>, Matrix_t<double>, Matrix_t<double>, double, bool> StepRet;
+
 class Agent : public BaseType {
 public:
     Agent() {};
 
-    StepReturn exec_step(const Matrix_t<double>& u, double dt){
+    StepRet step(const Matrix_t<double>& u, double dt){
         StepReturn sr;
         sr.state = kinematic_model_->get_state();
         sr.action = u;
         kinematic_model_->step(u, dt);
         sr.next_state = kinematic_model_->get_state();
-        sr.agent_id = get_id();
-        return sr;
-    }
-    
-    std::pair<int, std::function<StepReturn()>> step(const Matrix_t<double>& u, double dt){
-        return std::make_pair<int, std::function<StepReturn()>>(get_id(), std::bind(&Agent::exec_step, this, u, dt));
+        //std::pair<bool, double> col_rew = get_world()->collides(get_id());
+        return std::make_tuple(sr.state, sr.action, sr.next_state, 0.0, true);
     }
 
     //! Setter
@@ -63,6 +63,7 @@ public:
     }
 
     void set_reference_line_id(int id){reference_line_id_=id;}
+
 
     //! Getter
     PointNd_t<double, 3> get_pose() const { return kinematic_model_->get_pose(); }
@@ -80,6 +81,7 @@ public:
         Polygon_t<double, 2> tmp_poly = translate<double, 2>(this->get_shape(), this->get_shape_offset());
         return translate<double, 2>(rotate<double, 2>(tmp_poly, bg::get<2>(this->get_pose())), p_t);
     }
+
 
 private:
     std::shared_ptr<KinematicModel<double>> kinematic_model_;

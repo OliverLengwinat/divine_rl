@@ -99,5 +99,7 @@
         "__tree": "cpp",
         "map": "cpp",
         "set": "cpp"
+    },
+    "files.exclude": {
     }
 }

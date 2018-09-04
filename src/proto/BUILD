@@ -15,6 +15,13 @@ cc_proto_library(
 )
 
 cc_proto_library(
+    name = "commons_cc_proto",
+    deps = [":commons_proto"],
+	visibility = ["//visibility:public"]
+)
+
+
+cc_proto_library(
     name = "world_cc_proto",
     deps = [":world_proto"],
 	visibility = ["//visibility:public"]

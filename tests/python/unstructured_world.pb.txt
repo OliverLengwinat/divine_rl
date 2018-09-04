@@ -87,6 +87,10 @@ object {
 	} 
 	type: 0
 	reward: 0.0
+	properties: {
+		name: "Agent1"
+		edgecolor: "red"
+	}
 }
 
 
@@ -121,6 +125,10 @@ object {
 	}
 	type: 1
 	reward: -1.0
+	properties: {
+		name: "Agent1"
+		edgecolor: "red"
+	}
 }
 
 object {

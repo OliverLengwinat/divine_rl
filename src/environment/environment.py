@@ -112,6 +112,7 @@ class Environment(threading.Thread):
 				agent.set_kinematic_model(kinematic_model)
 				agent.set_reward(obj.reward)
 				agent.set_id(obj.id)
+				agent.set_properties(obj.properties.SerializeToString())
 				self.world.add_object(agent)
 			elif obj.type == object_pb2.Object.OBJECT:
 				tmp_obj = Object()
@@ -119,6 +120,7 @@ class Environment(threading.Thread):
 				tmp_obj.set_shape(self.create_polygon(shape))
 				tmp_obj.set_reward(obj.reward)
 				tmp_obj.set_id(obj.id)
+				tmp_obj.set_properties(obj.properties.SerializeToString())
 				self.world.add_object(tmp_obj)
 			elif obj.type == object_pb2.Object.BOUNDING_BOX:
 				bounding_box = self.create_polygon(shape)
@@ -130,7 +132,6 @@ class Environment(threading.Thread):
 
 	def debug_agents_plot(self):
 		for agent in self.agents:
-			#self.viewer.draw_point(agent.get_pose(), color='blue')
 			polygon = agent.get_transformed_shape()
 			self.viewer.draw_polygon(polygon, color='blue')
 

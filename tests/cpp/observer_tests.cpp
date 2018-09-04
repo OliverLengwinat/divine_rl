@@ -61,6 +61,7 @@ TEST(observer, init) {
 
     //std::cout << a->get_state() << std::endl;
     auto step = a->step(u, 0.15);
+    /*
     StepReturn observation = o->observe( step );
 
     std::cout << observation.state << std::endl;
@@ -71,7 +72,7 @@ TEST(observer, init) {
     std::cout << observation.state << std::endl;
     std::cout << observation.next_state << std::endl;
     //std::cout << a->get_state() << std::endl;
-
+    */
     ASSERT_TRUE(true);
     //a.step(u, 0.15);
 }
