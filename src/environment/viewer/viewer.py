@@ -8,17 +8,13 @@ class Viewer(object):
 
 	def draw_world(self, world, color='gray'):
 		for obj in world.get_objects():
-
 			properties = commons_pb2.Properties()
-			# TODO: make plotting great again
-			#print(obj.get_properties())
-			#text_format.Parse(obj.get_properties(), properties)
-			#properties.ParseFromString( obj.get_properties() )
-			#print(properties.facecolor())
+			properties_byte = str.encode(obj.get_properties() )
+			properties.ParseFromString( properties_byte )
 
 			if obj.get_type() == 1:
 				polygon = obj.get_shape()
-				self.draw_polygon(polygon, color='gray')
+				self.draw_polygon(polygon, color=properties.edgecolorcolor())
 
 		# draw bounding box
 		bb = world.get_bounding_box().to_numpy()
