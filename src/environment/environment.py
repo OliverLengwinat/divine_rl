@@ -9,6 +9,22 @@ import threading
 import time
 import random
 
+class ObservationSpace(object):
+	def __init__(self):
+		self.shape = [3]
+	
+	def set_shape(self, num):
+		self.shape = num
+
+class ActionSpace(object):
+	def __init__(self):
+		self.shape = [1]
+		self.low = -1.0
+		self.high = 1.0
+	
+	def set_shape(self, num):
+		self.shape = num
+
 # TODO: add start method
 class Environment(threading.Thread):
 	def __init__(self, path, dt = 0.25):
@@ -18,8 +34,9 @@ class Environment(threading.Thread):
 		self.observer = KinematicObserver()
 		self.viewer = Viewer()
 		self.proto_path = path
-		self.observation_space = None
-		self.action_space = None
+		self.observation_space = ObservationSpace()
+		self.action_space = ActionSpace()
+		self.num_envs = 1
 		self.load_world(path)
 	
 	@property
@@ -39,6 +56,7 @@ class Environment(threading.Thread):
 	def reset(self):
 		self.world.reset()
 		self.load_world(self.proto_path)
+		return self.world.get_agent(0).get_kinematic_model().get_state()
 
 	def load_proto(self, path):
 		f = open(path, 'r')
@@ -151,5 +169,16 @@ class Environment(threading.Thread):
 		self.debug_plot_show()
 		self.viewer.clear()
 
-	def step(self):
+	def step(self, u):
+		for agent in self.world.get_agents():
+			if agent.get_id() is not 0:
+				agent.step(np.array([[0.0]]), self.dt)
+		return self.world.get_agent(0).step(u, self.dt)
+	
+	def close(self):
 		pass
+	
+	def seed(self, seed):
+		pass
+
+	# env.num_envs

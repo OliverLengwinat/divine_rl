@@ -16,10 +16,8 @@ from gym import wrappers
 import tflearn
 import argparse
 import pprint as pp
-
-from replay_buffer import ReplayBuffer
 from src.environment.environment import Environment
-
+from replay_buffer import ReplayBuffer
 
 # ===========================
 #   Actor and Critic DNNs
@@ -64,14 +62,14 @@ class ActorNetwork(object):
         # This gradient will be provided by the critic network
         self.action_gradient = tf.placeholder(tf.float32, [None, self.a_dim])
 
-        # Combine the gradients here: scaled_out with derivate to self.network_params and -action_gradient provided by critic
+        # Combine the gradients here
         self.unnormalized_actor_gradients = tf.gradients(
             self.scaled_out, self.network_params, -self.action_gradient)
         self.actor_gradients = list(map(lambda x: tf.div(x, self.batch_size), self.unnormalized_actor_gradients))
 
         # Optimization Op
         self.optimize = tf.train.AdamOptimizer(self.learning_rate).\
-            apply_gradients(zip(self.actor_gradients, self.network_params)) # what does zip do
+            apply_gradients(zip(self.actor_gradients, self.network_params))
 
         self.num_trainable_vars = len(
             self.network_params) + len(self.target_network_params)
@@ -211,7 +209,6 @@ class CriticNetwork(object):
     def update_target_network(self):
         self.sess.run(self.update_target_network_params)
 
-# basically noise model to explore states
 # Taken from https://github.com/openai/baselines/blob/master/baselines/ddpg/noise.py, which is
 # based on http://math.stackexchange.com/questions/1287634/implementing-ornstein-uhlenbeck-in-matlab
 class OrnsteinUhlenbeckActionNoise:
@@ -274,48 +271,32 @@ def train(sess, env, args, actor, critic, actor_noise):
     # in other environments.
     # tflearn.is_training(True)
 
-    for m in range(0,4):
-        running = True
-        while running:
-            a = np.array([[1.5]])
-            s, _, s2, r, terminal = env.get_agent(0).step(a, 0.25)
-            replay_buffer.add(np.reshape(s, (actor.s_dim,)), np.reshape(a, (actor.a_dim,)), r,
-                        terminal, np.reshape(s2, (actor.s_dim,)))
-            if terminal:
-                print(r,s)
-                env.reset()
-                break
-
     for i in range(int(args['max_episodes'])):
 
-        env.reset()
+        s = env.reset()
+        show_plot = False
+        ep_reward = 0
+        ep_ave_max_q = 0
 
-        ep_reward = 0.0
-        ep_ave_max_q = 0.0
-
-        
-        trajectory = []
         for j in range(int(args['max_episode_len'])):
-            if args['render_env']:
-                if i % 1000 == 0:
-                    env.debug_agents_plot()
 
-            s = env.get_agent(0).get_kinematic_model().get_state()
+            if args['render_env']:
+                if i % 2000 == 0:
+                    env.debug_world_plot()
+
             # Added exploration noise
             #a = actor.predict(np.reshape(s, (1, 3))) + (1. / (1. + i))
             a = actor.predict(np.reshape(s, (1, actor.s_dim))) + actor_noise()
-            #print(a)
-            env.get_agent(1).step(np.array([[0.0]]), 0.25)
-            s, _, s2, r, terminal = env.get_agent(0).step(a, 0.25)
-                
-            trajectory.append(s)
-            #s, _, s2, r, terminal = env.step(a[0])
-            # s2, r, terminal, info = env.step(a[0]) # todo
+
+            #s2, r, terminal, info = env.step(a[0])
+            s, _, s2, r, terminal = env.step(a[0])
+            
+
             replay_buffer.add(np.reshape(s, (actor.s_dim,)), np.reshape(a, (actor.a_dim,)), r,
                               terminal, np.reshape(s2, (actor.s_dim,)))
 
             # Keep adding experience to the memory until
-            # there are at least one minibatch size samples
+            # there are at least minibatch size samples
             if replay_buffer.size() > int(args['minibatch_size']):
                 s_batch, a_batch, r_batch, t_batch, s2_batch = \
                     replay_buffer.sample_batch(int(args['minibatch_size']))
@@ -346,7 +327,16 @@ def train(sess, env, args, actor, critic, actor_noise):
                 actor.update_target_network()
                 critic.update_target_network()
 
-            ep_reward = ep_reward + r
+                if args['render_env']:
+                    if i % 2000 == 0:
+                        env.debug_agents_plot()
+                        show_plot = True
+
+            s = s2
+            ep_reward += r
+            
+
+
 
             if terminal:
 
@@ -357,33 +347,30 @@ def train(sess, env, args, actor, critic, actor_noise):
 
                 writer.add_summary(summary_str, i)
                 writer.flush()
-                print('| Reward: {:.4f} | Episode: {:d} | Qmax: {:.4f}'.format(float(ep_reward), \
-                            i, (ep_ave_max_q / float(j))))
+                if show_plot:
+                    env.debug_plot_show()
+                    show_plot = False
+                print('| Reward: {:d} | Episode: {:d} | Qmax: {:.4f}'.format(int(ep_reward), \
+                        i, (ep_ave_max_q / float(j))))
+
                 break
 
-        if args['render_env']:
-            if i % 1000 == 0:
-                print(np.array(trajectory))
-                trajectory = []
-                env.render()
-        
 def main(args):
 
     with tf.Session() as sess:
 
-        #env = gym.make(args['env']) # TODO: add environment
+        #env = gym.make(args['env'])
         env = Environment("tests/python/structured_world.pb.txt")
-        #np.random.seed(int(args['random_seed']))
+        np.random.seed(int(args['random_seed']))
         tf.set_random_seed(int(args['random_seed']))
-        #env.seed(int(args['random_seed']))
+        env.seed(int(args['random_seed']))
 
-        state_dim = 3 #env.observation_space.shape[0]
-        action_dim = 1 #env.action_space.shape[0]
-        #action_bound = env.action_space.high
-        action_bound = 1.0 # TODO
+        state_dim = env.observation_space.shape[0]
+        action_dim = env.action_space.shape[0]
 
+        action_bound = env.action_space.high
         # Ensure action bound is symmetric
-        # assert (env.action_space.high == -env.action_space.low)
+        assert (env.action_space.high == -env.action_space.low)
 
         actor = ActorNetwork(sess, state_dim, action_dim, action_bound,
                              float(args['actor_lr']), float(args['tau']),
@@ -395,20 +382,18 @@ def main(args):
                                actor.get_num_trainable_vars())
         
         actor_noise = OrnsteinUhlenbeckActionNoise(mu=np.zeros(action_dim))
-        """
+
         if args['use_gym_monitor']:
             if not args['render_env']:
                 env = wrappers.Monitor(
                     env, args['monitor_dir'], video_callable=False, force=True)
             else:
                 env = wrappers.Monitor(env, args['monitor_dir'], force=True)
-        """
+
         train(sess, env, args, actor, critic, actor_noise)
 
-        """
         if args['use_gym_monitor']:
             env.monitor.close()
-        """
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='provide arguments for DDPG agent')
@@ -425,14 +410,14 @@ if __name__ == '__main__':
     parser.add_argument('--env', help='choose the gym env- tested on {Pendulum-v0}', default='Pendulum-v0')
     parser.add_argument('--random-seed', help='random seed for repeatability', default=1234)
     parser.add_argument('--max-episodes', help='max num of episodes to do while training', default=50000)
-    parser.add_argument('--max-episode-len', help='max length of 1 episode', default=40)
+    parser.add_argument('--max-episode-len', help='max length of 1 episode', default=1000)
     parser.add_argument('--render-env', help='render the gym env', action='store_true')
     parser.add_argument('--use-gym-monitor', help='record gym results', action='store_true')
     parser.add_argument('--monitor-dir', help='directory for storing gym results', default='./results/gym_ddpg')
     parser.add_argument('--summary-dir', help='directory for storing tensorboard info', default='./results/tf_ddpg')
 
     parser.set_defaults(render_env=True)
-    parser.set_defaults(use_gym_monitor=True)
+    parser.set_defaults(use_gym_monitor=False)
     
     args = vars(parser.parse_args())
     
