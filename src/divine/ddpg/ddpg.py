@@ -274,6 +274,18 @@ def train(sess, env, args, actor, critic, actor_noise):
     # in other environments.
     # tflearn.is_training(True)
 
+    for m in range(0,4):
+        running = True
+        while running:
+            a = np.array([[1.5]])
+            s, _, s2, r, terminal = env.get_agent(0).step(a, 0.25)
+            replay_buffer.add(np.reshape(s, (actor.s_dim,)), np.reshape(a, (actor.a_dim,)), r,
+                        terminal, np.reshape(s2, (actor.s_dim,)))
+            if terminal:
+                print(r,s)
+                env.reset()
+                break
+
     for i in range(int(args['max_episodes'])):
 
         env.reset()
@@ -281,6 +293,7 @@ def train(sess, env, args, actor, critic, actor_noise):
         ep_reward = 0.0
         ep_ave_max_q = 0.0
 
+        
         trajectory = []
         for j in range(int(args['max_episode_len'])):
             if args['render_env']:
@@ -294,9 +307,6 @@ def train(sess, env, args, actor, critic, actor_noise):
             #print(a)
             env.get_agent(1).step(np.array([[0.0]]), 0.25)
             s, _, s2, r, terminal = env.get_agent(0).step(a, 0.25)
-
-            if r == 0.0:
-                r = -0.025
                 
             trajectory.append(s)
             #s, _, s2, r, terminal = env.step(a[0])

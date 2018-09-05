@@ -109,11 +109,9 @@ class Environment(threading.Thread):
 				agent.set_shape_offset(Point(shape_offset[0], shape_offset[1]))
 				kinematic_model = eval(obj.model.name)
 				kinematic_model.set_state( np.array([self.get_list(obj.model.state)]))
-
 				if obj.HasField('reference_line_id'):
 					kinematic_model.set_road_network(road_network)
 					kinematic_model.set_reference_road_id(obj.reference_line_id)
-
 				agent.set_kinematic_model(kinematic_model)
 				agent.set_reward(obj.reward)
 				agent.set_id(obj.id)

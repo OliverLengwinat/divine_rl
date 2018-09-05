@@ -173,7 +173,7 @@ object {
 		name: "TrippleIntModel()"
 		state: {
 			e: 10.0
-			e: 11.0
+			e: 10.0
 			e: 0.0
 		}
 	} 
