@@ -284,7 +284,7 @@ def train(sess, env, args, actor, critic, actor_noise):
         trajectory = []
         for j in range(int(args['max_episode_len'])):
             if args['render_env']:
-                if i % 500 == 0:
+                if i % 1000 == 0:
                     env.debug_agents_plot()
 
             s = env.get_agent(0).get_kinematic_model().get_state()
@@ -294,6 +294,10 @@ def train(sess, env, args, actor, critic, actor_noise):
             #print(a)
             env.get_agent(1).step(np.array([[0.0]]), 0.25)
             s, _, s2, r, terminal = env.get_agent(0).step(a, 0.25)
+
+            if r == 0.0:
+                r = -0.025
+                
             trajectory.append(s)
             #s, _, s2, r, terminal = env.step(a[0])
             # s2, r, terminal, info = env.step(a[0]) # todo
@@ -332,7 +336,7 @@ def train(sess, env, args, actor, critic, actor_noise):
                 actor.update_target_network()
                 critic.update_target_network()
 
-            ep_reward += r
+            ep_reward = ep_reward + r
 
             if terminal:
 
@@ -348,7 +352,7 @@ def train(sess, env, args, actor, critic, actor_noise):
                 break
 
         if args['render_env']:
-            if i % 500 == 0:
+            if i % 1000 == 0:
                 print(np.array(trajectory))
                 trajectory = []
                 env.render()
@@ -366,7 +370,7 @@ def main(args):
         state_dim = 3 #env.observation_space.shape[0]
         action_dim = 1 #env.action_space.shape[0]
         #action_bound = env.action_space.high
-        action_bound = 2.0 # TODO
+        action_bound = 1.0 # TODO
 
         # Ensure action bound is symmetric
         # assert (env.action_space.high == -env.action_space.low)
@@ -411,7 +415,7 @@ if __name__ == '__main__':
     parser.add_argument('--env', help='choose the gym env- tested on {Pendulum-v0}', default='Pendulum-v0')
     parser.add_argument('--random-seed', help='random seed for repeatability', default=1234)
     parser.add_argument('--max-episodes', help='max num of episodes to do while training', default=50000)
-    parser.add_argument('--max-episode-len', help='max length of 1 episode', default=1000)
+    parser.add_argument('--max-episode-len', help='max length of 1 episode', default=40)
     parser.add_argument('--render-env', help='render the gym env', action='store_true')
     parser.add_argument('--use-gym-monitor', help='record gym results', action='store_true')
     parser.add_argument('--monitor-dir', help='directory for storing gym results', default='./results/gym_ddpg')

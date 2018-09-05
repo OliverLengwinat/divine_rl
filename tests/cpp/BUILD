@@ -36,3 +36,16 @@ cc_test(
         "@gtest//:main",
     ],
 )
+
+cc_test(
+    name = "world_tests",
+    srcs = [
+        "world_tests.cpp",
+    ],
+    copts = ["-Iexternal/gtest/include"],
+    deps = [
+        "//src/environment:world",
+        "//src/environment:commons",
+        "@gtest//:main",
+    ],
+)
