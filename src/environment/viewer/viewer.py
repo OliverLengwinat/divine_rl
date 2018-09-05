@@ -32,7 +32,10 @@ class Viewer(object):
 		plt.plot(pts[0,0], pts[0,1], marker='o', color=color)
 
 	def show(self):
-		plt.axis("equal")
+		#plt.axis("equal")
+		ax = plt.gca()
+		ax.set_xlim([-15, 75])
+		ax.set_ylim([-35, 30])
 		plt.show()
 	
 	def clear(self):

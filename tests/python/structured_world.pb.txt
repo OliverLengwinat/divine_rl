@@ -79,7 +79,7 @@ object {
 		name: "TrippleIntModel()"
 		state: {
 			e: 10.0
-			e: 9.0
+			e: 12.0
 			e: 0.0
 		}
 	} 
@@ -188,26 +188,26 @@ object {
 
 object {
 	name: "World"
-	id: 1
+	id: 3
 	shape: {
 		e: {
-			e: 55.0
+			e: 65.0
 			e: 0.0
 		}
 		e: {
-			e: 60.0
+			e: 70.0
 			e: 0.0
 		}
 		e: {
-			e: 60.0
+			e: 70.0
 			e: 10.0
 		}
 		e: {
-			e: 55.0
+			e: 65.0
 			e: 10.0
 		}
 		e: {
-			e: 55.0
+			e: 65.0
 			e: 0.0
 		}
 		center: {
@@ -218,8 +218,8 @@ object {
 	type: 1
 	reward: 1.0
 	properties: {
-		name: "Agent1"
-		edgecolor: "red"
+		name: "Goal"
+		edgecolor: "green"
 	}
 }
 
@@ -233,11 +233,11 @@ object {
 			e: -15.0
 		}
 		e: {
-			e: 150.0
+			e: 1050.0
 			e: -15.0
 		}
 		e: {
-			e: 150.0
+			e: 1050.0
 			e: 15.0
 		}
 		e: {
@@ -315,7 +315,7 @@ line_segment {
 			e: 5.0
 		}
 		end_point: {
-			e: 200.0
+			e: 1050.0
 			e: 5.0
 		}
 	}

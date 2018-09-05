@@ -278,9 +278,10 @@ def train(sess, env, args, actor, critic, actor_noise):
 
         env.reset()
 
-        ep_reward = 0
-        ep_ave_max_q = 0
+        ep_reward = 0.0
+        ep_ave_max_q = 0.0
 
+        trajectory = []
         for j in range(int(args['max_episode_len'])):
             if args['render_env']:
                 if i % 500 == 0:
@@ -293,6 +294,7 @@ def train(sess, env, args, actor, critic, actor_noise):
             #print(a)
             env.get_agent(1).step(np.array([[0.0]]), 0.25)
             s, _, s2, r, terminal = env.get_agent(0).step(a, 0.25)
+            trajectory.append(s)
             #s, _, s2, r, terminal = env.step(a[0])
             # s2, r, terminal, info = env.step(a[0]) # todo
             replay_buffer.add(np.reshape(s, (actor.s_dim,)), np.reshape(a, (actor.a_dim,)), r,
@@ -347,6 +349,8 @@ def train(sess, env, args, actor, critic, actor_noise):
 
         if args['render_env']:
             if i % 500 == 0:
+                print(np.array(trajectory))
+                trajectory = []
                 env.render()
         
 def main(args):
