@@ -3,4 +3,4 @@ steps:
   args: ['bash', './install.sh']
 
 - name: gcr.io/fomap-216207/ci-image
-  args: ['build', '//...']
+  args: ['bazel', 'build', '//...']
