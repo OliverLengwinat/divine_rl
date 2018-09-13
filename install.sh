@@ -7,4 +7,4 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
     apt-get update && apt-get install -y python3-pip python3-dev python3-tk 
 fi
 
-virtualenv -p python3 venv && source activate ./venv/bin/activate && pip install install matplotlib numpy lxml scipy tensorflow tflearn pprint gym
+virtualenv -p python3 venv && source ./venv/bin/activate && pip install matplotlib numpy lxml scipy tensorflow tflearn pprint gym
