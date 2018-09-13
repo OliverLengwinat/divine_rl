@@ -1,6 +1,6 @@
 steps:
 - name: gcr.io/fomap-216207/ci-image
-  args: ['bash', 'install.sh']
+  args: ['bash', './install.sh']
 
 - name: gcr.io/fomap-216207/ci-image
   args: ['bazel', 'build', '//...']
