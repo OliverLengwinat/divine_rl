@@ -1,3 +1,6 @@
 steps:
-- name: gcr.io/cloud-builders/bazel
+- name: gcr.io/fomap-216207/ci-image
+  args: ['bash', './install.sh']
+
+- name: gcr.io/fomap-216207/ci-image
   args: ['build', '//...']
