@@ -12,10 +12,10 @@ using namespace environment::observers;
 
 StepRet Agent::step(const Matrix_t<double>& u, double dt){
 		StepReturn sr;
-		sr.state = kinematic_model_->get_state(); // todo: add state converter
+		sr.state = get_world()->get_observer()->convert_state(get_world()->get_agent(get_id()));
 		sr.action = u;
 		kinematic_model_->step(u, dt);
-		sr.next_state = kinematic_model_->get_state(); // todo: add state converter
+		sr.next_state = get_world()->get_observer()->convert_state(get_world()->get_agent(get_id()));
 		std::pair<bool, double> col_rew = get_world()->collides(this->get_id());
 		return std::make_tuple(sr.state, sr.action, sr.next_state, col_rew.second, col_rew.first);
 }

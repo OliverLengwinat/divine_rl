@@ -36,7 +36,7 @@ class Environment(threading.Thread):
 		self.viewer = Viewer()
 		self.proto_path = path
 		self.observation_space = ObservationSpace(self.observer)
-		self.action_space = ActionSpace() # TODO: load from protbuf! => how many inputs
+		self.action_space = ActionSpace()
 		self.num_envs = 1
 		self.load_world(path)
 	
