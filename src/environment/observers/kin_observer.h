@@ -32,18 +32,23 @@ namespace observers {
 
 class KinematicObserver : public BaseObserver {
 public:
-    KinematicObserver() {};
+    KinematicObserver() {
+        Matrix_t<int> mat(1, 1);
+        this->set_shape(mat);
+        this->get_shape() << 3; // output size of environment
+        
+    };
 
-    Matrix_t<double> convert_state(std::shared_ptr<Agent> a, std::shared_ptr<World> w){
-        // TODO: select features to be saved.. eg. agents states concatenated
+    Matrix_t<double> convert_state(std::shared_ptr<Agent> a){
         return a->get_kinematic_model()->get_state();
     }
 
-    void convert_reward(StepReturn& step_return, std::shared_ptr<Agent> a, std::shared_ptr<World> w){
-        // TODO: calculate the reward on something other than a collison
+    void convert_reward(StepReturn& step_return, std::shared_ptr<Agent> a){
         // e.g. the deviation of the desired speed
         //step_return.reward;
     }
+
+
 };
 
 

@@ -1,3 +1,6 @@
+package(default_visibility = ["//visibility:public"])
+
+
 py_binary(
     name = "run_structured",
     srcs = ["run_structured.py"],
@@ -13,3 +16,4 @@ py_binary(
             "//src/environment:viewer",
             "//src/environment:environment"]
 )
+

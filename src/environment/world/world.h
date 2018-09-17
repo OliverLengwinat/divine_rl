@@ -25,6 +25,7 @@
 #include <vector>
 #include "src/environment/commons/common.h"
 #include "src/environment/commons/utilities.h"
+#include "src/environment/observers/observer.h"
 #include "src/environment/world/base_type.h"
 #include "src/environment/world/agent.h"
 #include "src/environment/world/object.h"
@@ -34,7 +35,7 @@
 
 namespace environment {
 namespace world {
-
+    using namespace environment::observers;
 class World {
 public:
 
@@ -78,6 +79,8 @@ public:
         agent_count_++;
     }
 
+    void set_observer(std::shared_ptr<BaseObserver> obs){observer_ = obs;}
+
 
     //! Getter
     std::shared_ptr<RoadNetwork> get_road_network(){ return road_network_; }
@@ -105,9 +108,15 @@ public:
         return agents;
     }
 
+    std::shared_ptr<BaseObserver> get_observer() const {
+        return observer_;
+    }
+
+
 private:
     std::vector<std::shared_ptr<BaseType>> objects_;
     std::shared_ptr<RoadNetwork> road_network_;
+    std::shared_ptr<BaseObserver> observer_;
 
     Polygon_t<double, 2> bounding_box_;
     int agent_count_;

@@ -49,6 +49,7 @@ void world_bindings(py::module m)
         .def("reset", &environment::world::World::reset)
         .def("set_bounding_box", &environment::world::World::set_bounding_box)
         .def("get_bounding_box", &environment::world::World::get_bounding_box)
+        .def_property("observer", &environment::world::World::get_observer, &environment::world::World::set_observer)
         .def("get_objects", &environment::world::World::get_objects);
 
     py::class_<RoadNetwork, std::shared_ptr<RoadNetwork>>(m, "RoadNetwork")
@@ -89,28 +90,6 @@ void world_bindings(py::module m)
     py::class_<Object, BaseType, std::shared_ptr<Object>>(m, "Object")
         .def(py::init<>());
 
-    py::class_<Memory, std::shared_ptr<Memory>>(m, "Memory")
-        .def(py::init<>())
-        .def_property_readonly("states", [](const Memory& s)
-        {
-            return s.states;
-        })
-        .def_property_readonly("is_final", [](const Memory& s)
-        {
-            return s.is_final;
-        })
-        .def_property_readonly("next_states", [](const Memory& s)
-        {
-            return s.next_states;
-        })
-        .def_property_readonly("rewards", [](const Memory& s)
-        {
-            return s.rewards;
-        })
-        .def_property_readonly("actions", [](const Memory& s)
-        {
-            return s.actions;
-        });
 
     py::class_<StepReturn, std::shared_ptr<StepReturn>>(m, "StepReturn")
         .def(py::init<>())
@@ -135,17 +114,14 @@ void world_bindings(py::module m)
             return s.is_final;
         });
 
-    py::class_<ReplayMemory, std::shared_ptr<ReplayMemory>>(m, "ReplayMemory")
-        .def(py::init<>())
-        .def("push_back", &environment::observers::ReplayMemory::push_back)
-        .def("sample", &environment::observers::ReplayMemory::sample);
 
     py::class_<BaseObserver, std::shared_ptr<BaseObserver>>(m, "BaseObserver")
         .def("set_world", &environment::observers::BaseObserver::set_world)
-        .def_property("memory", &environment::observers::BaseObserver::get_replay_memory, &environment::observers::BaseObserver::set_replay_memory)
+        .def("get_shape", &environment::observers::BaseObserver::get_shape)
+        .def("set_shape", &environment::observers::BaseObserver::set_shape)
         .def("get_world", &environment::observers::BaseObserver::get_world)
-        .def("get_state", &environment::observers::BaseObserver::convert_state)
-        .def("observe", &environment::observers::KinematicObserver::observe);
+        .def("convert_state", &environment::observers::BaseObserver::convert_state);
+
 
     py::class_<KinematicObserver, BaseObserver, std::shared_ptr<KinematicObserver>>(m, "KinematicObserver")
         .def(py::init<>());

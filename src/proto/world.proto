@@ -20,4 +20,5 @@ message World {
   repeated divine.Object object = 1;
   repeated LineSegment line_segment = 2;
   repeated ReferenceLine reference_line = 3;
+  required int32 action_size = 4;
 }

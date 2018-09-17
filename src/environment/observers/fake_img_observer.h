@@ -21,51 +21,30 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef _OBSERVERS_H_
-#define _OBSERVERS_H_
+#ifndef _FAKE_IMG_OBSERVER_H_
+#define _FAKE_IMG_OBSERVER_H_
 
-#include <algorithm>
-#include <random>
-#include "src/environment/world/world.h"
-#include "src/environment/world/agent.h"
+#include <functional>
+#include "src/environment/observers/observer.h"
 
 namespace environment {
-
-//! fw decleration
-namespace world {
-    class World;
-    class Agent;
-}
-
 namespace observers {
 
-using namespace environment::world;
-
-
-// the observer will be used to calculate the reward and state; collisions, however, are handled in the step function itself
-class BaseObserver {
+class KinematicObserver : public BaseObserver {
 public:
-BaseObserver(){};
-virtual ~BaseObserver() = default;
+    KinematicObserver() {};
 
-void set_world(std::shared_ptr<World> w){ world_ = w; }
-std::shared_ptr<World> get_world(){ return world_; }
+    Matrix_t<double> convert_state(std::shared_ptr<Agent> a){
+				Matrix_t<double> mat(84,84);
+        return mat;
+    }
 
-virtual Matrix_t<double> convert_state(std::shared_ptr<Agent> a) = 0; // could be an image; trajectory etc.
-virtual void convert_reward(StepReturn& step_return,std::shared_ptr<Agent> a) = 0;
-
-Matrix_t<int> get_shape() const {return shape_;}
-void set_shape(const Matrix_t<int>& shape){shape_=shape;}
-
-private:
-    std::shared_ptr<World> world_;
-    Matrix_t<int> shape_;
-
+    void convert_reward(StepReturn& step_return, std::shared_ptr<Agent> a){
+        //step_return.reward;
+    }
 };
 
 
 } // observers
-} // simulation
-
-
-#endif
+} // environment
+#endif // _FAKE_IMG_OBSERVER_H_

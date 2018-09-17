@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
 from divine_rl.commons import Point, Line, Polygon, SingleTrackModel, TrippleIntModel
-from divine_rl.world import World, Agent, Object, KinematicObserver, BaseObserver, ReplayMemory, RoadNetwork
+from divine_rl.world import World, Agent, Object, KinematicObserver, BaseObserver, RoadNetwork
 from src.proto import world_pb2, commons_pb2, object_pb2
 from google.protobuf import text_format
 from src.environment.viewer.viewer import Viewer
@@ -10,11 +10,12 @@ import time
 import random
 
 class ObservationSpace(object):
-	def __init__(self):
-		self.shape = [3]
+	def __init__(self, observer):
+		self.shape = observer.get_shape()[0]
 	
 	def set_shape(self, num):
 		self.shape = num
+
 
 class ActionSpace(object):
 	def __init__(self):
@@ -22,10 +23,10 @@ class ActionSpace(object):
 		self.low = -1.0
 		self.high = 1.0
 	
-	def set_shape(self, num):
-		self.shape = num
+	def set_shape(self, shape):
+		self.shape = shape
 
-# TODO: add start method
+
 class Environment(threading.Thread):
 	def __init__(self, path, dt = 0.25):
 		threading.Thread.__init__(self)
@@ -34,8 +35,8 @@ class Environment(threading.Thread):
 		self.observer = KinematicObserver()
 		self.viewer = Viewer()
 		self.proto_path = path
-		self.observation_space = ObservationSpace()
-		self.action_space = ActionSpace()
+		self.observation_space = ObservationSpace(self.observer)
+		self.action_space = ActionSpace() # TODO: load from protbuf! => how many inputs
 		self.num_envs = 1
 		self.load_world(path)
 	
@@ -54,9 +55,10 @@ class Environment(threading.Thread):
 		self.world.collides(obj)
 
 	def reset(self):
+		last_state = self.world.observer.convert_state(self.world.get_agent(0))
 		self.world.reset()
 		self.load_world(self.proto_path)
-		return self.world.get_agent(0).get_kinematic_model().get_state()
+		return last_state
 
 	def load_proto(self, path):
 		f = open(path, 'r')
@@ -89,6 +91,10 @@ class Environment(threading.Thread):
 	def load_world(self, path):
 		world = self.load_proto(path)
 		
+		# TOOD: hack
+		self.world.observer = self.observer
+		self.action_space.set_shape(world.action_size)
+
 		road_network = RoadNetwork()
 		# load reference lines
 		for line in world.line_segment:
@@ -147,7 +153,7 @@ class Environment(threading.Thread):
 			elif obj.type == object_pb2.Object.BOUNDING_BOX:
 				bounding_box = self.create_polygon(shape)
 				self.world.set_bounding_box(bounding_box)
-
+		
 	def debug_world_plot(self):
 		self.viewer.draw_world(self.world, color='gray')
 		self.debug_agents_plot()
@@ -173,7 +179,8 @@ class Environment(threading.Thread):
 		for agent in self.world.get_agents():
 			if agent.get_id() is not 0:
 				agent.step(np.array([[0.0]]), self.dt)
-		return self.world.get_agent(0).step(u, self.dt)
+		# TODO: rearrange output to be similar to openAI Gym
+		return self.world.get_agent(0).step(u, self.dt) # step agent with custom control having ID 0
 	
 	def close(self):
 		pass
