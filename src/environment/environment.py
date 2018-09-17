@@ -27,7 +27,10 @@ class ActionSpace(object):
 		self.shape = shape
 
 
-class Environment(threading.Thread):
+
+
+
+class Environment(object):
 	def __init__(self, path, dt = 0.25):
 		threading.Thread.__init__(self)
 		self.dt = dt
@@ -38,6 +41,7 @@ class Environment(threading.Thread):
 		self.observation_space = ObservationSpace(self.observer)
 		self.action_space = ActionSpace()
 		self.num_envs = 1
+		self.game_over = False
 		self.load_world(path)
 	
 	@property
@@ -179,8 +183,9 @@ class Environment(threading.Thread):
 		for agent in self.world.get_agents():
 			if agent.get_id() is not 0:
 				agent.step(np.array([[0.0]]), self.dt)
-		# TODO: rearrange output to be similar to openAI Gym
-		return self.world.get_agent(0).step(u, self.dt) # step agent with custom control having ID 0
+		state, action, next_state, reward, is_terminal = self.world.get_agent(0).step(u, self.dt)
+		self.game_over = is_terminal
+		return (state, reward, is_terminal, None) # step agent with custom control having ID 0
 	
 	def close(self):
 		pass
@@ -188,4 +193,11 @@ class Environment(threading.Thread):
 	def seed(self, seed):
 		pass
 
-	# env.num_envs
+	# could hold mult envs
+class EnvironmentHolding(object):
+	def __init__(self, path, dt = 0.25):
+		self.env = Environment(path, dt = 0.25)
+		self.num_envs = 1
+		
+	def make(self, string):
+		return self

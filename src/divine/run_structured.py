@@ -15,10 +15,8 @@ if __name__ == '__main__':
 	running = True
 	while running:
 		#for agent in env.agents:
-		env.world.get_agent(1).step(np.array([[0.0]]), 0.25)
-		state, action, next_state, reward, is_final = env.world.get_agent(0).step(u, 0.25)
+		state, reward, is_final, _ = env.step(u)
 		if is_final:
-			print(state, action, next_state, reward)
 			running = False
 			env.reset()
 		
