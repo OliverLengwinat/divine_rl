@@ -10,6 +10,8 @@ import time
 import random
 
 class ObservationSpace(object):
+	"""Information about the observation space
+	"""
 	def __init__(self, observer):
 		self.shape = observer.get_shape()[0]
 	
@@ -18,6 +20,8 @@ class ObservationSpace(object):
 
 
 class ActionSpace(object):
+	"""Information about the action space
+	"""
 	def __init__(self):
 		self.shape = [1]
 		self.low = -1.0
@@ -27,10 +31,11 @@ class ActionSpace(object):
 		self.shape = [shape]
 
 
-
-
-
 class Environment(object):
+	"""Environment class
+	
+	Wrapper for the c++ code. Provides an API similar to OpenAi Gym.
+	"""
 	def __init__(self, path, dt = 0.25):
 		threading.Thread.__init__(self)
 		self.dt = dt
@@ -46,25 +51,37 @@ class Environment(object):
 	
 	@property
 	def agents(self):
+		"""Returns agents in world
+		"""
 		return self.world.get_agents()
 
 	def get_agent(self, id):
+		"""Get agent by ID
+		"""
 		return self.world.get_agent(id)
 
 	@property
 	def objects(self):
+		"""Get objects that are not agents
+		"""
 		return self.world.get_objects()
 	
 	def collides(self, obj):
+		"""Checks the object for collisions with 
+		"""
 		self.world.collides(obj)
 
 	def reset(self):
+		"""Resets world
+		"""
 		last_state = self.world.observer.convert_state(self.world.get_agent(0))
 		self.world.reset()
 		self.load_world(self.proto_path)
 		return last_state
 
 	def load_proto(self, path):
+		"""Load world proto
+		"""
 		f = open(path, 'r')
 		world = world_pb2.World()
 		text_format.Parse(f.read(), world)
@@ -72,6 +89,8 @@ class Environment(object):
 		return world
 
 	def get_nested_list(self, rep):
+		"""Handler for repeated fiels in the proto-format
+		"""
 		ret = []
 		for e1 in rep.e:
 			tmp_ret = []
@@ -81,18 +100,24 @@ class Environment(object):
 		return ret
 
 	def get_list(self, rep):
+		"""Repeated protobuf field to list
+		"""
 		ret = []
 		for e in rep.e:
 			ret.append(e)
 		return ret
 
 	def create_polygon(self, list):
+		"""Create new wrapped Polygon
+		"""
 		poly = Polygon()
 		for p in list:
 			poly.append(Point(p[0],p[1]))
 		return poly
 
 	def load_world(self, path):
+		"""Create simulation environment using Protobuf
+		"""
 		world = self.load_proto(path)
 		
 		# TOOD: hack
@@ -159,10 +184,14 @@ class Environment(object):
 				self.world.set_bounding_box(bounding_box)
 		
 	def debug_world_plot(self):
+		"""Plots the world
+		"""
 		self.viewer.draw_world(self.world, color='gray')
 		self.debug_agents_plot()
 
 	def debug_agents_plot(self):
+		"""Plots all agents
+		"""
 		for agent in self.agents:
 			polygon = agent.get_transformed_shape()
 			properties = commons_pb2.Properties()
@@ -171,15 +200,21 @@ class Environment(object):
 			self.viewer.draw_polygon(polygon, color=properties.edgecolor)
 
 	def debug_plot_show(self):
+		"""Shows viewer
+		"""
 		self.viewer.show()
 
 	# gym interface
 	def render(self):
+		"""Draws the world with all its agents
+		"""
 		self.debug_world_plot()
 		self.debug_plot_show()
 		self.viewer.clear()
 
 	def step(self, u):
+		"""Steps all agents lineaily besides agent with id zero
+		"""
 		for agent in self.world.get_agents():
 			if agent.get_id() is not 0:
 				agent.step(np.array([[0.0]]), self.dt)
@@ -188,13 +223,19 @@ class Environment(object):
 		return (state, reward, is_terminal, None) # step agent with custom control having ID 0
 	
 	def close(self):
+		"""Required for OpenAi Gym interface
+		"""
 		pass
 	
 	def seed(self, seed):
+		"""Required for OpenAi Gym interface
+		"""
 		pass
 
 	# could hold mult envs
 class EnvironmentHolding(object):
+	"""Wrapper for the environment class
+	"""
 	def __init__(self, path, dt = 0.25):
 		self.env = Environment(path, dt = 0.25)
 		self.num_envs = 1
