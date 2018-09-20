@@ -16,6 +16,8 @@ if __name__ == '__main__':
 	while running:
 		#for agent in env.agents:
 		state, reward, is_final, _ = env.step(u)
+
+
 		if is_final:
 			running = False
 			env.reset()

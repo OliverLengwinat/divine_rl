@@ -34,9 +34,8 @@ class KinematicObserver : public BaseObserver {
 public:
     KinematicObserver() {
         Matrix_t<int> mat(1, 1);
+        mat << 3;
         this->set_shape(mat);
-        this->get_shape() << 3; // output size of environment
-        
     };
 
     Matrix_t<double> convert_state(std::shared_ptr<Agent> a){

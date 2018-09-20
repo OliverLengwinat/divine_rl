@@ -24,7 +24,7 @@ class ActionSpace(object):
 		self.high = 1.0
 	
 	def set_shape(self, shape):
-		self.shape = shape
+		self.shape = [shape]
 
 
 
@@ -200,4 +200,4 @@ class EnvironmentHolding(object):
 		self.num_envs = 1
 		
 	def make(self, string):
-		return self
+		return self.env
