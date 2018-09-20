@@ -36,6 +36,13 @@ using namespace boost;
 class RoadNetwork {
 public:
 
+    /**
+     * @brief Create a line object
+     * 
+     * @param p0 Starting vector
+     * @param p1 Ending vector
+     * @return Linestring_t<double, 2> returns boost linestring
+     */
     Linestring_t<double, 2> create_line(PointNd_t<double, 2> p0, PointNd_t<double, 2> p1){
         Linestring_t<double, 2> line;
         bg::append(line, p0);
@@ -43,6 +50,15 @@ public:
         return line;
     };
 
+    /**
+     * @brief Create a bezier object
+     * 
+     * @param p0 Starting vector
+     * @param p1 Starting-Handle vector 
+     * @param p2 Ending-Handle Vector
+     * @param p3 Ending vector
+     * @return Linestring_t<double, 2> 
+     */
     Linestring_t<double, 2> create_bezier(PointNd_t<double, 2> p0, PointNd_t<double, 2> p1, PointNd_t<double, 2> p2, PointNd_t<double, 2> p3){
         Linestring_t<double, 2> line;
         for(float t = 0; t < 1.0; t+=0.01){
@@ -55,16 +71,46 @@ public:
 
 
     //! Setter
+    /**
+     * @brief Set the line segment object
+     * 
+     * @param idx Id of line
+     * @param line geometric definition
+     */
     void set_line_segment(int idx, const Linestring_t<double, 2> line) { line_segments_[idx] = line;}
 
+    /**
+     * @brief Adds reference road to the network
+     * 
+     * @param id Id of the reference road
+     * @param ref_road Ids of multiple roads that will define the ref.-road
+     */
     void add_reference_road(int id, std::vector<int> ref_road){ reference_roads_[id] = ref_road; }
 
     
     //! Getter
+    /**
+     * @brief Get the reference road object
+     * 
+     * @param id 
+     * @return std::vector<int> 
+     */
     std::vector<int> get_reference_road(int id) const { return reference_roads_.at(id); }
 
+    /**
+     * @brief Get the reference roads object
+     * 
+     * @return std::map<int, std::vector<int>> 
+     */
     std::map<int, std::vector<int>> get_reference_roads() const { return reference_roads_; }
 
+    /**
+     * @brief Matches a s-value on segments defined in ids
+     * 
+     * @param ids Road ids
+     * @param s arclength on road
+     * @return std::pair<int, double> Segment-Id and matched s-value
+     */
     std::pair<int, double> get_segment_id(const std::vector<int>& ids, double s) const {
         double s_ = 0.0;
         double s_old = s_;
@@ -79,8 +125,19 @@ public:
         return std::make_pair(ids[ids.size()-1], s_old);
     }
 
+    /**
+     * @brief Get the line segment object
+     * 
+     * @param idx 
+     * @return Linestring_t<double, 2> 
+     */
     Linestring_t<double, 2> get_line_segment(int idx) const { return line_segments_.at(idx); }
 
+    /**
+     * @brief Get the line segments object
+     * 
+     * @return std::map<int, Linestring_t<double, 2>> 
+     */
     std::map<int, Linestring_t<double, 2>> get_line_segments() const { return line_segments_; }
 
 private:

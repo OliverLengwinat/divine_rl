@@ -41,38 +41,108 @@ public:
     virtual ~BaseType() = default;
 
     //! Setter
+    /**
+     * @brief Set the id object
+     * 
+     * @param id 
+     */
     void set_id(int id){id_=id;};
 
+    /**
+     * @brief Set the type object
+     * 
+     * @param type 
+     */
     void set_type(int type){ type_=type; };
 
+    /**
+     * @brief Set the reward object
+     * 
+     * @param reward 
+     */
     void set_reward(double reward){reward_=reward;};
 
+    /**
+     * @brief Set the shape object
+     * 
+     * @param s 
+     */
     void set_shape(const Polygon_t<double, 2>& s){ shape_ = s; };
 
+    /**
+     * @brief Set the shape offset object
+     * 
+     * @param s 
+     */
     void set_shape_offset(const PointNd_t<double, 2>& s){ shape_offset_ = s; };
 
+    /**
+     * @brief Set the properties object
+     * 
+     * @param data 
+     */
     void set_properties(const std::string& data){
         divine::Properties properties;
         properties.ParseFromString(data);
         properties_ = properties;
     }
 
+    /**
+     * @brief Set the world object
+     * 
+     * @param world 
+     */
     void set_world(std::shared_ptr<World> world){world_=world;}
 
 
     //! Getter
+    /**
+     * @brief Get the reward object
+     * 
+     * @return double 
+     */
     double get_reward() const { return reward_; };
 
+    /**
+     * @brief Get the type object
+     * 
+     * @return int 
+     */
     int get_type() const { return type_; };
 
+    /**
+     * @brief Get the id object
+     * 
+     * @return int 
+     */
     int get_id() const { return id_; };
 
+    /**
+     * @brief Get the shape object
+     * 
+     * @return Polygon_t<double, 2> 
+     */
     Polygon_t<double, 2> get_shape() const { return shape_; };
 
+    /**
+     * @brief Get the shape offset object
+     * 
+     * @return PointNd_t<double, 2> 
+     */
     PointNd_t<double, 2> get_shape_offset() const { return shape_offset_; };
 
+    /**
+     * @brief Get the properties object
+     * 
+     * @return std::string 
+     */
     std::string get_properties() const { std::string str = ""; properties_.SerializeToString(&str); return str; };
     
+    /**
+     * @brief Get the world object
+     * 
+     * @return std::shared_ptr<World> 
+     */
     std::shared_ptr<World> get_world(){return world_;}
 
 

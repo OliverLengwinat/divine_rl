@@ -48,25 +48,62 @@ class Agent : public BaseType {
 public:
     Agent() {};
 
+    /**
+     * @brief Step function that moves and agent and returns a tuple
+     * 
+     * @param u Input vector
+     * @param dt Time-step used for Euler-Integration
+     * @return StepRet Contains the state, action, next_state, reward
+     */
     StepRet step(const Matrix_t<double>& u, double dt);
     
     //! Setter
+    /**
+     * @brief Set the kinematic model object
+     * 
+     * @param model 
+     */
     void set_kinematic_model(std::shared_ptr<KinematicModel<double>> model){
         kinematic_model_ = model;
     }
 
+    /**
+     * @brief Set the reference line id object
+     * 
+     * @param id 
+     */
     void set_reference_line_id(int id){reference_line_id_=id;}
 
 
     //! Getter
+    /**
+     * @brief Get the pose object
+     * 
+     * @return PointNd_t<double, 3> 
+     */
     PointNd_t<double, 3> get_pose() const { return kinematic_model_->get_pose(); }
 
+    /**
+     * @brief Get the kinematic model object
+     * 
+     * @return std::shared_ptr<KinematicModel<double>> 
+     */
     std::shared_ptr<KinematicModel<double>> get_kinematic_model(){
         return kinematic_model_;
     }
 
+    /**
+     * @brief Get the reference line id object
+     * 
+     * @return int 
+     */
     int get_reference_line_id() const {return reference_line_id_;}
 
+    /**
+     * @brief Get the transformed shape object
+     * 
+     * @return Polygon_t<double, 2> 
+     */
     Polygon_t<double, 2> get_transformed_shape() const {
         PointNd_t<double, 2> p_t;
         bg::set<0>(p_t, bg::get<0>(this->get_pose()));

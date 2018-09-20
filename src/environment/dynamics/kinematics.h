@@ -31,6 +31,11 @@ namespace kinematics {
 using namespace environment::commons;
 using namespace environment::world;
 
+/**
+ * @brief Base KinematicModel class
+ * 
+ * @tparam T 
+ */
 template<typename T>
 class KinematicModel {
 public:
@@ -56,6 +61,11 @@ private:
 };
 
 
+/**
+ * @brief Single-Trackmodel
+ * 
+ * @tparam T 
+ */
 template<typename T>
 struct SingleTrackModel : public KinematicModel<T> {
 	SingleTrackModel(){ KinematicModel<T>::get_state().resize(1,4); };
@@ -79,6 +89,11 @@ struct SingleTrackModel : public KinematicModel<T> {
 
 };
 
+/**
+ * @brief Tripple Integrator Model
+ * 
+ * @tparam T 
+ */
 template<typename T>
 struct TrippleIntModel : public KinematicModel<T> {
 	TrippleIntModel() { KinematicModel<T>::get_state().resize(1,3); };

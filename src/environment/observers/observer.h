@@ -48,14 +48,52 @@ public:
 BaseObserver(){};
 virtual ~BaseObserver() = default;
 
+//! Setter
+/**
+ * @brief Set the world object
+ * 
+ * @param w 
+ */
 void set_world(std::shared_ptr<World> w){ world_ = w; }
+
+/**
+ * @brief Set the shape object
+ * 
+ * @param shape 
+ */
+void set_shape(const Matrix_t<int>& shape){shape_=shape;}
+
+//! Getter
+/**
+ * @brief Get the world object
+ * 
+ * @return std::shared_ptr<World> 
+ */
 std::shared_ptr<World> get_world(){ return world_; }
 
+/**
+ * @brief Get the shape object
+ * 
+ * @return Matrix_t<int> 
+ */
+Matrix_t<int> get_shape() const {return shape_;}
+
+/**
+ * @brief Converts the world to a state for a given agent. This provides the state-ouput of the step function.
+ * 
+ * @param a Smart-Pointer to Agent
+ * @return Matrix_t<double> Returns state that is used for learning
+ */
 virtual Matrix_t<double> convert_state(std::shared_ptr<Agent> a) = 0; // could be an image; trajectory etc.
+
+/**
+ * @brief Standard reward can be altered
+ * 
+ * @param step_return 
+ * @param a 
+ */
 virtual void convert_reward(StepReturn& step_return,std::shared_ptr<Agent> a) = 0;
 
-Matrix_t<int> get_shape() const {return shape_;}
-void set_shape(const Matrix_t<int>& shape){shape_=shape;}
 
 private:
     std::shared_ptr<World> world_;

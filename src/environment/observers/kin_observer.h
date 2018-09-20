@@ -38,10 +38,22 @@ public:
         this->set_shape(mat);
     };
 
+    /**
+     * @brief Overloaded state-converter
+     * 
+     * @param a 
+     * @return Matrix_t<double> 
+     */
     Matrix_t<double> convert_state(std::shared_ptr<Agent> a){
         return a->get_kinematic_model()->get_state();
     }
 
+    /**
+     * @brief Overloaded reward-converter
+     * 
+     * @param step_return 
+     * @param a 
+     */
     void convert_reward(StepReturn& step_return, std::shared_ptr<Agent> a){
         // e.g. the deviation of the desired speed
         //step_return.reward;
