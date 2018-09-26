@@ -1,9 +1,7 @@
 import numpy as np
 import random
 from src.environment.environment import EnvironmentHolding
-import dopamine
 
-from dopamine.agents.dqn import dqn_agent
 
 if __name__ == '__main__':
 

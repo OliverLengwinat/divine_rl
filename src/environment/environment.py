@@ -241,4 +241,4 @@ class EnvironmentHolding(object):
 		self.num_envs = 1
 		
 	def make(self, string):
-		return self.env
+		return self
