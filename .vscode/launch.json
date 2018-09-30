@@ -24,14 +24,13 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/bazel-bin/src/environment/tests/observer_tests",
+            "program": "${workspaceFolder}/bazel-bin/tests/cpp/observer_tests",
             "args": [],
             "stopAtEntry": true,
             "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": true,
-            "MIMode": "gdb",
-            "miDebuggerPath": "/usr/local/Cellar/gdb",
+            "MIMode": "lldb",
             "launchCompleteCommand": "exec-run",
             "setupCommands": [
                 {

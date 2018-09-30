@@ -222,6 +222,13 @@ class Environment(object):
 		self.game_over = is_terminal
 		return (state, reward, is_terminal, None) # step agent with custom control having ID 0
 	
+	def execute(self, action):
+		"""Wrapper for tensorforce
+		"""
+		state, reward, is_terminal, _ = self.step(action)
+		print(action, state)
+		return (state, is_terminal, reward)
+
 	def close(self):
 		"""Required for OpenAi Gym interface
 		"""
@@ -241,4 +248,4 @@ class EnvironmentHolding(object):
 		self.num_envs = 1
 		
 	def make(self, string):
-		return self.env
+		return self

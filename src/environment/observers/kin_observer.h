@@ -56,6 +56,7 @@ public:
      */
     void convert_reward(StepReturn& step_return, std::shared_ptr<Agent> a){
         // e.g. the deviation of the desired speed
+        step_return.reward -= 0.1;
         //step_return.reward;
     }
 

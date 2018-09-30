@@ -48,6 +48,7 @@ void world_bindings(py::module m)
         .def("collides", &environment::world::World::collides)
         .def("reset", &environment::world::World::reset)
         .def("set_bounding_box", &environment::world::World::set_bounding_box)
+        .def("set_observer", &environment::world::World::set_observer)
         .def("get_bounding_box", &environment::world::World::get_bounding_box)
         .def_property("observer", &environment::world::World::get_observer, &environment::world::World::set_observer)
         .def("get_objects", &environment::world::World::get_objects);

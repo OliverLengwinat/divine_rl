@@ -2,7 +2,7 @@ import unittest
 import numpy as np
 #import matplotlib.pyplot as plt
 from divine_rl.commons import Point, Pose, Line, Polygon, SingleTrackModel
-from divine_rl.world import World, Agent, Object
+from divine_rl.world import World, Agent, Object, BaseObserver, KinematicObserver
 from src.proto import world_pb2, commons_pb2, object_pb2
 
 class WorldTests(unittest.TestCase):
@@ -12,8 +12,12 @@ class WorldTests(unittest.TestCase):
 		u = np.array([[0.5,5.5]])
 		
 		model = SingleTrackModel()
+		observer = KinematicObserver()
 
 		w = World()
+
+		observer.set_world(w)
+		w.set_observer(observer)
 
 		# this is the agent config
 		# a = Agent(protobuf_agent)
@@ -57,13 +61,6 @@ class WorldTests(unittest.TestCase):
 		for i in range(0, 10):
 			#a.step(u, 0.25)
 			pts = a.get_transformed_shape().to_numpy()
-		"""
-			plt.plot(pts[:,0], pts[:,1])
-
-		plt.axis('equal')
-		plt.show()
-		"""
-
 
 
 	def test_world(self):

@@ -39,28 +39,35 @@ TEST(observer, init) {
 
     std::shared_ptr<World> w(new World());
     std::shared_ptr<Agent> a(new Agent());
-    std::shared_ptr<Agent> b(new Agent());
+    //std::shared_ptr<Agent> b(new Agent());
     std::shared_ptr<KinematicObserver> o(new KinematicObserver());
     o->set_world(w);
+    w->set_observer(o);
 
     Matrix_t<double> m(1,4);
     m << 0,0,0,5;
     std::shared_ptr<SingleTrackModel<double>> kin(new SingleTrackModel<double>());
     kin->set_state(m);
     PointNd_t<double, 3> p(0,0,0);
-    a->set_kinematic_model(kin);
+    
     a->set_world(w);
-    kin->set_state(m);
-    b->set_kinematic_model(kin);
+
+    //b->set_world(w);
+
+    a->set_kinematic_model(kin);
+
+    //kin->set_state(m);
+    //b->set_kinematic_model(kin);
 
     w->add_object(a);
-    w->add_object(b);
+    //w->add_object(b);
 
     Matrix_t<double> u(1,2);
     u << 0,0;
 
     //std::cout << a->get_state() << std::endl;
     auto step = a->step(u, 0.15);
+
     /*
     StepReturn observation = o->observe( step );
 

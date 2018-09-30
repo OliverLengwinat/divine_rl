@@ -44,7 +44,8 @@ TEST(world, init) {
 
     std::shared_ptr<KinematicObserver> o(new KinematicObserver());
     o->set_world(w);
-
+    w->set_observer(o);
+    
     Matrix_t<double> m(1,4);
     m << 0,0,0,5;
     std::shared_ptr<SingleTrackModel<double>> kin(new SingleTrackModel<double>());
