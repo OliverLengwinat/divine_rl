@@ -26,3 +26,10 @@ py_binary(
             "//src/environment:environment"]
 )
 
+py_binary(
+    name = "tensorforce_io",
+    srcs = ["tensorforce_io.py"],
+    deps = ["//src/proto:py_commons",
+            "//src/environment:viewer",
+            "//src/environment:environment"]
+)
