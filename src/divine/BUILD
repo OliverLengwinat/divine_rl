@@ -33,3 +33,11 @@ py_binary(
             "//src/environment:viewer",
             "//src/environment:environment"]
 )
+
+py_binary(
+    name = "stablebaselines_ppo1",
+    srcs = ["stablebaselines_ppo1.py"],
+    deps = ["//src/proto:py_commons",
+            "//src/environment:viewer",
+            "//src/environment:environment"]
+)
