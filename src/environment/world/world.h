@@ -35,10 +35,13 @@
 
 namespace environment {
 namespace world {
-    using namespace environment::observers;
+
+using namespace environment::observers;
+using namespace environment::commons;
+
+
 class World {
 public:
-
 
     World() : agent_count_(0) {};
 
@@ -48,23 +51,29 @@ public:
      * @param agent_id Id of agent to check the collision for
      * @return std::pair<bool, double> Returns a pair: collision and the reward
      */
-    std::pair<bool, double> collides(int agent_id){
+    CollisionWith collides(int agent_id){
         if(environment::commons::disjoint<double, 2>(this->get_bounding_box(), this->get_agent(agent_id)->get_transformed_shape()))
-            return std::make_pair(true, 0.0); 
+            return CollisionWith::OUT_OF_BOUND;
             
         for (std::shared_ptr<BaseType> obj : objects_){
             if(this->get_agent(agent_id) != obj){
                 std::shared_ptr<Agent> other_agent = std::dynamic_pointer_cast<Agent>(obj);
                 if(other_agent != NULL){
                     if ( environment::commons::collides<double, 2>(other_agent->get_transformed_shape(), this->get_agent(agent_id)->get_transformed_shape()))
-                        return std::make_pair(true, obj->get_reward());
+                        return CollisionWith::AGENT;
                 } else {
-                    if ( environment::commons::collides<double, 2>(obj->get_shape(), this->get_agent(agent_id)->get_transformed_shape()))
-                        return std::make_pair(true, obj->get_reward());
+                    if ( environment::commons::collides<double, 2>(obj->get_shape(), this->get_agent(agent_id)->get_transformed_shape())){
+                        if (obj->get_reward() == 1.0){ // TODO: specify differently in protobuf
+                            return CollisionWith::GOAL;
+                        } else {
+                            return CollisionWith::OBJECT;
+                        }
+                    }
                 }
             }
         }
-        return std::make_pair(false, 0.0);
+
+        return CollisionWith::NO_COLLISION;
     }
     
     /**

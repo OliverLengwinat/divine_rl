@@ -86,6 +86,7 @@ void world_bindings(py::module m)
         .def("get_reference_line_id", &environment::world::Agent::get_reference_line_id)
         .def("get_transformed_shape", &environment::world::Agent::get_transformed_shape)
         .def("get_kinematic_model", &environment::world::Agent::get_kinematic_model)
+        .def("get_last_trajectory", &environment::world::Agent::get_last_trajectory)
         .def("set_kinematic_model", &environment::world::Agent::set_kinematic_model);
 
     py::class_<Object, BaseType, std::shared_ptr<Object>>(m, "Object")

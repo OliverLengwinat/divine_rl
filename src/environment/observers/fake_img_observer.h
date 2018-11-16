@@ -26,20 +26,23 @@
 
 #include <functional>
 #include "src/environment/observers/observer.h"
+#include "src/environment/commons/common.h"
 
 namespace environment {
 namespace observers {
+
+using namespace environment::commons;
 
 class KinematicObserver : public BaseObserver {
 public:
     KinematicObserver() {};
 
     Matrix_t<double> convert_state(std::shared_ptr<Agent> a){
-				Matrix_t<double> mat(84,84);
+		Matrix_t<double> mat(84,84);
         return mat;
     }
 
-    void convert_reward(StepReturn& step_return, std::shared_ptr<Agent> a){
+    void convert_reward(StepReturn& step_return, std::shared_ptr<Agent> a, CollisionWith is_colliding){
         //step_return.reward;
     }
 };

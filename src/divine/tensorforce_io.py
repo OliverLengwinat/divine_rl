@@ -46,10 +46,23 @@ network_spec = [
     dict(type='dense', size=32, activation="relu")
 ]
 
+# TODO: add tensorboard logging!
 agent = PPOAgent(
-    states=dict(type='float', shape=(3,)),
+    states=dict(type='float', shape=(6,)),
     actions=dict(type='float', shape=(1,), min_value=-4.0, max_value=4.0),
     network=network_spec,
+
+    # tensorflow logging
+    summarizer=dict(directory="./logs",
+                    steps=100,
+                    labels=['inputs',
+                            'states',
+                            'actions',
+                            'reward',
+                            'losses',
+                            'variables',
+                            'graph']
+    ),  
 
     # Agent
     states_preprocessing=None,
@@ -90,8 +103,8 @@ agent = PPOAgent(
         ),
         num_steps=5
     ),
-
     gae_lambda=0.97,
+
     # PGLRModel
     likelihood_ratio_clipping=0.2,
     # PPOAgent
@@ -99,6 +112,7 @@ agent = PPOAgent(
         type='adam',
         learning_rate=1e-3
     ),
+
     subsampling_fraction=0.2,
     optimization_steps=25,
     execution=dict(
@@ -114,8 +128,12 @@ runner = Runner(agent=agent, environment=environment)
 
 # Callback function printing episode statistics
 def episode_finished(r):
-    print("Finished episode {ep} after {ts} timesteps (reward: {reward})".format(ep=r.episode, ts=r.episode_timestep,
-                                                                                 reward=r.episode_rewards[-1]))
+    # TODO: optimize_trajectory()
+    # push into memory 
+    if r.episode % 100 == 0:
+        print(r.environment.world.get_agent(0).get_last_trajectory())
+        print("Finished episode {ep} after {ts} timesteps (reward: {reward})".format(ep=r.episode, ts=r.episode_timestep,
+                                                                                    reward=r.episode_rewards[-1]))
     return True
 
 

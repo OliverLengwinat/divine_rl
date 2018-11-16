@@ -26,6 +26,7 @@
 
 #include <algorithm>
 #include <random>
+#include "src/environment/commons/common.h"
 #include "src/environment/world/world.h"
 #include "src/environment/world/agent.h"
 
@@ -40,6 +41,7 @@ namespace world {
 namespace observers {
 
 using namespace environment::world;
+using namespace environment::commons;
 
 
 // the observer will be used to calculate the reward and state; collisions, however, are handled in the step function itself
@@ -92,7 +94,7 @@ virtual Matrix_t<double> convert_state(std::shared_ptr<Agent> a) = 0; // could b
  * @param step_return 
  * @param a 
  */
-virtual void convert_reward(StepReturn& step_return,std::shared_ptr<Agent> a) = 0;
+virtual void convert_reward(StepReturn& step_return,std::shared_ptr<Agent> a, CollisionWith is_colliding) = 0;
 
 
 private:

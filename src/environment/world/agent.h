@@ -112,8 +112,19 @@ public:
         return translate<double, 2>(rotate<double, 2>(tmp_poly, bg::get<2>(this->get_pose())), p_t);
     }
 
+    /**
+     * @brief Get the last trajectory object
+     * 
+     * @return Matrix_t<double> Trajectory of the agent
+     */
+    Matrix_t<double> get_last_trajectory() const {
+        return last_trajectory_;
+    }
+
 
 private:
+    // TODO: trajectory history -> required for the evaluation
+    Matrix_t<double> last_trajectory_;
     std::shared_ptr<KinematicModel<double>> kinematic_model_;
     int reference_line_id_;
 };

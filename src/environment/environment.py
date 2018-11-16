@@ -120,14 +120,14 @@ class Environment(object):
 		"""
 		world = self.load_proto(path)
 		
-		# TOOD: hack
+		# TOOD: hack; remove circular dependency
+		self.observer.set_world(self.world)
 		self.world.observer = self.observer
 		self.action_space.set_shape(world.action_size)
 
 		road_network = RoadNetwork()
 		# load reference lines
 		for line in world.line_segment:
-
 			# add line segments
 			ref_line = Line()
 			for segment in line.line_segment:
@@ -217,7 +217,8 @@ class Environment(object):
 		"""
 		for agent in self.world.get_agents():
 			if agent.get_id() is not 0:
-				agent.step(np.array([[0.0]]), self.dt)
+				agent.step(np.array([[0.0]]), self.dt) # TODO: IDM model
+
 		state, action, next_state, reward, is_terminal = self.world.get_agent(0).step(u, self.dt)
 		self.game_over = is_terminal
 		return (state, reward, is_terminal, None) # step agent with custom control having ID 0
@@ -226,7 +227,7 @@ class Environment(object):
 		"""Wrapper for tensorforce
 		"""
 		state, reward, is_terminal, _ = self.step(action)
-		print(action, state)
+		#print(action, state)
 		return (state, is_terminal, reward)
 
 	def close(self):
@@ -239,7 +240,8 @@ class Environment(object):
 		"""
 		pass
 
-	# could hold mult envs
+
+# could hold mult envs
 class EnvironmentHolding(object):
 	"""Wrapper for the environment class
 	"""

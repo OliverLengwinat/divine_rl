@@ -197,7 +197,7 @@ Polygon_t<T, N> rotate(const Polygon_t<T, N>& poly, T angle){
 }
 
 struct StepReturn {
-	StepReturn() : is_final(false) {};
+	StepReturn() : reward(0.0), is_final(false) {};
 	Matrix_t<double> state;
 	Matrix_t<double> action;
 	Matrix_t<double> next_state;
@@ -205,6 +205,16 @@ struct StepReturn {
 	bool is_final;
 	int agent_id;
 };
+
+
+enum CollisionWith {
+    OUT_OF_BOUND = 0,
+    AGENT = 1,
+    OBJECT = 2,
+		GOAL = 3,
+    NO_COLLISION = 4
+};
+
 
 //! s functions
 template<typename T>
@@ -215,7 +225,7 @@ inline PointNd_t<T, 3> get_pose_at_s(Linestring_t<T, 2> l, T s) {
     float dy = (bg::get<1>(l[i+1])-bg::get<1>(l[i]));
     length += sqrt(dx*dx + dy*dy);
     if( length >= s ){
-      //! we need to interpolate
+      //! need to interpolate
       float segment_length = sqrt(dx*dx + dy*dy);
       float t = ( length - s )/segment_length;
 
