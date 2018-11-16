@@ -9,12 +9,16 @@ import threading
 import time
 import random
 
+from gym import Env
+from gym.spaces import Box
+
 class ObservationSpace(object):
 	"""Information about the observation space
 	"""
 	def __init__(self, observer):
 		self.shape = observer.get_shape()[0]
-	
+		self.dtype = "float32"
+
 	def set_shape(self, num):
 		self.shape = num
 
@@ -204,8 +208,8 @@ class Environment(object):
 		"""
 		self.viewer.show()
 
-	# gym interface
-	def render(self):
+    #gym interface
+	def render(self,mode='human'):
 		"""Draws the world with all its agents
 		"""
 		self.debug_world_plot()
@@ -221,7 +225,10 @@ class Environment(object):
 
 		state, action, next_state, reward, is_terminal = self.world.get_agent(0).step(u, self.dt)
 		self.game_over = is_terminal
-		return (state, reward, is_terminal, None) # step agent with custom control having ID 0
+		information = {'collision': False}
+		if reason_for_collision == 1 or reason_for_collision == 2:
+			information['collision'] = True
+		return (state, reward, is_terminal, information) # step agent with custom control having ID 0
 	
 	def execute(self, action):
 		"""Wrapper for tensorforce
@@ -240,6 +247,14 @@ class Environment(object):
 		"""
 		pass
 
+	@property
+	def unwrapped(self):
+		"""Completely unwrap this env.
+
+		Returns:
+			gym.Env: The base non-wrapped gym.Env instance
+		"""
+		return self
 
 # could hold mult envs
 class EnvironmentHolding(object):
